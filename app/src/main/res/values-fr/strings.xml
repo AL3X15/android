@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">smartcity</string>
+    <string name="logIn">Se connecter</string>
+    <string name="signIn">S\'inscrire</string>
+    <string name="password">mot de passe</string>
+    <string name="mail">adresse mail</string>
+    <string name="welcome">Bienvenue</string>
+    <string name="accountExist">vous avez déjà un compte ?</string>
+    <string name="accountNew">vous êtes nouveau ?</string>
+</resources>

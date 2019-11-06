@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">smartcity</string>
+    <string name="logIn">Log in</string>
+    <string name="signIn">Sign in</string>
+    <string name="password">password</string>
+    <string name="mail">mail adress</string>
+    <string name="welcome">welcome</string>
+    <string name="accountExist">you alreday have an account ?</string>
+    <string name="accountNew">first time ?</string>
+</resources>
