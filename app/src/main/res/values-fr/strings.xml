@@ -3,9 +3,25 @@
     <string name="app_name">smartcity</string>
     <string name="logIn">Se connecter</string>
     <string name="signIn">S\'inscrire</string>
-    <string name="password">mot de passe</string>
-    <string name="mail">adresse mail</string>
+    <string name="password">Mot de passe :</string>
+    <string name="mail">Adresse mail :</string>
     <string name="welcome">Bienvenue</string>
     <string name="accountExist">vous avez déjà un compte ?</string>
     <string name="accountNew">vous êtes nouveau ?</string>
+    <string name="first_name">Prenom :</string>
+    <string name="name">Nom :</string>
+    <string name="sex">Sexe :</string>
+    <string name="Man">Homme</string>
+    <string name="Woman">Femme</string>
+    <string name="Other">Autre</string>
+    <string name="Adress">Adresse :</string>
+    <string name="Road">Rue :</string>
+    <string name="Number">Numéro :</string>
+    <string name="Zip">Code postal :</string>
+    <string name="Locality">Localité :</string>
+    <string name="Phone">Numéro de téléphone :</string>
+    <string name="Birthdate">Date de naissance :</string>
+    <string name="id_number">Numéro de registre national :</string>
+    <string name="next">SUIVANT</string>
+    <string name="cancel">ANNULER</string>
 </resources>
