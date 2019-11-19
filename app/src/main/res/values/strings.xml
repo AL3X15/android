@@ -23,4 +23,9 @@
     <string name="id_number">ID-Number :</string>
     <string name="next">NEXT</string>
     <string name="cancel">CANCEL</string>
+    <string name="search_job_offer">Search a job offer</string>
+    <string name="my_schedule">My schedule</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="faq" translatable="false">FAQ</string>
+    <string name="disconnect">Disconnect</string>
 </resources>

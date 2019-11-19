@@ -24,4 +24,8 @@
     <string name="id_number">Numéro de registre national :</string>
     <string name="next">SUIVANT</string>
     <string name="cancel">ANNULER</string>
+    <string name="search_job_offer">Chercher des annonces</string>
+    <string name="my_schedule">Mon emploi du temps</string>
+    <string name="edit_profile">Editer mon profil</string>
+    <string name="disconnect">"Se déconecter "</string>
 </resources>
