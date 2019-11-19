@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.smartcity.R;
 
-public class MapActivity extends AppCompatActivity {
+public class FaqActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_faq);
     }
 }

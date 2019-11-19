@@ -27,21 +27,22 @@ public class ConnexionActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_connexion2);
+		setContentView(R.layout.activity_connexion);
 		ButterKnife.bind(this);
 
 		logInBtn.setOnClickListener (new View.OnClickListener() {
 			public void onClick(View v) {
-				//Intent intent = new Intent(v.getContext(), );
+				Intent intent = new Intent(ConnexionActivity.this, AcceuilActivity.class);
 				if(mail.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && !password.getText().toString().equals("")){
-					//startActivity(intent);
+				//todo faire le check si inscrit
+					startActivity(intent);
 				} else
 					Toast.makeText(ConnexionActivity.this,"erreur de connection",Toast.LENGTH_SHORT).show();
 			}
 		});
 		signInBtn.setOnClickListener (new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(v.getContext(), InscriptionActivity.class);
+				Intent intent = new Intent(ConnexionActivity.this, InscriptionActivity.class);
 				startActivity(intent);
 			}
 		});
