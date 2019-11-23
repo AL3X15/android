@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
+import com.example.smartcity.model.Preference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +59,8 @@ public class AcceuilActivity extends AppCompatActivity {
         disconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo clear fichier de préférence
+                Preference preference = new Preference(getString(R.string.mail_default),getString(R.string.password_default));
+                Utils.editSharedPreference(AcceuilActivity.this,preference);
             }
         });
     }

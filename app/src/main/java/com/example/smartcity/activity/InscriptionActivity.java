@@ -15,7 +15,5 @@ public class InscriptionActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inscription);
 		ButterKnife.bind(this);
-
-
 	}
 }
