@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".activity.EditProfilActivity"></activity>
+        <activity android:name=".activity.ResultatActivity"></activity>
+        <activity android:name=".activity.EditProfilActivity" />
         <activity android:name=".activity.FaqActivity" />
-        <activity android:name=".activity.RechercheAnnonceActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.RechercheAnnonceActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.EmploiDuTempsActivity" />
         <activity android:name=".activity.DetailAnnonceActivity" />
         <activity android:name=".activity.AcceuilActivity" />

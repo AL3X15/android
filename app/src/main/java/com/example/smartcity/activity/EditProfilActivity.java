@@ -2,22 +2,15 @@ package com.example.smartcity.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TabHost;
 
 import com.example.smartcity.R;
 import com.example.smartcity.model.Tag;
@@ -32,29 +25,27 @@ public class EditProfilActivity extends AppCompatActivity {
     @BindView(R.id.TagsEdit)
     RecyclerView tagRecyclerView;
     private TagAdapter adapter;
-    private TagViewHolder viewHolder;
-    private ArrayList listTags;
+    private ArrayList<Tag> tagsEtudiant;
+    private ArrayList<Tag> allTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profil);
         ButterKnife.bind(this);
-        listTags = new ArrayList<Tag>(); //list des tags de l'étudiant
-
         adapter = new TagAdapter();
-        ArrayList<Tag> tags = new ArrayList<>(); // list de tout les tags
-        tags.add(new Tag("test1",""));
-        tags.add(new Tag("test2",""));
-        tags.add(new Tag("test3",""));
-        tags.add(new Tag("test4",""));
-        adapter.setTags(tags);
+        tagsEtudiant = new ArrayList<>();
+        allTags = new ArrayList<>();
+
+        //todo task get tag Etudiant
+        //todo task get all tag
+
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
     }
     public void updateTag(Tag tag){
-        if(listTags.contains(tag))listTags.remove(tag);
-        else listTags.add(tag);
+        if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);
+        else tagsEtudiant.add(tag);
     }
 
 
@@ -88,7 +79,7 @@ public class EditProfilActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull TagViewHolder holder, int position){
             Tag tag = myTags.get(position);
             holder.tag.setText(tag.getNom());
-            if(listTags.contains(tag))holder.tag.setChecked(true);
+            if(tagsEtudiant.contains(tag))holder.tag.setChecked(true);
         }
         @Override
         public int getItemCount(){

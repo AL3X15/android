@@ -1,18 +1,16 @@
 package com.example.smartcity.model;
 
-import android.location.Address;
-
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Annonce {
     private String poste;
-    private Date dateDebut;
-    private Date dateFin;
+    private GregorianCalendar dateDebut;
+    private GregorianCalendar dateFin;
     private int paie;
     private Entreprise entreprise;
-    private Address address;
+    private Adresse address;
 
-    public Annonce(String poste, Date dateDebut, Date dateFin, int paie, Entreprise entreprise, Address address) {
+    public Annonce(String poste, GregorianCalendar dateDebut, GregorianCalendar dateFin, int paie, Entreprise entreprise, Adresse address) {
         this.poste = poste;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
@@ -21,10 +19,11 @@ public class Annonce {
         this.address = address;
     }
 
-    public Annonce(String poste, Date dateDebut, Date dateFin) {
+    public Annonce(String poste, GregorianCalendar dateDebut, GregorianCalendar dateFin, Adresse address) {
         this.poste = poste;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
+        this.address = address;
     }
 
     public String getPoste() {
@@ -35,19 +34,19 @@ public class Annonce {
         this.poste = poste;
     }
 
-    public Date getDateDebut() {
+    public GregorianCalendar getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(GregorianCalendar dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public GregorianCalendar getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(GregorianCalendar dateFin) {
         this.dateFin = dateFin;
     }
 
@@ -67,11 +66,11 @@ public class Annonce {
         this.entreprise = entreprise;
     }
 
-    public Address getAddress() {
+    public Adresse getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(Adresse address) {
         this.address = address;
     }
 }

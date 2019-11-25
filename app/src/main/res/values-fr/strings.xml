@@ -28,4 +28,6 @@
     <string name="edit_profile">Editer mon profil</string>
     <string name="disconnect">"Se déconecter "</string>
     <string name="accept_offer">Accepter l\'offre</string>
+    <string name="date_start">date de début</string>
+    <string name="date_end">date de fin</string>
 </resources>

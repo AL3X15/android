@@ -1,5 +1,7 @@
 package com.example.smartcity.model;
 
+import androidx.annotation.NonNull;
+
 public class Adresse {
 	private String route;
 	private String numero;
@@ -46,5 +48,11 @@ public class Adresse {
 
 	public void setLocalite(String localite) {
 		this.localite = localite;
+	}
+
+	@NonNull
+	@Override
+	public String toString() {
+		return getNumero() +" "+getRoute()+ ", "+getLocalite();
 	}
 }

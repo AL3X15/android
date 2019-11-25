@@ -34,4 +34,6 @@
     <string name="password_default" translatable="false">defaultPassword</string>
     <string name="mail_default" translatable="false">mailDefault</string>
     <string name="file_user" translatable="false">file_user_smartcity</string>
+    <string name="date_start">date start</string>
+    <string name="date_end">date end</string>
 </resources>

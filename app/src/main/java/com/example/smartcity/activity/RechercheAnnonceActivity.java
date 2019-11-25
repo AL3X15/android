@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.example.smartcity.R;
+import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -24,7 +25,9 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
     @BindView(R.id.TagRecherche)
     RecyclerView tagRecyclerView;
     private TagRechercheAdapter adapter;
-    private ArrayList<Tag> listTags;
+    private ArrayList<Tag> tagsEtudiant;
+    private ArrayList<Tag> allTags;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +35,21 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recherche_annonce);
         ButterKnife.bind(this);
 
-        listTags = new ArrayList<Tag>(); //list des tags de l'étudiant
-
         adapter = new TagRechercheAdapter();
-        ArrayList<Tag> tags = new ArrayList<>(); //list de tout les tags
-        tags.add(new Tag("test1",""));
-        tags.add(new Tag("test2",""));
-        tags.add(new Tag("test3",""));
-        tags.add(new Tag("test4",""));
-        adapter.setTags(tags);
+        tagsEtudiant = new ArrayList<>();
+        allTags = new ArrayList<>();
+
+        //todo task get tag Etudiant
+        //todo task get all tag
+
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
 
+
     }
     public void updateTag(Tag tag){
-        if(listTags.contains(tag))listTags.remove(tag);
-        else listTags.add(tag);
+        if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);
+        else tagsEtudiant.add(tag);
     }
 
     private class TagRechercheViewHolder extends RecyclerView.ViewHolder{
@@ -80,7 +82,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull TagRechercheViewHolder holder, int position){
             Tag tag = myTags.get(position);
             holder.tag.setText(tag.getNom());
-            if(listTags.contains(tag))holder.tag.setChecked(true);
+            if(tagsEtudiant.contains(tag))holder.tag.setChecked(true);
         }
         @Override
         public int getItemCount(){

@@ -16,31 +16,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.smartcity.R;
+import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Annonce;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EmploiDuTempsActivity extends AppCompatActivity {
 
-
     @BindView(R.id.ListAnnonce)
     public RecyclerView recyclerView;
     private AnnonceAdapter adapter;
+    private ArrayList<Annonce> annonces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emploi_du_temps);
         ButterKnife.bind(this);
-
         adapter = new AnnonceAdapter();
-        ArrayList<Annonce> annonces = new ArrayList<>();
-        annonces.add(new Annonce("test1",new Date(2019,11,25),new Date(2019,11,25)));
-        adapter.setAnnonces(annonces);
+        annonces = new ArrayList<>();
+        //todo task get annonces
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -73,6 +72,11 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.horraire_element,parent,false);
             AnnonceViewHolder vh = new AnnonceViewHolder(v,position -> {
                 Annonce annonceSelect = myAnnonces.get(position);
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+annonceSelect.getAddress().toString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+
             });
             return vh;
         }
@@ -80,7 +84,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AnnonceViewHolder holder, int position){
             Annonce annonce = myAnnonces.get(position);
             holder.activite.setText(annonce.getPoste());
-            holder.horraire.setText(annonce.getDateDebut().toString() +" - "+ annonce.getDateFin().toString());
+            holder.horraire.setText(annonce.getDateDebut().getWeekYear() +" - "+ annonce.getDateFin().getWeekYear());
+            holder.localise.setText(annonce.getAddress().toString());
         }
         @Override
         public int getItemCount(){
