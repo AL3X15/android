@@ -32,9 +32,7 @@ public class ResultatActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         annonces = new ArrayList<>();
 
-
         //todo task get annonce resultat
-
 
     }
 
@@ -65,4 +63,6 @@ public class ResultatActivity extends AppCompatActivity {
             return myAnnonces == null ? 0 : myAnnonces.size();
         }
     }
+
+
 }

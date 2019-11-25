@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import com.example.smartcity.DataAccess.TagDao;
+import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.R;
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -26,7 +30,7 @@ public class EditProfilActivity extends AppCompatActivity {
     RecyclerView tagRecyclerView;
     private TagAdapter adapter;
     private ArrayList<Tag> tagsEtudiant;
-    private ArrayList<Tag> allTags;
+    private Etudiant etudiant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +39,10 @@ public class EditProfilActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         adapter = new TagAdapter();
         tagsEtudiant = new ArrayList<>();
-        allTags = new ArrayList<>();
 
-        //todo task get tag Etudiant
-        //todo task get all tag
+
+        LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
+        loadTagEtudiant.execute(etudiant);
 
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
@@ -89,6 +93,32 @@ public class EditProfilActivity extends AppCompatActivity {
         public void setTags(ArrayList<Tag> myTags){
             this.myTags = myTags;
             notifyDataSetChanged();
+        }
+    }
+
+    private class LoadTagEtudiant extends AsyncTask<Etudiant,Void,ArrayList<Tag>>{
+        @Override
+        protected ArrayList<Tag> doInBackground(Etudiant... etudiants) {
+            TagDataAccess tagDataAccess = new TagDao();
+            return tagDataAccess.getTagsEtudiant(etudiants[0]);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Tag> tags) {
+            tagsEtudiant = tags;
+            LoadAllTags loadAllTags = new LoadAllTags();
+            loadAllTags.execute();
+        }
+    }
+    private class LoadAllTags extends AsyncTask<Void,Void,ArrayList<Tag>>{
+        @Override
+        protected ArrayList<Tag> doInBackground(Void... voids) {
+            TagDataAccess tagDataAccess = new TagDao();
+            return tagDataAccess.getAllTag();
+        }
+        @Override
+        protected void onPostExecute(ArrayList<Tag> tags){
+            adapter.setTags(tags);
         }
     }
 }

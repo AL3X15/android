@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.smartcity.DataAccess.AnnonceDao;
+import com.example.smartcity.DataAccess.AnnonceDataAccess;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Annonce;
+import com.example.smartcity.model.Etudiant;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -30,7 +34,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
     @BindView(R.id.ListAnnonce)
     public RecyclerView recyclerView;
     private AnnonceAdapter adapter;
-    private ArrayList<Annonce> annonces;
+    private Etudiant etudiant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,9 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_emploi_du_temps);
         ButterKnife.bind(this);
         adapter = new AnnonceAdapter();
-        annonces = new ArrayList<>();
-        //todo task get annonces
+
+        LoadAnnonce loadAnnonce = new LoadAnnonce();
+        loadAnnonce.execute(etudiant);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -97,5 +102,16 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
     }
+    private class LoadAnnonce extends AsyncTask<Etudiant,Void,ArrayList<Annonce>>{
+        @Override
+        public ArrayList<Annonce> doInBackground(Etudiant... etudiants){
+            AnnonceDataAccess annonceDataAccess = new AnnonceDao();
+            return annonceDataAccess.getAnnonceEtudiant(etudiants[0]);
+        }
 
+        @Override
+        protected void onPostExecute(ArrayList<Annonce> annonces) {
+            adapter.setAnnonces(annonces);
+        }
+    }
 }

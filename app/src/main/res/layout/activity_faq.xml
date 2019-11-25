@@ -7,6 +7,7 @@
     tools:context=".activity.FaqActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/faqs"
         android:layout_width="409dp"
         android:layout_height="729dp"
         tools:layout_editor_absoluteX="1dp"

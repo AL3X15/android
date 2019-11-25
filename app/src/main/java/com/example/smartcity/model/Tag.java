@@ -32,11 +32,9 @@ public class Tag {
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-		if(		obj == null||
-				!(obj instanceof Tag)||
-				((Tag) obj).getNom().compareTo(this.getNom())!=0)
-			return false;
-		else
-			return true;
+		return !( obj == null||
+				  !(obj instanceof Tag)||
+				  ((Tag) obj).getNom().compareTo(this.getNom())!=0);
+
 	}
 }
