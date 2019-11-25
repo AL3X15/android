@@ -24,15 +24,18 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
     @BindView(R.id.TagRecherche)
     RecyclerView tagRecyclerView;
     private TagRechercheAdapter adapter;
-    private TagRechercheViewHolder viewHolder;
+    private ArrayList<Tag> listTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recherche_annonce);
         ButterKnife.bind(this);
+
+        listTags = new ArrayList<Tag>(); //list des tags de l'étudiant
+
         adapter = new TagRechercheAdapter();
-        ArrayList<Tag> tags = new ArrayList<>();
+        ArrayList<Tag> tags = new ArrayList<>(); //list de tout les tags
         tags.add(new Tag("test1",""));
         tags.add(new Tag("test2",""));
         tags.add(new Tag("test3",""));
@@ -40,13 +43,23 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         adapter.setTags(tags);
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
+
     }
+    public void updateTag(Tag tag){
+        if(listTags.contains(tag))listTags.remove(tag);
+        else listTags.add(tag);
+    }
+
     private class TagRechercheViewHolder extends RecyclerView.ViewHolder{
         public Switch tag;
 
-        public TagRechercheViewHolder(@NonNull View itemView){
+        public TagRechercheViewHolder(@NonNull View itemView,OnItemSelectedListener listener){
             super(itemView);
             tag = itemView.findViewById(R.id.switch1);
+            tag.setOnClickListener(e ->{
+                int currentPosition = getAdapterPosition();
+                listener.onItemSelected(currentPosition);
+            });
         }
 
     }
@@ -57,13 +70,17 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         @Override
         public TagRechercheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_recherche_element,parent,false);
-            TagRechercheViewHolder vh = new TagRechercheViewHolder(v);
+            TagRechercheViewHolder vh = new TagRechercheViewHolder(v,position -> {
+                Tag tagSelect = myTags.get(position);
+                updateTag(tagSelect);
+            });
             return vh;
         }
         @Override
         public void onBindViewHolder(@NonNull TagRechercheViewHolder holder, int position){
             Tag tag = myTags.get(position);
             holder.tag.setText(tag.getNom());
+            if(listTags.contains(tag))holder.tag.setChecked(true);
         }
         @Override
         public int getItemCount(){
