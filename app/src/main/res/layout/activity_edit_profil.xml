@@ -28,6 +28,7 @@
                 android:text="@string/Road" />
 
             <EditText
+                android:id="@+id/roadEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -39,6 +40,7 @@
                 android:text="@string/Number" />
 
             <EditText
+                android:id="@+id/numberEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -50,6 +52,7 @@
                 android:text="@string/Zip" />
 
             <EditText
+                android:id="@+id/zipEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -61,6 +64,7 @@
                 android:text="@string/Locality" />
 
             <EditText
+                android:id="@+id/localityEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -72,6 +76,7 @@
                 android:text="@string/Phone" />
 
             <EditText
+                android:id="@+id/phoneEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -83,10 +88,23 @@
                 android:text="@string/mail" />
 
             <EditText
+                android:id="@+id/mailEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textEmailAddress" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password" />
+
+            <EditText
+                android:id="@+id/passwordEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -103,18 +121,13 @@
                 android:gravity="bottom|end"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cancel" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <Button
+                    android:id="@+id/validateEdit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

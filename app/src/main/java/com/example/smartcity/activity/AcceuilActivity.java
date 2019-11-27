@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Preference;
 
 import butterknife.BindView;
@@ -27,39 +28,49 @@ public class AcceuilActivity extends AppCompatActivity {
     @BindView(R.id.buttonDisconnect)
     public Button disconnect;
 
+    private Etudiant etudiant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acceuil);
         ButterKnife.bind(this);
+        etudiant =(Etudiant) getIntent().getSerializableExtra("user");
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AcceuilActivity.this,EditProfilActivity.class));
+                Intent intent = new Intent(AcceuilActivity.this,EditProfilActivity.class);
+                intent.putExtra("user",etudiant);
+                startActivity(intent);
             }
         });
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AcceuilActivity.this,EmploiDuTempsActivity.class));
+                Intent intent = new Intent(AcceuilActivity.this,EmploiDuTempsActivity.class);
+                intent.putExtra("user",etudiant);
+                startActivity(intent);
             }
         });
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AcceuilActivity.this,RechercheAnnonceActivity.class));
+                Intent intent = new Intent(AcceuilActivity.this,RechercheAnnonceActivity.class);
+                intent.putExtra("user",etudiant);
+                startActivity(intent);
             }
         });
         faq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AcceuilActivity.this,FaqActivity.class));
+                Intent intent = new Intent(AcceuilActivity.this,FaqActivity.class);
+                startActivity(intent);
             }
         });
         disconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Preference preference = new Preference(getString(R.string.mail_default),getString(R.string.password_default));
+                Preference preference = new Preference(getString(R.string.mail_default));
                 Utils.editSharedPreference(AcceuilActivity.this,preference);
             }
         });

@@ -1,5 +1,6 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.TagDontExistAnymore;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
@@ -19,5 +20,7 @@ public class TagDao implements TagDataAccess {
     public ArrayList<Tag> getTagsEtudiant(Etudiant etudiant){
         return new ArrayList<>();
     }
+
+    public void setMyTags(Etudiant etudiant,ArrayList<Tag> tags)throws TagDontExistAnymore {}
 
 }

@@ -5,14 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smartcity.DataAccess.UserDao;
+import com.example.smartcity.DataAccess.UserDataAccess;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Preference;
 
 import butterknife.BindView;
@@ -37,19 +41,12 @@ public class ConnexionActivity extends AppCompatActivity {
 		if(!user.isDefaultMail()){
 			mail.setText(user.getEmail());
 		}
-		if(!user.isDefaultPassword()){
-			password.setText(user.getPassword());
-		}
-
 		logInBtn.setOnClickListener (new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(ConnexionActivity.this, AcceuilActivity.class);
 				if(mail.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")){
 					if(password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")){
-						//todo faire le check si inscrit
-							Preference preference = new Preference(mail.getText().toString(),password.getText().toString());
-							Utils.editSharedPreference(ConnexionActivity.this,preference);
-							startActivity(intent);
+						Connection connection = new Connection();
+						connection.execute(mail.getText().toString(),password.getText().toString());
 					} else {
 						Toast.makeText(ConnexionActivity.this,"mot de passe incorrect",Toast.LENGTH_SHORT).show();
 					}
@@ -90,5 +87,29 @@ public class ConnexionActivity extends AppCompatActivity {
 		super.onDestroy();
 	}
 
+	private class Connection extends AsyncTask<String,Void, Etudiant> {
+		@Override
+		protected Etudiant doInBackground(String... strings) {
+			UserDataAccess dataAccess = new UserDao();
+			try {
+				return dataAccess.getMe(strings[0],strings[1]);
+			}catch (Exception e){
+				return null;
+			}
+		}
 
+		@Override
+		protected void onPostExecute(Etudiant etudiant) {
+			if(etudiant != null) {
+				Intent intent = new Intent(ConnexionActivity.this, AcceuilActivity.class);
+
+				Preference preference = new Preference(etudiant.getMail());
+				Utils.editSharedPreference(ConnexionActivity.this,preference);
+
+				intent.putExtra("user",etudiant);
+
+				startActivity(intent);
+			}
+		}
+	}
 }

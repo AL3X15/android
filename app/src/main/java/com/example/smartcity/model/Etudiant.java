@@ -1,15 +1,18 @@
 package com.example.smartcity.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
-public class Etudiant {
+public class Etudiant implements Serializable {
 	private String nom;
 	private String prenom;
+	private String password;
 	private Character sexe;
 	private Integer numTel;
 	private String mail;
-	private Date dateNaissance;
+	private GregorianCalendar dateNaissance;
 	private String registreNational;
 	private Date expirationBadge;
 	private String cv;
@@ -17,15 +20,12 @@ public class Etudiant {
 	private Adresse adresse;
 	private ArrayList<Tag> tags;
 
-	public ArrayList<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(ArrayList<Tag> tags) {
-		this.tags = tags;
-	}
 
 	public Etudiant() {
+	}
+	public Etudiant(String nom, String prenom){
+		setNom(nom);
+		setPrenom(prenom);
 	}
 
 	public String getNom() {
@@ -68,11 +68,11 @@ public class Etudiant {
 		this.mail = mail;
 	}
 
-	public Date getDateNaissance() {
+	public GregorianCalendar getDateNaissance() {
 		return dateNaissance;
 	}
 
-	public void setDateNaissance(Date dateNaissance) {
+	public void setDateNaissance(GregorianCalendar dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
 
@@ -114,5 +114,20 @@ public class Etudiant {
 
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+	public ArrayList<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(ArrayList<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

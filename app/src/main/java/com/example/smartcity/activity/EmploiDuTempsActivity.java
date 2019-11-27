@@ -41,6 +41,9 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emploi_du_temps);
         ButterKnife.bind(this);
+
+        etudiant = (Etudiant) getIntent().getSerializableExtra("user");
+
         adapter = new AnnonceAdapter();
 
         LoadAnnonce loadAnnonce = new LoadAnnonce();

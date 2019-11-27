@@ -10,12 +10,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
+import com.example.smartcity.DataAccess.UserDao;
+import com.example.smartcity.DataAccess.UserDataAccess;
 import com.example.smartcity.R;
+import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 
@@ -32,11 +37,30 @@ public class EditProfilActivity extends AppCompatActivity {
     private ArrayList<Tag> tagsEtudiant;
     private Etudiant etudiant;
 
+    @BindView(R.id.roadEdit)
+    public EditText roadEdit;
+    @BindView(R.id.numberEdit)
+    public EditText numberEdit;
+    @BindView(R.id.zipEdit)
+    public EditText zipEdit;
+    @BindView(R.id.localityEdit)
+    public EditText localityEdit;
+    @BindView(R.id.phoneEdit)
+    public EditText phoneEdit;
+    @BindView(R.id.mailEdit)
+    public EditText mailEdit;
+    @BindView(R.id.passwordEdit)
+    public EditText passwordEdit;
+    @BindView(R.id.validateEdit)
+    public Button validateEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profil);
         ButterKnife.bind(this);
+        etudiant = (Etudiant) getIntent().getSerializableExtra("user");
+
         adapter = new TagAdapter();
         tagsEtudiant = new ArrayList<>();
 
@@ -46,6 +70,33 @@ public class EditProfilActivity extends AppCompatActivity {
 
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
+
+        roadEdit.setText(etudiant.getAdresse().getRoute());
+        numberEdit.setText(etudiant.getAdresse().getNumero());
+        zipEdit.setText(etudiant.getAdresse().getCodePostal());
+        localityEdit.setText(etudiant.getAdresse().getNumero());
+        phoneEdit.setText(etudiant.getNumTel());
+        mailEdit.setText(etudiant.getMail());
+        passwordEdit.setText("");
+
+        //todo ask if it's not better to do it after the asynch task
+        validateEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etudiant.setMail(mailEdit.getText().toString());
+                if(passwordEdit.getText().toString().compareTo("")!=0) etudiant.setPassword(passwordEdit.getText().toString());
+                etudiant.setNumTel(Integer.parseInt(phoneEdit.getText().toString()));
+                etudiant.setAdresse(new Adresse(
+                        roadEdit.getText().toString(),
+                        numberEdit.getText().toString(),
+                        Integer.parseInt(zipEdit.getText().toString()),
+                        localityEdit.getText().toString()
+                ));
+                etudiant.setTags(tagsEtudiant);
+                EditProfile editProfile = new EditProfile();
+                editProfile.execute(etudiant);
+            }
+        });
     }
     public void updateTag(Tag tag){
         if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);
@@ -119,6 +170,15 @@ public class EditProfilActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
             adapter.setTags(tags);
+        }
+    }
+
+    private class EditProfile extends AsyncTask<Etudiant,Void,Void>{
+        @Override
+        protected Void doInBackground(Etudiant... etudiants) {
+            UserDataAccess userDataAccess = new UserDao();
+            userDataAccess.editMe(etudiants[0]);
+            return null;
         }
     }
 }

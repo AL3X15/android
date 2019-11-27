@@ -1,5 +1,10 @@
 package com.example.smartcity.DataAccess;
 
-public interface EntrepriseDataAccess {
+import com.example.smartcity.model.Annonce;
+import com.example.smartcity.model.Entreprise;
 
+import java.util.ArrayList;
+
+public interface EntrepriseDataAccess {
+    public Entreprise getEntrepriseByAnnonce(Annonce annonce);
 }

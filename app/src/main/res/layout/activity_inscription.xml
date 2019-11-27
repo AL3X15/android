@@ -25,6 +25,7 @@
                 android:text="@string/name" />
 
             <EditText
+                android:id="@+id/nameInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -36,6 +37,7 @@
                 android:text="@string/first_name" />
 
             <EditText
+                android:id="@+id/firstInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -51,6 +53,7 @@
                 android:layout_height="match_parent">
 
                 <RadioButton
+                    android:id="@+id/hommeInscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/Man"
@@ -59,6 +62,7 @@
                     tools:visibility="visible" />
 
                 <RadioButton
+                    android:id="@+id/femmeInscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/Woman"
@@ -67,6 +71,7 @@
                     tools:visibility="visible" />
 
                 <RadioButton
+                    android:id="@+id/autreInscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/Other"
@@ -86,6 +91,7 @@
                 android:text="@string/Road" />
 
             <EditText
+                android:id="@+id/roadInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -97,6 +103,7 @@
                 android:text="@string/Number" />
 
             <EditText
+                android:id="@+id/numberInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -108,6 +115,7 @@
                 android:text="@string/Zip" />
 
             <EditText
+                android:id="@+id/zipInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -119,6 +127,7 @@
                 android:text="@string/Locality" />
 
             <EditText
+                android:id="@+id/localityInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -130,6 +139,7 @@
                 android:text="@string/Phone" />
 
             <EditText
+                android:id="@+id/phoneInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -141,6 +151,7 @@
                 android:text="@string/mail" />
 
             <EditText
+                android:id="@+id/mailInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -152,6 +163,7 @@
                 android:text="@string/Birthdate" />
 
             <EditText
+                android:id="@+id/birthdayInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -163,21 +175,27 @@
                 android:text="@string/id_number" />
 
             <EditText
+                android:id="@+id/IdNumberInscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password" />
+
+            <EditText
+                android:id="@+id/passwordInscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cancel" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,10 +203,11 @@
                     android:layout_weight="1" />
 
                 <Button
+                    android:id="@+id/validateInscription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/cancel" />
+                    android:text="@android:string/ok" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
