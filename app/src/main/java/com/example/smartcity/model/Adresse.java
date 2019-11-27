@@ -2,7 +2,9 @@ package com.example.smartcity.model;
 
 import androidx.annotation.NonNull;
 
-public class Adresse {
+import java.io.Serializable;
+
+public class Adresse implements Serializable {
 	private String route;
 	private String numero;
 	private Integer codePostal;

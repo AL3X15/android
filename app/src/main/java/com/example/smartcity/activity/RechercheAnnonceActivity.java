@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -27,17 +30,25 @@ import butterknife.ButterKnife;
 
 public class RechercheAnnonceActivity extends AppCompatActivity {
     @BindView(R.id.TagRecherche)
-    RecyclerView tagRecyclerView;
+    public RecyclerView tagRecyclerView;
     private TagRechercheAdapter adapter;
     private ArrayList<Tag> tagsEtudiant;
     private Etudiant etudiant;
 
+    @BindView(R.id.dateDebut)
+    public EditText dateDebut;
+    @BindView(R.id.dateFin)
+    public EditText dateFin;
+    @BindView(R.id.search)
+    public Button search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recherche_annonce);
         ButterKnife.bind(this);
+
+        etudiant = (Etudiant) getIntent().getSerializableExtra("user");
 
         adapter = new TagRechercheAdapter();
         tagsEtudiant = new ArrayList<>();
@@ -48,7 +59,16 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
 
-
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("dateDebut",dateDebut.getText().toString());
+                intent.putExtra("dateFin",dateFin.getText().toString());
+                intent.putExtra("tags",tagsEtudiant.toArray());
+                startActivity(intent);
+            }
+        });
     }
     public void updateTag(Tag tag){
         if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);

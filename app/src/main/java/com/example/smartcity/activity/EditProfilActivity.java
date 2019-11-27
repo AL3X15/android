@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,20 +72,23 @@ public class EditProfilActivity extends AppCompatActivity {
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
 
+
         roadEdit.setText(etudiant.getAdresse().getRoute());
         numberEdit.setText(etudiant.getAdresse().getNumero());
-        zipEdit.setText(etudiant.getAdresse().getCodePostal());
-        localityEdit.setText(etudiant.getAdresse().getNumero());
-        phoneEdit.setText(etudiant.getNumTel());
+        zipEdit.setText(etudiant.getAdresse().getCodePostal().toString());
+        localityEdit.setText(etudiant.getAdresse().getLocalite());
+        phoneEdit.setText(etudiant.getNumTel().toString());
         mailEdit.setText(etudiant.getMail());
         passwordEdit.setText("");
+
 
         //todo ask if it's not better to do it after the asynch task
         validateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 etudiant.setMail(mailEdit.getText().toString());
-                if(passwordEdit.getText().toString().compareTo("")!=0) etudiant.setPassword(passwordEdit.getText().toString());
+                if(passwordEdit.getText().toString().compareTo("")!=0)
+                    etudiant.setPassword(passwordEdit.getText().toString());
                 etudiant.setNumTel(Integer.parseInt(phoneEdit.getText().toString()));
                 etudiant.setAdresse(new Adresse(
                         roadEdit.getText().toString(),
@@ -97,6 +101,8 @@ public class EditProfilActivity extends AppCompatActivity {
                 editProfile.execute(etudiant);
             }
         });
+        Log.i("etudiant", "tout va bien");
+
     }
     public void updateTag(Tag tag){
         if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);

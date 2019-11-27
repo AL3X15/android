@@ -5,8 +5,9 @@ import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public interface AnnonceDataAccess {
     public ArrayList<Annonce> getAnnonceEtudiant(Etudiant etudiant);
-    public ArrayList<Annonce> getResultatSerch(ArrayList<Tag> tags);
+    public ArrayList<Annonce> getResultatSerch(GregorianCalendar dateDebut, GregorianCalendar dateFin, ArrayList<Tag> tags);
 }

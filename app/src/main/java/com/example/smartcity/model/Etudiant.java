@@ -26,6 +26,9 @@ public class Etudiant implements Serializable {
 	public Etudiant(String nom, String prenom){
 		setNom(nom);
 		setPrenom(prenom);
+		setAdresse(new Adresse("qjsdlkh","ldsqjkl",0,"skhklqfjh"));
+		setMail("djkshfqklh");
+		setNumTel(0);
 	}
 
 	public String getNom() {

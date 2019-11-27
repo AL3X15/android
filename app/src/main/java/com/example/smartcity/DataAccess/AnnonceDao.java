@@ -5,6 +5,7 @@ import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class AnnonceDao implements AnnonceDataAccess {
     @Override
@@ -13,7 +14,7 @@ public class AnnonceDao implements AnnonceDataAccess {
     }
 
     @Override
-    public ArrayList<Annonce> getResultatSerch(ArrayList<Tag> tags) {
+    public ArrayList<Annonce> getResultatSerch(GregorianCalendar dateDebut, GregorianCalendar dateFin, ArrayList<Tag> tags) {
         return new ArrayList<>();
     }
 }
