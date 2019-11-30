@@ -1,8 +1,11 @@
 package com.example.smartcity.model;
 
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public class Annonce {
+public class Annonce implements Serializable {
     private String poste;
     private GregorianCalendar dateDebut;
     private GregorianCalendar dateFin;
@@ -19,11 +22,12 @@ public class Annonce {
         this.address = address;
     }
 
-    public Annonce(String poste, GregorianCalendar dateDebut, GregorianCalendar dateFin, Adresse address) {
+    public Annonce(String poste, GregorianCalendar dateDebut, GregorianCalendar dateFin) {
         this.poste = poste;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.address = address;
+        this.address = new Adresse("qjsdlkh","ldsqjkl",0,"skhklqfjh");
+        this.entreprise = new Entreprise("Bob");
     }
 
     public String getPoste() {

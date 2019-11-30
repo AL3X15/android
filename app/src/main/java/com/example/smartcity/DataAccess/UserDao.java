@@ -5,12 +5,15 @@ import com.example.smartcity.Exception.InscriptionInvalide;
 import com.example.smartcity.model.Etudiant;
 
 public class UserDao implements UserDataAccess {
+    Etudiant etudiant = new Etudiant("Davister", "Maxime");
+    Etudiant etudiantCour = etudiant;
+
     @Override
     public Etudiant getMe(String mail, String motDePasse) throws EtudiantDontExist {
-        if(mail.compareTo("maximedavister25@gmail.com") == 0){
+        if(etudiant.getMail().compareTo(mail) == 0 && etudiant.getPassword().compareTo(motDePasse)==0){
             return new Etudiant("Davister","Maxime");
-        }
-        return null;
+    }
+        throw new EtudiantDontExist();
     }
 
     @Override
@@ -20,6 +23,6 @@ public class UserDao implements UserDataAccess {
 
     @Override
     public void editMe(Etudiant etudiant) {
-
+        this.etudiant = etudiant;
     }
 }

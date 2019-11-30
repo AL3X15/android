@@ -10,4 +10,5 @@ import java.util.GregorianCalendar;
 public interface AnnonceDataAccess {
     public ArrayList<Annonce> getAnnonceEtudiant(Etudiant etudiant);
     public ArrayList<Annonce> getResultatSerch(GregorianCalendar dateDebut, GregorianCalendar dateFin, ArrayList<Tag> tags);
+    public void acceptAnnonce(Annonce annonce, Etudiant etudiant);
 }

@@ -21,6 +21,7 @@ import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -62,10 +63,8 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("dateDebut",dateDebut.getText().toString());
-                intent.putExtra("dateFin",dateFin.getText().toString());
-                intent.putExtra("tags",tagsEtudiant.toArray());
+                Intent intent = new Intent(RechercheAnnonceActivity.this, ResultatActivity.class);
+                intent.putParcelableArrayListExtra("tags",tagsEtudiant);
                 startActivity(intent);
             }
         });

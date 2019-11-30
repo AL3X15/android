@@ -9,18 +9,23 @@ import java.util.ArrayList;
 
 public class TagDao implements TagDataAccess {
 
-    public TagDao(){}
+    private ArrayList<Tag> tags;
+
+    public TagDao(){
+        tags = new ArrayList<>();
+        tags.add(new Tag("Tag1","Tag 1"));
+        tags.add(new Tag("Tag2","Tag 2"));
+    }
 
     public ArrayList<Tag> getAllTag(){
-        return new ArrayList<>();
+        return tags;
     }
     public ArrayList<Tag> getTagsAnnonce(Annonce annonce){
-        return new ArrayList<>();
+        return tags;
     }
     public ArrayList<Tag> getTagsEtudiant(Etudiant etudiant){
-        return new ArrayList<>();
+        return etudiant.getTags();
     }
 
-    public void setMyTags(Etudiant etudiant,ArrayList<Tag> tags)throws TagDontExistAnymore {}
 
 }

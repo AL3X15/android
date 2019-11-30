@@ -2,14 +2,17 @@ package com.example.smartcity.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,10 +30,10 @@ import butterknife.ButterKnife;
 
 public class ResultatActivity extends AppCompatActivity {
 
-    @BindView(R.id.ListAnnonce)
+    @BindView(R.id.AnnoncesResultat)
     public RecyclerView recyclerView;
     private AnnonceAdapter adapter;
-    private Tag[] tags;
+    private ArrayList<Tag> tags;
 
     private GregorianCalendar dateFin;
     private GregorianCalendar dateDebut;
@@ -40,46 +43,48 @@ public class ResultatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultat);
         ButterKnife.bind(this);
+        adapter = new AnnonceAdapter();
 
-        tags = (Tag[]) getIntent().getSerializableExtra("tags");
-
-        String dateDebut = getIntent().getStringExtra("dateDebut");
-        this.dateDebut = new GregorianCalendar(
-                Integer.parseInt(dateDebut.substring(4,7)),
-                Integer.parseInt(dateDebut.substring(2,3)),
-                Integer.parseInt(dateDebut.substring(0,1))
-        );
-        String dateFin = getIntent().getStringExtra("dateFin");
-        this.dateFin = new GregorianCalendar(
-                Integer.parseInt(dateFin.substring(4,7)),
-                Integer.parseInt(dateFin.substring(2,3)),
-                Integer.parseInt(dateFin.substring(0,1))
-        );
+        tags = getIntent().getParcelableArrayListExtra("tags");
         LoadAnnonce loadAnnonce = new LoadAnnonce();
         loadAnnonce.execute(tags);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     private class AnnonceViewHolder extends RecyclerView.ViewHolder{
-        public TextView annonce;
+        public TextView poste;
 
-        public AnnonceViewHolder (@NonNull View itemView){
+        public AnnonceViewHolder (@NonNull View itemView, OnItemSelectedListener listener){
             super(itemView);
-            annonce = itemView.findViewById(R.id.annonce);
+            poste = itemView.findViewById(R.id.annonce);
+            poste.setOnClickListener(e->{
+                int cur = getAdapterPosition();
+                listener.onItemSelected(cur);
+            });
         }
     }
+
     private class AnnonceAdapter extends RecyclerView.Adapter<AnnonceViewHolder>{
         private ArrayList<Annonce> myAnnonces;
+
         @NonNull
         @Override
         public AnnonceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_recherche_element,parent,false);
-            AnnonceViewHolder vh = new AnnonceViewHolder(v);
+            LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.annonce_element,parent,false);
+            AnnonceViewHolder vh = new AnnonceViewHolder(v,position -> {
+                Annonce annonceSelect = myAnnonces.get(position);
+                Intent intent = new Intent(ResultatActivity.this, DetailAnnonceActivity.class);
+                intent.putExtra("annonce",annonceSelect);
+                startActivity(intent);
+            });
             return vh;
         }
         @Override
         public void onBindViewHolder(@NonNull AnnonceViewHolder holder, int position){
             Annonce annonce = myAnnonces.get(position);
-            holder.annonce.setText(annonce.toString());
+            holder.poste.setText(annonce.getPoste());
         }
         @Override
         public int getItemCount(){
@@ -88,20 +93,22 @@ public class ResultatActivity extends AppCompatActivity {
         public void setMyAnnonces(ArrayList<Annonce> annonces){
             this.myAnnonces = annonces;
             notifyDataSetChanged();
+            notifyDataSetChanged();
         }
     }
 
-    private class LoadAnnonce extends AsyncTask<Tag,Void,ArrayList<Annonce>> {
+    private class LoadAnnonce extends AsyncTask<ArrayList<Tag>,Void,ArrayList<Annonce>> {
         @Override
-        protected ArrayList<Annonce> doInBackground(Tag... tags) {
+        protected ArrayList<Annonce> doInBackground(ArrayList<Tag>... tags) {
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
-            ArrayList<Tag> tagsList = new ArrayList<>();
-            for(int i = 0; i< tags.length;i++ ) tagsList.add(tags[i]);
-            return annonceDataAccess.getResultatSerch(dateDebut,dateFin,tagsList);
+            return annonceDataAccess.getResultatSerch(new GregorianCalendar(),new GregorianCalendar(),tags[0]);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Annonce> annonces) {
+            annonces.forEach(a->{
+                Log.i("annonce", a.toString());
+            });
             adapter.setMyAnnonces(annonces);
         }
     }

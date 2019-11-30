@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -156,15 +157,22 @@ public class EditProfilActivity extends AppCompatActivity {
     private class LoadTagEtudiant extends AsyncTask<Etudiant,Void,ArrayList<Tag>>{
         @Override
         protected ArrayList<Tag> doInBackground(Etudiant... etudiants) {
-            TagDataAccess tagDataAccess = new TagDao();
-            return tagDataAccess.getTagsEtudiant(etudiants[0]);
+            try {
+                TagDataAccess tagDataAccess = new TagDao();
+                return tagDataAccess.getTagsEtudiant(etudiants[0]);
+            }catch (Exception e){
+                Log.i("exeption",e.getMessage());
+                return null;
+            }
         }
 
         @Override
         protected void onPostExecute(ArrayList<Tag> tags) {
-            tagsEtudiant = tags;
-            LoadAllTags loadAllTags = new LoadAllTags();
-            loadAllTags.execute();
+            if(tags != null) {
+                tagsEtudiant = tags;
+                LoadAllTags loadAllTags = new LoadAllTags();
+                loadAllTags.execute();
+            }
         }
     }
     private class LoadAllTags extends AsyncTask<Void,Void,ArrayList<Tag>>{
@@ -179,12 +187,19 @@ public class EditProfilActivity extends AppCompatActivity {
         }
     }
 
-    private class EditProfile extends AsyncTask<Etudiant,Void,Void>{
+    private class EditProfile extends AsyncTask<Etudiant,Void,Etudiant>{
         @Override
-        protected Void doInBackground(Etudiant... etudiants) {
+        protected Etudiant doInBackground(Etudiant... etudiants) {
             UserDataAccess userDataAccess = new UserDao();
             userDataAccess.editMe(etudiants[0]);
-            return null;
+            return etudiants[0];
+        }
+
+        @Override
+        protected void onPostExecute(Etudiant etudiant) {
+            Intent intent = new Intent(EditProfilActivity.this,AcceuilActivity.class);
+            intent.putExtra("user",etudiant);
+            startActivity(intent);
         }
     }
 }

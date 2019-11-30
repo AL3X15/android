@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
@@ -32,8 +34,14 @@ import butterknife.ButterKnife;
 
 public class DetailAnnonceActivity extends AppCompatActivity {
 
+    @BindView(R.id.EntrepriseNom)
+    public TextView entrepriseNom;
+    @BindView(R.id.DetailEntrepriseDescription)
+    public TextView details;
     @BindView(R.id.tagsDescription)
     public RecyclerView recyclerView;
+    @BindView(R.id.AcceptAnnonce)
+    public Button button;
     private TagAdapter adapter;
     Annonce annonce;
 
@@ -43,6 +51,12 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_annonce);
         ButterKnife.bind(this);
 
+        annonce = (Annonce) getIntent().getSerializableExtra("annonce");
+
+        entrepriseNom.setText(annonce.getEntreprise().getNom());
+
+        details.setText(annonce.toString());
+
         adapter = new TagAdapter();
 
         LoadTag loadTag = new LoadTag();
@@ -51,6 +65,12 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private class TagViewHolder extends RecyclerView.ViewHolder{
@@ -96,6 +116,14 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
             adapter.setTags(tags);
+        }
+    }
+    private class AccepterOffre extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... params){
+            AnnonceDataAccess dataAccess = new AnnonceDao();
+            dataAccess.acceptAnnonce(annonce,null);
+            return null;
         }
     }
 

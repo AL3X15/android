@@ -27,8 +27,11 @@ public class Etudiant implements Serializable {
 		setNom(nom);
 		setPrenom(prenom);
 		setAdresse(new Adresse("qjsdlkh","ldsqjkl",0,"skhklqfjh"));
-		setMail("djkshfqklh");
+		setMail("maximedavister25@gmail.com");
+		setPassword("Max4ever");
 		setNumTel(0);
+		tags = new ArrayList<>();
+		tags.add(new Tag("Tag1",""));
 	}
 
 	public String getNom() {

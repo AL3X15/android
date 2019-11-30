@@ -1,5 +1,6 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.TagDontExistAnymore;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;

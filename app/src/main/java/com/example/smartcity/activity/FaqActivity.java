@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -93,7 +90,6 @@ public class FaqActivity extends AppCompatActivity {
         public int getItemCount(){
             return myFaq == null ? 0 : myFaq.size();
         }
-
         public void setFaq(ArrayList<Faq> myFaqs){
             this.myFaq = myFaqs;
             notifyDataSetChanged();

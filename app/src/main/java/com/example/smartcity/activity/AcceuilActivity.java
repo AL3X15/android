@@ -72,7 +72,15 @@ public class AcceuilActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Preference preference = new Preference(getString(R.string.mail_default));
                 Utils.editSharedPreference(AcceuilActivity.this,preference);
+                Intent intent = new Intent(AcceuilActivity.this,ConnexionActivity.class);
+                startActivity(intent);
+                onDestroy();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
