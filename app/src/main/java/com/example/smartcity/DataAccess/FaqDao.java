@@ -9,7 +9,7 @@ public class FaqDao implements FaqDataAccess{
 
     public FaqDao(){
         faqs = new ArrayList();
-        faqs.add(new Faq("Blabla",""));
+        faqs.add(new Faq("Blabla","lqsjdlkhfkqh"));
     }
     public ArrayList<Faq> getAllFaq(){
         return faqs;

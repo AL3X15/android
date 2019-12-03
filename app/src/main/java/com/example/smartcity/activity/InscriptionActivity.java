@@ -86,7 +86,7 @@ public class InscriptionActivity extends AppCompatActivity {
 					else	s = 'a';
 				}
 				e.setSexe(s);
-				e.setNumTel(Integer.parseInt(phoneInscription.getText().toString()));
+				e.setNumTel(phoneInscription.getText().toString());
 				int jour, mois,année;
 				jour = Integer.parseInt(birthdayInscription.getText().toString().substring(0,1));
 				mois = Integer.parseInt(birthdayInscription.getText().toString().substring(2,3));

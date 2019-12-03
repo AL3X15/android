@@ -21,6 +21,7 @@ import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
@@ -61,7 +62,8 @@ public class EditProfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profil);
         ButterKnife.bind(this);
-        etudiant = (Etudiant) getIntent().getSerializableExtra("user");
+
+        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
 
         adapter = new TagAdapter();
         tagsEtudiant = new ArrayList<>();
@@ -90,7 +92,7 @@ public class EditProfilActivity extends AppCompatActivity {
                 etudiant.setMail(mailEdit.getText().toString());
                 if(passwordEdit.getText().toString().compareTo("")!=0)
                     etudiant.setPassword(passwordEdit.getText().toString());
-                etudiant.setNumTel(Integer.parseInt(phoneEdit.getText().toString()));
+                etudiant.setNumTel(phoneEdit.getText().toString());
                 etudiant.setAdresse(new Adresse(
                         roadEdit.getText().toString(),
                         numberEdit.getText().toString(),

@@ -20,6 +20,7 @@ import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Etudiant;
@@ -44,6 +45,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
     public Button button;
     private TagAdapter adapter;
     Annonce annonce;
+    Etudiant etudiant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
         adapter = new TagAdapter();
 
+        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
+
         LoadTag loadTag = new LoadTag();
         loadTag.execute(annonce);
 
@@ -68,7 +72,9 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                button.setEnabled(false);
+                AccepterOffre accepterOffre = new AccepterOffre();
+                accepterOffre.execute();
             }
         });
     }
@@ -94,7 +100,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull TagViewHolder holder, int position){
             Tag tag = myTags.get(position);
-            holder.tag.setText(tag.getDescription());
+            holder.tag.setText(tag.getNom());
         }
         @Override
         public int getItemCount(){

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Etudiant;
@@ -36,11 +37,11 @@ public class AcceuilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_acceuil);
         ButterKnife.bind(this);
         etudiant =(Etudiant) getIntent().getSerializableExtra("user");
+        ((MyApplication)this.getApplication()).setEtudiant(etudiant);
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AcceuilActivity.this,EditProfilActivity.class);
-                intent.putExtra("user",etudiant);
                 startActivity(intent);
             }
         });
@@ -48,7 +49,6 @@ public class AcceuilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AcceuilActivity.this,EmploiDuTempsActivity.class);
-                intent.putExtra("user",etudiant);
                 startActivity(intent);
             }
         });
@@ -56,7 +56,6 @@ public class AcceuilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AcceuilActivity.this,RechercheAnnonceActivity.class);
-                intent.putExtra("user",etudiant);
                 startActivity(intent);
             }
         });

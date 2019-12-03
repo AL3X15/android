@@ -2,7 +2,6 @@ package com.example.smartcity.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Etudiant implements Serializable {
@@ -10,11 +9,11 @@ public class Etudiant implements Serializable {
 	private String prenom;
 	private String password;
 	private Character sexe;
-	private Integer numTel;
+	private String numTel;
 	private String mail;
 	private GregorianCalendar dateNaissance;
 	private String registreNational;
-	private Date expirationBadge;
+	private GregorianCalendar expirationBadge;
 	private String cv;
 	private Boolean aEvalue;
 	private Adresse adresse;
@@ -29,7 +28,7 @@ public class Etudiant implements Serializable {
 		setAdresse(new Adresse("qjsdlkh","ldsqjkl",0,"skhklqfjh"));
 		setMail("maximedavister25@gmail.com");
 		setPassword("Max4ever");
-		setNumTel(0);
+		setNumTel("0");
 		tags = new ArrayList<>();
 		tags.add(new Tag("Tag1",""));
 	}
@@ -58,11 +57,11 @@ public class Etudiant implements Serializable {
 		this.sexe = sexe;
 	}
 
-	public Integer getNumTel() {
+	public String getNumTel() {
 		return numTel;
 	}
 
-	public void setNumTel(Integer numTel) {
+	public void setNumTel(String numTel) {
 		this.numTel = numTel;
 	}
 
@@ -90,11 +89,11 @@ public class Etudiant implements Serializable {
 		this.registreNational = registreNational;
 	}
 
-	public Date getExpirationBadge() {
+	public GregorianCalendar getExpirationBadge() {
 		return expirationBadge;
 	}
 
-	public void setExpirationBadge(Date expirationBadge) {
+	public void setExpirationBadge(GregorianCalendar expirationBadge) {
 		this.expirationBadge = expirationBadge;
 	}
 

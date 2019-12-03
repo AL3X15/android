@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Annonce;
@@ -42,7 +43,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_emploi_du_temps);
         ButterKnife.bind(this);
 
-        etudiant = (Etudiant) getIntent().getSerializableExtra("user");
+        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
 
         adapter = new AnnonceAdapter();
 

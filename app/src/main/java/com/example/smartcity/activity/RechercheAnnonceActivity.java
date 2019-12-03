@@ -18,6 +18,7 @@ import android.widget.Switch;
 
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
@@ -49,7 +50,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recherche_annonce);
         ButterKnife.bind(this);
 
-        etudiant = (Etudiant) getIntent().getSerializableExtra("user");
+        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
 
         adapter = new TagRechercheAdapter();
         tagsEtudiant = new ArrayList<>();
