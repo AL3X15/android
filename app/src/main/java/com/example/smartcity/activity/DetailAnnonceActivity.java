@@ -53,7 +53,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_annonce);
         ButterKnife.bind(this);
 
-        annonce = (Annonce) getIntent().getSerializableExtra("annonce");
+        annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
         entrepriseNom.setText(annonce.getEntreprise().getNom());
 

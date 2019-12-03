@@ -50,6 +50,8 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recherche_annonce);
         ButterKnife.bind(this);
 
+        search.setEnabled(false);
+
         etudiant = ((MyApplication)this.getApplication()).getEtudiant();
 
         adapter = new TagRechercheAdapter();
@@ -65,7 +67,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RechercheAnnonceActivity.this, ResultatActivity.class);
-                intent.putParcelableArrayListExtra("tags",tagsEtudiant);
+                intent.putParcelableArrayListExtra(getString(R.string.tags_transfer),tagsEtudiant);
                 startActivity(intent);
             }
         });
@@ -140,6 +142,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
             adapter.setTags(tags);
+            search.setEnabled(true);
         }
     }
 }

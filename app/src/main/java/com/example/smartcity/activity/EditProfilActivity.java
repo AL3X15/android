@@ -62,6 +62,7 @@ public class EditProfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profil);
         ButterKnife.bind(this);
+        validateEdit.setEnabled(false);
 
         etudiant = ((MyApplication)this.getApplication()).getEtudiant();
 
@@ -82,7 +83,6 @@ public class EditProfilActivity extends AppCompatActivity {
         localityEdit.setText(etudiant.getAdresse().getLocalite());
         phoneEdit.setText(etudiant.getNumTel().toString());
         mailEdit.setText(etudiant.getMail());
-        passwordEdit.setText("");
 
 
         //todo ask if it's not better to do it after the asynch task
@@ -90,7 +90,7 @@ public class EditProfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 etudiant.setMail(mailEdit.getText().toString());
-                if(passwordEdit.getText().toString().compareTo("")!=0)
+                if(passwordEdit.getText().toString().isEmpty())
                     etudiant.setPassword(passwordEdit.getText().toString());
                 etudiant.setNumTel(phoneEdit.getText().toString());
                 etudiant.setAdresse(new Adresse(
@@ -104,7 +104,6 @@ public class EditProfilActivity extends AppCompatActivity {
                 editProfile.execute(etudiant);
             }
         });
-        Log.i("etudiant", "tout va bien");
 
     }
     public void updateTag(Tag tag){
@@ -163,7 +162,6 @@ public class EditProfilActivity extends AppCompatActivity {
                 TagDataAccess tagDataAccess = new TagDao();
                 return tagDataAccess.getTagsEtudiant(etudiants[0]);
             }catch (Exception e){
-                Log.i("exeption",e.getMessage());
                 return null;
             }
         }
@@ -186,6 +184,7 @@ public class EditProfilActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
             adapter.setTags(tags);
+            validateEdit.setEnabled(true);
         }
     }
 
@@ -200,7 +199,7 @@ public class EditProfilActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Etudiant etudiant) {
             Intent intent = new Intent(EditProfilActivity.this,AcceuilActivity.class);
-            intent.putExtra("user",etudiant);
+            intent.putExtra(getResources().getString(R.string.user),etudiant);
             startActivity(intent);
         }
     }

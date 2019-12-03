@@ -45,7 +45,7 @@ public class ResultatActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         adapter = new AnnonceAdapter();
 
-        tags = getIntent().getParcelableArrayListExtra("tags");
+        tags = getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer));
         LoadAnnonce loadAnnonce = new LoadAnnonce();
         loadAnnonce.execute(tags);
 
@@ -76,7 +76,7 @@ public class ResultatActivity extends AppCompatActivity {
             AnnonceViewHolder vh = new AnnonceViewHolder(v,position -> {
                 Annonce annonceSelect = myAnnonces.get(position);
                 Intent intent = new Intent(ResultatActivity.this, DetailAnnonceActivity.class);
-                intent.putExtra("annonce",annonceSelect);
+                intent.putExtra(getString(R.string.annonce),annonceSelect);
                 startActivity(intent);
             });
             return vh;
@@ -107,7 +107,7 @@ public class ResultatActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Annonce> annonces) {
             annonces.forEach(a->{
-                Log.i("annonce", a.toString());
+                Log.i(getString(R.string.annonce), a.toString());
             });
             adapter.setMyAnnonces(annonces);
         }

@@ -54,7 +54,7 @@ public class FaqActivity extends AppCompatActivity {
         }
 
         public boolean isAffiche() {
-            return reponse.getText().toString().compareTo("") != 0;
+            return reponse.getText().toString().isEmpty();
         }
     }
 
@@ -81,7 +81,7 @@ public class FaqActivity extends AppCompatActivity {
                         holder.reponse.setText(faqSelect.getReponse());
                     }
                     else{
-                        holder.reponse.setText("");
+                        holder.reponse.setText(getString(R.string.void_string));
                     }
                 }
             });

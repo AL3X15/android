@@ -81,9 +81,9 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.horraire_element,parent,false);
             AnnonceViewHolder vh = new AnnonceViewHolder(v,position -> {
                 Annonce annonceSelect = myAnnonces.get(position);
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+annonceSelect.getAddress().toString());
+                Uri gmmIntentUri = Uri.parse(getString(R.string.uri_map)+annonceSelect.getAddress().toString());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
+                mapIntent.setPackage(getString(R.string.map_intent));
                 startActivity(mapIntent);
 
             });
@@ -93,7 +93,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AnnonceViewHolder holder, int position){
             Annonce annonce = myAnnonces.get(position);
             holder.activite.setText(annonce.getPoste());
-            holder.horraire.setText(annonce.getDateDebut().getWeekYear() +" - "+ annonce.getDateFin().getWeekYear());
+            holder.horraire.setText(annonce.getDateDebut().getWeekYear() +getString(R.string.tiret)+ annonce.getDateFin().getWeekYear());
             holder.localise.setText(annonce.getAddress().toString());
         }
         @Override

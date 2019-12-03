@@ -38,4 +38,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.1.0"
     implementation "android.arch.lifecycle:viewmodel:1.1.0"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
 }

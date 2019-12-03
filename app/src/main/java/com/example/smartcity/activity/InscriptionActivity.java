@@ -111,7 +111,7 @@ public class InscriptionActivity extends AppCompatActivity {
 			try {
 				userDataAccess.inscription(etudiants[0]);
 				Intent intent = new Intent(InscriptionActivity.this,AcceuilActivity.class);
-				intent.putExtra("user",etudiants[0]);
+				intent.putExtra(getString(R.string.user),etudiants[0]);
 				startActivity(intent);
 			}catch (Exception e){
 			}

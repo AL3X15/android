@@ -10,16 +10,16 @@
     <string name="name">Name :</string>
     <string name="first_name">First name :</string>
     <string name="sex">"Sex : "</string>
-    <string name="Man">Man</string>
-    <string name="Woman">"Woman "</string>
-    <string name="Other">"Other "</string>
-    <string name="Adress">Adress :</string>
-    <string name="Road">Road :</string>
-    <string name="Number">Number :</string>
-    <string name="Zip">Zip :</string>
-    <string name="Locality">Locality :</string>
-    <string name="Phone">Phone number :</string>
-    <string name="Birthdate">Birthday :</string>
+    <string name="man">Man</string>
+    <string name="woman">"Woman "</string>
+    <string name="other">"Other "</string>
+    <string name="adress">Adress :</string>
+    <string name="road">Road :</string>
+    <string name="number">Number :</string>
+    <string name="zip">Zip :</string>
+    <string name="locality">Locality :</string>
+    <string name="phone">Phone number :</string>
+    <string name="birthdate">Birthday :</string>
     <string name="id_number">ID-Number :</string>
     <string name="cancel">CANCEL</string>
     <string name="search_job_offer">Search a job offer</string>
@@ -34,4 +34,15 @@
     <string name="file_user" translatable="false">file_user_smartcity</string>
     <string name="date_start">date start</string>
     <string name="date_end">date end</string>
+    <string name="user" translatable="false">user</string>
+    <string name="mail_regex" translatable="false">^[\\\\w-_\\\\.+]*[\\\\w-_\\\\.]\\\\@([\\\\w]+\\\\.)+[\\\\w]+[\\\\w]$</string>
+    <string name="password_regex" translatable="false">^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$</string>
+    <string name="mail_error">mail unvalidable</string>
+    <string name="password_error">unvalidable password</string>
+    <string name="annonce" translatable="false">annonce</string>
+    <string name="tiret" translatable="false">-</string>
+    <string name="uri_map" translatable="false">\"geo:0,0?q=\"</string>
+    <string name="map_intent" translatable="false">\"com.google.android.apps.maps\"</string>
+    <string name="void_string" translatable="false">\"\"</string>
+    <string name="tags_transfer" translatable="false">tags</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -36,7 +37,8 @@ public class AcceuilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acceuil);
         ButterKnife.bind(this);
-        etudiant =(Etudiant) getIntent().getSerializableExtra("user");
+        Log.i("bonjour","au moins ca marche");
+        etudiant =(Etudiant) getIntent().getSerializableExtra(getResources().getString(R.string.user));
         ((MyApplication)this.getApplication()).setEtudiant(etudiant);
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +75,6 @@ public class AcceuilActivity extends AppCompatActivity {
                 Utils.editSharedPreference(AcceuilActivity.this,preference);
                 Intent intent = new Intent(AcceuilActivity.this,ConnexionActivity.class);
                 startActivity(intent);
-                onDestroy();
             }
         });
     }

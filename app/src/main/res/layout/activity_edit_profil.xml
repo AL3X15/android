@@ -20,12 +20,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Adress" />
+                android:text="@string/adress" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Road" />
+                android:text="@string/road" />
 
             <EditText
                 android:id="@+id/roadEdit"
@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Number" />
+                android:text="@string/number" />
 
             <EditText
                 android:id="@+id/numberEdit"
@@ -49,7 +49,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Zip" />
+                android:text="@string/zip" />
 
             <EditText
                 android:id="@+id/zipEdit"
@@ -61,7 +61,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Locality" />
+                android:text="@string/locality" />
 
             <EditText
                 android:id="@+id/localityEdit"
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Phone" />
+                android:text="@string/phone" />
 
             <EditText
                 android:id="@+id/phoneEdit"

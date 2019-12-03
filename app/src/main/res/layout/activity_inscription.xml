@@ -56,7 +56,7 @@
                     android:id="@+id/hommeInscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/Man"
+                    android:text="@string/man"
                     android:visibility="visible"
                     tools:text="homme"
                     tools:visibility="visible" />
@@ -65,7 +65,7 @@
                     android:id="@+id/femmeInscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/Woman"
+                    android:text="@string/woman"
                     android:visibility="visible"
                     tools:text="femme"
                     tools:visibility="visible" />
@@ -74,7 +74,7 @@
                     android:id="@+id/autreInscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/Other"
+                    android:text="@string/other"
                     android:visibility="visible"
                     tools:text="autre"
                     tools:visibility="visible" />
@@ -83,12 +83,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Adress" />
+                android:text="@string/adress" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Road" />
+                android:text="@string/road" />
 
             <EditText
                 android:id="@+id/roadInscription"
@@ -100,7 +100,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Number" />
+                android:text="@string/number" />
 
             <EditText
                 android:id="@+id/numberInscription"
@@ -112,7 +112,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Zip" />
+                android:text="@string/zip" />
 
             <EditText
                 android:id="@+id/zipInscription"
@@ -124,7 +124,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Locality" />
+                android:text="@string/locality" />
 
             <EditText
                 android:id="@+id/localityInscription"
@@ -136,7 +136,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Phone" />
+                android:text="@string/phone" />
 
             <EditText
                 android:id="@+id/phoneInscription"
@@ -160,7 +160,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Birthdate" />
+                android:text="@string/birthdate" />
 
             <EditText
                 android:id="@+id/birthdayInscription"

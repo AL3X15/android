@@ -48,10 +48,10 @@ public class ConnexionActivity extends AppCompatActivity {
 						Connection connection = new Connection();
 						connection.execute(mail.getText().toString(),password.getText().toString());
 					} else {
-						Toast.makeText(ConnexionActivity.this,"mot de passe incorrect",Toast.LENGTH_SHORT).show();
+						Toast.makeText(ConnexionActivity.this,getString(R.string.password_error),Toast.LENGTH_SHORT).show();
 					}
 				} else
-					Toast.makeText(ConnexionActivity.this,"mail incorrect",Toast.LENGTH_SHORT).show();
+					Toast.makeText(ConnexionActivity.this,getString(R.string.mail_error),Toast.LENGTH_SHORT).show();
 			}
 		});
 		signInBtn.setOnClickListener (new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class ConnexionActivity extends AppCompatActivity {
 				Preference preference = new Preference(etudiant.getMail());
 				Utils.editSharedPreference(ConnexionActivity.this,preference);
 
-				intent.putExtra("user",etudiant);
+				intent.putExtra(getResources().getString(R.string.user),etudiant);
 
 				startActivity(intent);
 			}

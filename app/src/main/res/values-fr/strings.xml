@@ -11,16 +11,16 @@
     <string name="first_name">Prenom :</string>
     <string name="name">Nom :</string>
     <string name="sex">Sexe :</string>
-    <string name="Man">Homme</string>
-    <string name="Woman">Femme</string>
-    <string name="Other">Autre</string>
-    <string name="Adress">Adresse :</string>
-    <string name="Road">Rue :</string>
-    <string name="Number">Numéro :</string>
-    <string name="Zip">Code postal :</string>
-    <string name="Locality">Localité :</string>
-    <string name="Phone">Numéro de téléphone :</string>
-    <string name="Birthdate">Date de naissance :</string>
+    <string name="man">Homme</string>
+    <string name="woman">Femme</string>
+    <string name="other">Autre</string>
+    <string name="adress">Adresse :</string>
+    <string name="road">Rue :</string>
+    <string name="number">Numéro :</string>
+    <string name="zip">Code postal :</string>
+    <string name="locality">Localité :</string>
+    <string name="phone">Numéro de téléphone :</string>
+    <string name="birthdate">Date de naissance :</string>
     <string name="id_number">Numéro de registre national :</string>
     <string name="cancel">ANNULER</string>
     <string name="search_job_offer">Chercher des annonces</string>
@@ -30,4 +30,6 @@
     <string name="accept_offer">Accepter l\'offre</string>
     <string name="date_start">date de début</string>
     <string name="date_end">date de fin</string>
+    <string name="mail_error">mail invalide</string>
+    <string name="password_error">mot de passe invalide</string>
 </resources>
