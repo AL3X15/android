@@ -81,9 +81,9 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.horraire_element,parent,false);
             AnnonceViewHolder vh = new AnnonceViewHolder(v,position -> {
                 Annonce annonceSelect = myAnnonces.get(position);
-                Uri gmmIntentUri = Uri.parse(getString(R.string.uri_map)+annonceSelect.getAddress().toString());
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+annonceSelect.getAddress().toString());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage(getString(R.string.map_intent));
+                mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
 
             });
