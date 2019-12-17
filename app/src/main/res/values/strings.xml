@@ -41,8 +41,8 @@
     <string name="password_error">unvalidable password</string>
     <string name="annonce" translatable="false">annonce</string>
     <string name="tiret" translatable="false">-</string>
-    <string name="uri_map" translatable="false">\"geo:0,0?q=\"</string>
-    <string name="map_intent" translatable="false">\"com.google.android.apps.maps\"</string>
+    <string name="uri_map" translatable="false">geo:0,0?q=</string>
+    <string name="map_intent" translatable="false">com.google.android.apps.maps</string>
     <string name="void_string" translatable="false">\"\"</string>
     <string name="tags_transfer" translatable="false">tags</string>
 </resources>
