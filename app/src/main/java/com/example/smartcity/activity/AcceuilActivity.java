@@ -37,9 +37,6 @@ public class AcceuilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acceuil);
         ButterKnife.bind(this);
-        Log.i("bonjour","au moins ca marche");
-        etudiant =(Etudiant) getIntent().getSerializableExtra(getResources().getString(R.string.user));
-        ((MyApplication)this.getApplication()).setEtudiant(etudiant);
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

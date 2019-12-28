@@ -1,5 +1,9 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.AnnonceDontExist;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Etudiant;
@@ -18,6 +22,9 @@ public class TagDao implements TagDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/tag");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        switch (connection.getResponseCode()) {
+            case 500: throw new ApiAccessException();
+        }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
         String stringJSON = "", line;
@@ -31,6 +38,10 @@ public class TagDao implements TagDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/tag/annonce/"+annonce.getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        switch (connection.getResponseCode()) {
+            case 404: throw new AnnonceDontExist();
+            case 500: throw new ApiAccessException();
+        }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
         String stringJSON = "", line;
@@ -44,6 +55,10 @@ public class TagDao implements TagDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/tag/etudiant/"+etudiant.getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        switch (connection.getResponseCode()) {
+            case 400: throw new NoTag();
+            case 500: throw new ApiAccessException();
+        }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
         String stringJSON = "", line;

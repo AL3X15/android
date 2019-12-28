@@ -32,4 +32,10 @@
     <string name="date_end">date de fin</string>
     <string name="mail_error">mail invalide</string>
     <string name="password_error">mot de passe invalide</string>
+    <string name="Login_error">erreur lors de la connection</string>
+    <string name="accessApiError">erreur d\'acces au serveur</string>
+    <string name="connection_error">erreur connection internet</string>
+    <string name="etudiant_error">etudiant n\'existe pas</string>
+    <string name="annonce_error">annonce n\'existe pas</string>
+    <string name="tag_errors">il semble que vous n\'ayez aucun tag nous vous conseillons d\'aller dans editer mon profil pour eviter ces messages</string>
 </resources>

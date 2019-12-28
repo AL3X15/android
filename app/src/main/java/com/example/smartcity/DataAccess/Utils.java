@@ -8,6 +8,7 @@ import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.Tag;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Utils {
@@ -23,25 +25,13 @@ public class Utils {
     }
 
     public static Etudiant jsonToEtudiant (String json) throws Exception{
-        Etudiant etudiant = null;
-        JSONArray jsonArray = new JSONArray(json);
-        for(int i = 0 ; i < jsonArray.length();i++){
-            JSONObject jsonEtudiant = jsonArray.getJSONObject(i);
-            Gson object = new GsonBuilder().create();
-            etudiant = object.fromJson(jsonEtudiant.toString(),Etudiant.class);
-        }
-        return etudiant;
+        Gson object = new GsonBuilder().create();
+        return object.fromJson(json,Etudiant.class);
     }
 
     public static Entreprise jsonToEntreprise (String json) throws Exception{
-        Entreprise entreprise= null;
-        JSONArray jsonArray = new JSONArray(json);
-        for(int i = 0 ; i < jsonArray.length();i++){
-            JSONObject jsonEntreprise = jsonArray.getJSONObject(i);
-            Gson object = new GsonBuilder().create();
-            entreprise = object.fromJson(jsonEntreprise.toString(),Entreprise.class);
-        }
-        return entreprise;
+        Gson object = new GsonBuilder().create();
+        return object.fromJson(json,Entreprise.class);
     }
 
     public static ArrayList<Tag> jsonToTags (String json) throws Exception{
@@ -100,14 +90,13 @@ public class Utils {
                 "\t\"Password\":\""+password+"\"\n" +
                 "}";
     }
-    public static AccessToken jsonToAccessToken(String json) throws Exception{
-        AccessToken accessToken= null;
-        JSONArray jsonArray = new JSONArray(json);
-        for(int i = 0 ; i < jsonArray.length();i++){
-            JSONObject jsonFaq = jsonArray.getJSONObject(i);
-            Gson object = new GsonBuilder().create();
-            accessToken = object.fromJson(jsonFaq.toString(),AccessToken.class);
-        }
+    public static AccessToken jsonToAccessToken(String json) throws Exception {
+        JSONObject jsonObject = new JSONObject(json);
+        AccessToken accessToken = new AccessToken();
+        accessToken.setAccessToken(jsonObject.getString("access_token"));
+        GregorianCalendar expiration = new GregorianCalendar();
+        expiration.add(Calendar.SECOND,jsonObject.getInt("expires_in"));
+        accessToken.setDateExpiration(expiration);
         return accessToken;
     }
 }

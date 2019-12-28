@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Etudiant;
@@ -127,15 +130,29 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
             TagDataAccess tagDataAccess = new TagDao();
             try{
                 return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(),etudiants[0]);
+            }catch (ApiAccessException e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }catch (NoTag e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.tag_errors));
+                    }
+                });
             }catch (Exception e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.connection_error));
                     }
                 });
-                return null;
             }
+            return null;
         }
 
         @Override
@@ -151,15 +168,22 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
             TagDataAccess tagDataAccess = new TagDao();
             try {
                 return tagDataAccess.getAllTag(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+            }catch (ApiAccessException e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
             }catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.connection_error));
                     }
                 });
-                return null;
             }
+            return null;
         }
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){

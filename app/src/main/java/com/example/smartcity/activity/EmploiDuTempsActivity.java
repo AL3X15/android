@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
@@ -115,15 +117,32 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
             try {
                 return annonceDataAccess.getAnnonceEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(), etudiants[0]);
-            }catch (Exception e){
+            }
+            catch (EtudiantDontExist e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.etudiant_error));
                     }
                 });
-                return null;
             }
+            catch (ApiAccessException e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
+                    }
+                });
+            }
+            return null;
         }
 
         @Override

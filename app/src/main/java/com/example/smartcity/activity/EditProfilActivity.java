@@ -21,6 +21,9 @@ import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
@@ -167,15 +170,32 @@ public class EditProfilActivity extends AppCompatActivity {
             try {
                 TagDataAccess tagDataAccess = new TagDao();
                 return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(),etudiants[0]);
-            }catch (Exception e){
+            }
+            catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.accessApiError));
                     }
                 });
-                return null;
             }
+            catch (NoTag e){
+                /*runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.tag_errors));
+                    }
+                });*/
+            }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
+                    }
+                });
+            }
+            return null;
         }
 
         @Override
@@ -193,15 +213,24 @@ public class EditProfilActivity extends AppCompatActivity {
             TagDataAccess tagDataAccess = new TagDao();
             try {
                 return tagDataAccess.getAllTag(((MyApplication) getApplication()).getEtudiant().getAccesToken());
-            }catch (Exception e){
+            }
+            catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.accessApiError));
                     }
                 });
-                return null;
             }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
+                    }
+                });
+            }
+            return null;
         }
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
@@ -216,11 +245,21 @@ public class EditProfilActivity extends AppCompatActivity {
             UserDataAccess userDataAccess = new UserDao();
             try {
                 userDataAccess.editMe(((MyApplication) getApplication()).getEtudiant().getAccesToken(), etudiants[0]);
-            }catch (Exception e){
+            }
+            catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }
+
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
                     }
                 });
             }

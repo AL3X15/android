@@ -19,6 +19,8 @@ import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
+import com.example.smartcity.Exception.AnnonceDontExist;
+import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
@@ -119,11 +121,28 @@ public class DetailAnnonceActivity extends AppCompatActivity {
             ArrayList<Tag> tags = new ArrayList<Tag>();
             try {
                 tags = tagDataAccess.getTagsAnnonce(((MyApplication) getApplication()).getEtudiant().getAccesToken(), params[0]);
-            }catch (Exception e){
+            }
+            catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }
+            catch (AnnonceDontExist e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.annonce_error));
+                    }
+                });
+            }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
                     }
                 });
             }
@@ -140,11 +159,27 @@ public class DetailAnnonceActivity extends AppCompatActivity {
             AnnonceDataAccess dataAccess = new AnnonceDao();
             try {
                 dataAccess.acceptAnnonce(((MyApplication) getApplication()).getEtudiant().getAccesToken(),annonce,((MyApplication) getApplication()).getEtudiant());
-            }catch (Exception e){
+            }catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }
+            catch (AnnonceDontExist e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.annonce_error));
+                    }
+                });
+            }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
                     }
                 });
             }

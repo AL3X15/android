@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
@@ -87,7 +90,7 @@ public class InscriptionActivity extends AppCompatActivity {
 					birthdayInscription.setBackgroundColor(Color.parseColor("#FF0000"));
 				if(!passwordValide)
 					password.setBackgroundColor(Color.parseColor("#FF0000"));
-				if(formulaireValide);{
+				if(formulaireValide){
 					Etudiant e = new Etudiant();
 					e.setPrenom(firstName.getText().toString());
 					e.setNom(lastName.getText().toString());
@@ -134,13 +137,30 @@ public class InscriptionActivity extends AppCompatActivity {
 			try {
 				userDataAccess.inscription(etudiants[0]);
 				Intent intent = new Intent(InscriptionActivity.this,AcceuilActivity.class);
-				intent.putExtra(getString(R.string.user),etudiants[0]);
+				((MyApplication) getApplication()).setEtudiant(etudiants[0]);
 				startActivity(intent);
-			}catch (Exception e){
+			}
+			catch (EtudiantDontExist e){
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						errorMessage(e.getMessage());
+						errorMessage(getString(R.string.etudiant_error));
+					}
+				});
+			}
+			catch (ApiAccessException e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(getString(R.string.accessApiError));
+					}
+				});
+			}
+			catch (Exception e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(getString(R.string.connection_error));
 					}
 				});
 			}

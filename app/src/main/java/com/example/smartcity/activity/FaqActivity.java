@@ -16,8 +16,10 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.FaqDao;
 import com.example.smartcity.DataAccess.FaqDataAccess;
+import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Faq;
 
 import java.util.ArrayList;
@@ -106,16 +108,25 @@ public class FaqActivity extends AppCompatActivity {
         protected ArrayList<Faq> doInBackground(Void... voids) {
             FaqDataAccess access = new FaqDao();
             try {
+                Etudiant etudiant = ((MyApplication) getApplication()).getEtudiant();
                 return access.getAllFaq(((MyApplication) getApplication()).getEtudiant().getAccesToken());
-            }catch (Exception e){
+            }catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        errorMessage(e.getMessage());
+                        errorMessage(getString(R.string.accessApiError));
                     }
                 });
-                return null;
             }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
+                    }
+                });
+            }
+            return null;
         }
 
         @Override

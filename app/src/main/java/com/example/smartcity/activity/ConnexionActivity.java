@@ -15,10 +15,14 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Preference;
+
+import javax.security.auth.login.LoginException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,16 +77,37 @@ public class ConnexionActivity extends AppCompatActivity {
 		protected Etudiant doInBackground(String... strings) {
 			UserDataAccess dataAccess = new UserDao();
 			try {
-				return dataAccess.getMe(strings[0],strings[1]);
-			}catch (Exception e){
+				Etudiant etudiant = dataAccess.getMe(strings[0],strings[1]);
+
+				((MyApplication)ConnexionActivity.this.getApplication()).setEtudiant(etudiant);
+
+				return etudiant;
+			}
+			catch (LoginException e){
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						errorMessage(e.getMessage());
+						errorMessage(getString(R.string.Login_error));
 					}
 				});
-				return null;
 			}
+			catch (ApiAccessException e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(getString(R.string.accessApiError));
+					}
+				});
+			}
+			catch (Exception e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(getString(R.string.connection_error));
+					}
+				});
+			}
+			return null;
 		}
 
 		@Override
@@ -92,9 +117,6 @@ public class ConnexionActivity extends AppCompatActivity {
 
 				Preference preference = new Preference(etudiant.getMail());
 				Utils.editSharedPreference(ConnexionActivity.this,preference);
-
-				intent.putExtra(getResources().getString(R.string.user),etudiant);
-
 				startActivity(intent);
 			}
 		}

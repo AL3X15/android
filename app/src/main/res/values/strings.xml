@@ -45,4 +45,10 @@
     <string name="map_intent" translatable="false">com.google.android.apps.maps</string>
     <string name="void_string" translatable="false">\"\"</string>
     <string name="tags_transfer" translatable="false">tags</string>
+    <string name="Login_error">error login request invalide</string>
+    <string name="accessApiError">error access Api</string>
+    <string name="connection_error">internet error</string>
+    <string name="etudiant_error">etudiant does not exist</string>
+    <string name="annonce_error">annonce does not exist</string>
+    <string name="tag_errors">It looks you don\'t have any tag go to edit to avoid this message</string>
 </resources>

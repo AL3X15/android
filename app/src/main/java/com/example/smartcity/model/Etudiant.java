@@ -23,6 +23,22 @@ public class Etudiant implements Serializable {
 
 
 	public Etudiant() {
+		id = 4;
+		nom = "billy";
+		prenom = "the kid";
+		password = "Billy3141";
+		sexe = 'M';
+		numTel = "0476046664";
+		mail = "billy@mail.com";
+		dateNaissance = new GregorianCalendar();
+		registreNational = "01.01.01-123.12";
+		expirationBadge = new GregorianCalendar();
+		tags = new ArrayList<>();
+		adresse = new Adresse();
+		adresse.setLocalite("localite");
+		adresse.setCodePostal(1000);
+		adresse.setNumero("10");
+		adresse.setRoute("route de");
 	}
 
 

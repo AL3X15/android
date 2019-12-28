@@ -1,5 +1,7 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Faq;
 
@@ -15,6 +17,9 @@ public class FaqDao implements FaqDataAccess{
         URL url = new URL("https://smartcityjober.azurewebsites.net/faq");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        switch (connection.getResponseCode()) {
+            case 500: throw new ApiAccessException();
+        }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
         String stringJSON = "", line;

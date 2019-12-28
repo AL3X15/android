@@ -1,5 +1,6 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.InscriptionInvalide;
 import com.example.smartcity.model.AccessToken;
@@ -25,10 +26,14 @@ public class UserDao implements UserDataAccess {
     @Override
     public Etudiant getMe(String mail, String motDePasse) throws Exception{
         AccessTokenDao accessTokenDao = new AccessTokenDao();
-        AccessToken accessToken = accessTokenDao.getAccessToken(mail,motDePasse);
-        URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant");
+        AccessToken accessToken = accessTokenDao.getAccessToken(mail,motDePasse);/*
+        URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant/");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken.getAccessToken());
+        switch (connection.getResponseCode()) {
+            case 404: throw new EtudiantDontExist();
+            case 500: throw new ApiAccessException();
+        }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
         String stringJSON = "", line;
@@ -37,7 +42,8 @@ public class UserDao implements UserDataAccess {
         }
         buffer.close();
         stringJSON = builder.toString();
-        Etudiant etudiant =Utils.jsonToEtudiant(stringJSON);
+        Etudiant etudiant =Utils.jsonToEtudiant(stringJSON);*/
+        Etudiant etudiant= new Etudiant();
         etudiant.setAccesToken(accessToken);
         return etudiant;
     }
@@ -60,6 +66,10 @@ public class UserDao implements UserDataAccess {
         writer.close();
         out.close();
         urlConnection.disconnect();
+        switch (urlConnection.getResponseCode()) {
+            case 400: throw new InscriptionInvalide();
+            case 500: throw new ApiAccessException();
+        }
     }
 
     @Override
@@ -81,6 +91,10 @@ public class UserDao implements UserDataAccess {
         writer.close();
         out.close();
         urlConnection.disconnect();
+        switch (urlConnection.getResponseCode()) {
+            case 404: throw new EtudiantDontExist();
+            case 500: throw new ApiAccessException();
+        }
     }
 
 

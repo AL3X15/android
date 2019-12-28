@@ -1,5 +1,8 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.AnnonceDontExist;
+import com.example.smartcity.Exception.ApiAccessException;
+import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Entreprise;
 
@@ -15,6 +18,10 @@ public class EntrepriseDao implements EntrepriseDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/annonce/"+annonce.getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        switch (connection.getResponseCode()) {
+            case 404: throw new AnnonceDontExist();
+            case 500: throw new ApiAccessException();
+        }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
         String stringJSON = "", line;
