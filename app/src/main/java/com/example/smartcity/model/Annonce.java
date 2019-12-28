@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 public class Annonce implements Serializable {
+    private int id;
     private String poste;
     private GregorianCalendar dateDebut;
     private GregorianCalendar dateFin;
@@ -76,5 +77,13 @@ public class Annonce implements Serializable {
 
     public void setAddress(Adresse address) {
         this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

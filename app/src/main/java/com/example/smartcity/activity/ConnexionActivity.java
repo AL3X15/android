@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -49,9 +50,12 @@ public class ConnexionActivity extends AppCompatActivity {
 						connection.execute(mail.getText().toString(),password.getText().toString());
 					} else {
 						Toast.makeText(ConnexionActivity.this,getString(R.string.password_error),Toast.LENGTH_SHORT).show();
+						password.setBackgroundColor(Color.parseColor("#FF0000"));
 					}
-				} else
-					Toast.makeText(ConnexionActivity.this,getString(R.string.mail_error),Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(ConnexionActivity.this, getString(R.string.mail_error), Toast.LENGTH_SHORT).show();
+					mail.setBackgroundColor(Color.parseColor("#FF0000"));
+				}
 			}
 		});
 		signInBtn.setOnClickListener (new View.OnClickListener() {
@@ -61,32 +65,9 @@ public class ConnexionActivity extends AppCompatActivity {
 			}
 		});
 	}
-
-	@Override
-	public void onResume(){
-		super.onResume();
+	public void errorMessage(String error){
+		Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
 	}
-
-	@Override
-	public void onStart(){
-		super.onStart();
-	}
-
-	@Override
-	public void onPause(){
-		super.onPause();
-	}
-
-	@Override
-	public void onStop(){
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-	}
-
 	private class Connection extends AsyncTask<String,Void, Etudiant> {
 		@Override
 		protected Etudiant doInBackground(String... strings) {
@@ -94,6 +75,12 @@ public class ConnexionActivity extends AppCompatActivity {
 			try {
 				return dataAccess.getMe(strings[0],strings[1]);
 			}catch (Exception e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(e.getMessage());
+					}
+				});
 				return null;
 			}
 		}

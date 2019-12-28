@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class Etudiant implements Serializable {
+	private int id;
 	private String nom;
 	private String prenom;
 	private String password;
@@ -18,20 +19,12 @@ public class Etudiant implements Serializable {
 	private Boolean aEvalue;
 	private Adresse adresse;
 	private ArrayList<Tag> tags;
+	private AccessToken accesToken;
 
 
 	public Etudiant() {
 	}
-	public Etudiant(String nom, String prenom){
-		setNom(nom);
-		setPrenom(prenom);
-		setAdresse(new Adresse("qjsdlkh","ldsqjkl",0,"skhklqfjh"));
-		setMail("maximedavister25@gmail.com");
-		setPassword("Max4ever");
-		setNumTel("0");
-		tags = new ArrayList<>();
-		tags.add(new Tag("Tag1",""));
-	}
+
 
 	public String getNom() {
 		return nom;
@@ -134,5 +127,21 @@ public class Etudiant implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public AccessToken getAccesToken() {
+		return accesToken;
+	}
+
+	public void setAccesToken(AccessToken accesToken) {
+		this.accesToken = accesToken;
 	}
 }

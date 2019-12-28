@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Tag;
@@ -51,6 +53,10 @@ public class ResultatActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+    }
+
+    public void errorMessage(String error){
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
     }
 
     private class AnnonceViewHolder extends RecyclerView.ViewHolder{
@@ -101,14 +107,21 @@ public class ResultatActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Annonce> doInBackground(ArrayList<Tag>... tags) {
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
-            return annonceDataAccess.getResultatSerch(new GregorianCalendar(),new GregorianCalendar(),tags[0]);
+            try {
+                return annonceDataAccess.getResultatSerch(((MyApplication) getApplication()).getEtudiant().getAccesToken(),new GregorianCalendar(),new GregorianCalendar(),tags[0]);
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+                return null;
+            }
         }
 
         @Override
         protected void onPostExecute(ArrayList<Annonce> annonces) {
-            annonces.forEach(a->{
-                Log.i(getString(R.string.annonce), a.toString());
-            });
             adapter.setMyAnnonces(annonces);
         }
     }

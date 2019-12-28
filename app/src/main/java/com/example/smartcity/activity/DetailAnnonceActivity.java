@@ -10,11 +10,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
@@ -26,9 +25,7 @@ import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 
-import java.lang.annotation.AnnotationFormatError;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,7 +75,9 @@ public class DetailAnnonceActivity extends AppCompatActivity {
             }
         });
     }
-
+    public void errorMessage(String error){
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+    }
     private class TagViewHolder extends RecyclerView.ViewHolder{
         public TextView tag;
 
@@ -117,7 +116,18 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Tag> doInBackground(Annonce... params){
             TagDataAccess tagDataAccess = new TagDao();
-            return tagDataAccess.getTagsAnnonce(params[0]);
+            ArrayList<Tag> tags = new ArrayList<Tag>();
+            try {
+                tags = tagDataAccess.getTagsAnnonce(((MyApplication) getApplication()).getEtudiant().getAccesToken(), params[0]);
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+            }
+            return tags;
         }
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
@@ -128,7 +138,16 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params){
             AnnonceDataAccess dataAccess = new AnnonceDao();
-            dataAccess.acceptAnnonce(annonce,null);
+            try {
+                dataAccess.acceptAnnonce(((MyApplication) getApplication()).getEtudiant().getAccesToken(),annonce,((MyApplication) getApplication()).getEtudiant());
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+            }
             return null;
         }
     }

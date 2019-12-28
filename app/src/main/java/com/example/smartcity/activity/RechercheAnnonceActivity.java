@@ -15,14 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
-import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
-import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -71,6 +70,9 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    public void errorMessage(String error){
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
     }
     public void updateTag(Tag tag){
         if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);
@@ -123,7 +125,17 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Tag> doInBackground(Etudiant... etudiants) {
             TagDataAccess tagDataAccess = new TagDao();
-            return tagDataAccess.getTagsEtudiant(etudiants[0]);
+            try{
+                return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(),etudiants[0]);
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+                return null;
+            }
         }
 
         @Override
@@ -137,7 +149,17 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Tag> doInBackground(Void... voids) {
             TagDataAccess tagDataAccess = new TagDao();
-            return tagDataAccess.getAllTag();
+            try {
+                return tagDataAccess.getAllTag(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+            }catch (Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+                return null;
+            }
         }
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){

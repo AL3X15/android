@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
@@ -53,7 +54,9 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
-
+    public void errorMessage(String error){
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+    }
     private class AnnonceViewHolder extends RecyclerView.ViewHolder{
 
         public TextView horraire;
@@ -110,7 +113,17 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         @Override
         public ArrayList<Annonce> doInBackground(Etudiant... etudiants){
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
-            return annonceDataAccess.getAnnonceEtudiant(etudiants[0]);
+            try {
+                return annonceDataAccess.getAnnonceEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(), etudiants[0]);
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+                return null;
+            }
         }
 
         @Override

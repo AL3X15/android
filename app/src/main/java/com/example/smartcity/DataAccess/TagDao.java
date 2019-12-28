@@ -1,30 +1,57 @@
 package com.example.smartcity.DataAccess;
 
-import com.example.smartcity.Exception.TagDontExistAnymore;
+import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class TagDao implements TagDataAccess {
 
-    private ArrayList<Tag> tags;
-
-    public TagDao(){
-        tags = new ArrayList<>();
-        tags.add(new Tag("Tag1","Tag 1"));
-        tags.add(new Tag("Tag2","Tag 2"));
+    public ArrayList<Tag> getAllTag(AccessToken accessToken)throws Exception{
+        URL url = new URL("https://smartcityjober.azurewebsites.net/tag");
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder builder = new StringBuilder();
+        String stringJSON = "", line;
+        while((line = buffer.readLine())!=null)
+            builder.append(line);
+        buffer.close();
+        stringJSON = builder.toString();
+        return Utils.jsonToTags(stringJSON);
     }
-
-    public ArrayList<Tag> getAllTag(){
-        return tags;
+    public ArrayList<Tag> getTagsAnnonce(AccessToken accessToken, Annonce annonce)throws Exception{
+        URL url = new URL("https://smartcityjober.azurewebsites.net/tag/annonce/"+annonce.getId());
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder builder = new StringBuilder();
+        String stringJSON = "", line;
+        while((line = buffer.readLine())!=null)
+            builder.append(line);
+        buffer.close();
+        stringJSON = builder.toString();
+        return Utils.jsonToTags(stringJSON);
     }
-    public ArrayList<Tag> getTagsAnnonce(Annonce annonce){
-        return tags;
-    }
-    public ArrayList<Tag> getTagsEtudiant(Etudiant etudiant){
-        return etudiant.getTags();
+    public ArrayList<Tag>getTagsEtudiant(AccessToken accessToken, Etudiant etudiant)throws Exception{
+        URL url = new URL("https://smartcityjober.azurewebsites.net/tag/etudiant/"+etudiant.getId());
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder builder = new StringBuilder();
+        String stringJSON = "", line;
+        while((line = buffer.readLine())!=null)
+            builder.append(line);
+        buffer.close();
+        stringJSON = builder.toString();
+        return Utils.jsonToTags(stringJSON);
     }
 
 

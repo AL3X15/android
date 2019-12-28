@@ -1,17 +1,27 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Faq;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class FaqDao implements FaqDataAccess{
-    private ArrayList faqs;
+import javax.net.ssl.HttpsURLConnection;
 
-    public FaqDao(){
-        faqs = new ArrayList();
-        faqs.add(new Faq("Blabla","lqsjdlkhfkqh"));
-    }
-    public ArrayList<Faq> getAllFaq(){
-        return faqs;
+public class FaqDao implements FaqDataAccess{
+    public ArrayList<Faq> getAllFaq(AccessToken accessToken)throws Exception{
+        URL url = new URL("https://smartcityjober.azurewebsites.net/faq");
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder builder = new StringBuilder();
+        String stringJSON = "", line;
+        while((line = buffer.readLine())!=null)
+            builder.append(line);
+        buffer.close();
+        stringJSON = builder.toString();
+        return Utils.jsonToFaqs(stringJSON);
     }
 }

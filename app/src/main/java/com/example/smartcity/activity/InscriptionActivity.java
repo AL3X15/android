@@ -1,8 +1,10 @@
 package com.example.smartcity.activity;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
@@ -66,42 +69,62 @@ public class InscriptionActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inscription);
 		ButterKnife.bind(this);
+		homme.setChecked(true);
 
 		validateInscription.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Etudiant e = new Etudiant();
-				e.setPrenom(firstName.getText().toString());
-				e.setNom(lastName.getText().toString());
-				e.setAdresse(new Adresse(
-						roadInscription.getText().toString(),
-						numberInscription.getText().toString(),
-						Integer.parseInt(zipInscription.getText().toString()),
-						localityInscription.getText().toString())
-				);
-				char s;
-				if(homme.isChecked())	s = 'h';
-				else {
-					if(femme.isChecked())	s = 'f';
-					else	s = 'a';
+				boolean dateValide = (birthdayInscription.getText().toString().length() == 8);
+				boolean registreNationalValide = (idNumberInscription.getText().toString().matches("[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]{3}.[0-9]{2}"));
+				boolean mailValide = mailInscription.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
+				boolean passwordValide = password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
+				boolean formulaireValide = mailValide && dateValide && registreNationalValide && passwordValide;
+				if(!mailValide)
+					mailInscription.setBackgroundColor(Color.parseColor("#FF0000"));
+				if(!registreNationalValide)
+					idNumberInscription.setBackgroundColor(Color.parseColor("#FF0000"));
+				if(!dateValide)
+					birthdayInscription.setBackgroundColor(Color.parseColor("#FF0000"));
+				if(!passwordValide)
+					password.setBackgroundColor(Color.parseColor("#FF0000"));
+				if(formulaireValide);{
+					Etudiant e = new Etudiant();
+					e.setPrenom(firstName.getText().toString());
+					e.setNom(lastName.getText().toString());
+					e.setAdresse(new Adresse(
+							roadInscription.getText().toString(),
+							numberInscription.getText().toString(),
+							Integer.parseInt(zipInscription.getText().toString()),
+							localityInscription.getText().toString())
+					);
+					char s;
+					if(homme.isChecked())	s = 'h';
+					else {
+						if(femme.isChecked())	s = 'f';
+						else	s = 'a';
+					}
+					e.setSexe(s);
+					e.setNumTel(phoneInscription.getText().toString());
+					int jour, mois,année;
+					jour = Integer.parseInt(birthdayInscription.getText().toString().substring(0,1));
+					mois = Integer.parseInt(birthdayInscription.getText().toString().substring(2,3));
+					année = Integer.parseInt(birthdayInscription.getText().toString().substring(4,7));
+					e.setDateNaissance(new GregorianCalendar(année,mois,jour));
+
+					e.setMail(mailInscription.getText().toString());
+
+					e.setRegistreNational(idNumberInscription.getText().toString());
+
+					e.setPassword(password.getText().toString());
+
+					Inscription inscription = new Inscription();
+					inscription.execute(e);
 				}
-				e.setSexe(s);
-				e.setNumTel(phoneInscription.getText().toString());
-				int jour, mois,année;
-				jour = Integer.parseInt(birthdayInscription.getText().toString().substring(0,1));
-				mois = Integer.parseInt(birthdayInscription.getText().toString().substring(2,3));
-				année = Integer.parseInt(birthdayInscription.getText().toString().substring(4,7));
-				e.setDateNaissance(new GregorianCalendar(année,mois,jour));
-
-				e.setMail(mailInscription.getText().toString());
-				e.setRegistreNational(idNumberInscription.getText().toString());
-
-				e.setPassword(password.getText().toString());
-
-				Inscription inscription = new Inscription();
-				inscription.execute(e);
 			}
 		});
+	}
+	public void errorMessage(String error){
+		Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
 	}
 
 	private class Inscription extends AsyncTask<Etudiant,Void,Void>{
@@ -114,6 +137,12 @@ public class InscriptionActivity extends AppCompatActivity {
 				intent.putExtra(getString(R.string.user),etudiants[0]);
 				startActivity(intent);
 			}catch (Exception e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(e.getMessage());
+					}
+				});
 			}
 			return null;
 		}

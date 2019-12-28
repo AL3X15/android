@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.FaqDao;
 import com.example.smartcity.DataAccess.FaqDataAccess;
+import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Faq;
 
@@ -42,7 +44,9 @@ public class FaqActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
-
+    public void errorMessage(String error){
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+    }
     private class FaqViewHolder extends RecyclerView.ViewHolder{
         public TextView question;
         public TextView reponse;
@@ -57,6 +61,7 @@ public class FaqActivity extends AppCompatActivity {
             return reponse.getText().toString().isEmpty();
         }
     }
+
 
     private class FaqAdapter extends RecyclerView.Adapter<FaqViewHolder>{
         private ArrayList<Faq> myFaq;
@@ -100,7 +105,17 @@ public class FaqActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Faq> doInBackground(Void... voids) {
             FaqDataAccess access = new FaqDao();
-            return access.getAllFaq() ;
+            try {
+                return access.getAllFaq(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+                return null;
+            }
         }
 
         @Override

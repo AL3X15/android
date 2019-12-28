@@ -6,5 +6,5 @@ import com.example.smartcity.model.Entreprise;
 import java.util.ArrayList;
 
 public interface EntrepriseDataAccess {
-    public Entreprise getEntrepriseByAnnonce(Annonce annonce);
+    public Entreprise getEntrepriseByAnnonce(String accessToken,Annonce annonce)throws Exception;
 }

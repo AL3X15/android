@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
@@ -84,27 +84,33 @@ public class EditProfilActivity extends AppCompatActivity {
         phoneEdit.setText(etudiant.getNumTel().toString());
         mailEdit.setText(etudiant.getMail());
 
-
-        //todo ask if it's not better to do it after the asynch task
         validateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etudiant.setMail(mailEdit.getText().toString());
-                if(passwordEdit.getText().toString().isEmpty())
-                    etudiant.setPassword(passwordEdit.getText().toString());
-                etudiant.setNumTel(phoneEdit.getText().toString());
-                etudiant.setAdresse(new Adresse(
-                        roadEdit.getText().toString(),
-                        numberEdit.getText().toString(),
-                        Integer.parseInt(zipEdit.getText().toString()),
-                        localityEdit.getText().toString()
-                ));
-                etudiant.setTags(tagsEtudiant);
-                EditProfile editProfile = new EditProfile();
-                editProfile.execute(etudiant);
+                boolean mailValide = mailEdit.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
+                boolean passwordValide = passwordEdit.getText().toString().isEmpty() || passwordEdit.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
+                boolean formulaireValide = passwordValide && mailValide;
+                if (formulaireValide){
+                        etudiant.setMail(mailEdit.getText().toString());
+                    if (passwordEdit.getText().toString().isEmpty())
+                        etudiant.setPassword(passwordEdit.getText().toString());
+                    etudiant.setNumTel(phoneEdit.getText().toString());
+                    etudiant.setAdresse(new Adresse(
+                            roadEdit.getText().toString(),
+                            numberEdit.getText().toString(),
+                            Integer.parseInt(zipEdit.getText().toString()),
+                            localityEdit.getText().toString()
+                    ));
+                    etudiant.setTags(tagsEtudiant);
+                    EditProfile editProfile = new EditProfile();
+                    editProfile.execute(etudiant);
+                }
             }
         });
 
+    }
+    public void errorMessage(String error){
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
     }
     public void updateTag(Tag tag){
         if(tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);
@@ -160,8 +166,14 @@ public class EditProfilActivity extends AppCompatActivity {
         protected ArrayList<Tag> doInBackground(Etudiant... etudiants) {
             try {
                 TagDataAccess tagDataAccess = new TagDao();
-                return tagDataAccess.getTagsEtudiant(etudiants[0]);
+                return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(),etudiants[0]);
             }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
                 return null;
             }
         }
@@ -179,7 +191,17 @@ public class EditProfilActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Tag> doInBackground(Void... voids) {
             TagDataAccess tagDataAccess = new TagDao();
-            return tagDataAccess.getAllTag();
+            try {
+                return tagDataAccess.getAllTag(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+                return null;
+            }
         }
         @Override
         protected void onPostExecute(ArrayList<Tag> tags){
@@ -192,7 +214,16 @@ public class EditProfilActivity extends AppCompatActivity {
         @Override
         protected Etudiant doInBackground(Etudiant... etudiants) {
             UserDataAccess userDataAccess = new UserDao();
-            userDataAccess.editMe(etudiants[0]);
+            try {
+                userDataAccess.editMe(((MyApplication) getApplication()).getEtudiant().getAccesToken(), etudiants[0]);
+            }catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(e.getMessage());
+                    }
+                });
+            }
             return etudiants[0];
         }
 
