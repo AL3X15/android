@@ -39,7 +39,7 @@ public class AccessTokenDao {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON, line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();

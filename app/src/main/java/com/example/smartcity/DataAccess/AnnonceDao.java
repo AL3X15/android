@@ -2,10 +2,9 @@ package com.example.smartcity.DataAccess;
 
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
-import com.example.smartcity.Exception.InscriptionInvalide;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
 import java.io.BufferedReader;
@@ -17,13 +16,12 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.security.auth.login.LoginException;
 
 public class AnnonceDao implements AnnonceDataAccess {
 
     @Override
-    public ArrayList<Annonce> getAnnonceEtudiant(AccessToken accessToken, Etudiant etudiant) throws Exception {
-        URL url = new URL("https://smartcityjober.azurewebsites.net/postulation/etudiant/"+etudiant.getId());
+    public ArrayList<Annonce> getAnnonceEtudiant(AccessToken accessToken, UserEtudiant userEtudiant) throws Exception {
+        URL url = new URL("https://smartcityjober.azurewebsites.net/postulation/etudiant/"+ userEtudiant.getEtudiant().getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
         switch (connection.getResponseCode()) {
@@ -32,7 +30,7 @@ public class AnnonceDao implements AnnonceDataAccess {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON, line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();
@@ -56,7 +54,7 @@ public class AnnonceDao implements AnnonceDataAccess {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON, line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();
@@ -65,9 +63,9 @@ public class AnnonceDao implements AnnonceDataAccess {
     }
 
     @Override
-    public void acceptAnnonce(AccessToken accessToken, Annonce annonce, Etudiant etudiant)throws Exception {
+    public void acceptAnnonce(AccessToken accessToken, Annonce annonce, UserEtudiant userEtudiant)throws Exception {
 
-        String jsonString = Utils.postulationToJson(annonce.getId(),etudiant.getId());
+        String jsonString = Utils.postulationToJson(annonce.getId(), userEtudiant.getEtudiant().getId());
         URL url = new URL("https://smartcityjober.azurewebsites.net/postulation");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestProperty("Authorization","Bearer"+accessToken);

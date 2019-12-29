@@ -23,12 +23,10 @@ import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
-import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +36,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
     @BindView(R.id.ListAnnonce)
     public RecyclerView recyclerView;
     private AnnonceAdapter adapter;
-    private Etudiant etudiant;
+    private UserEtudiant userEtudiant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +44,12 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_emploi_du_temps);
         ButterKnife.bind(this);
 
-        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
+        userEtudiant = ((MyApplication)this.getApplication()).getInfoConnection().getUserEtudiant();
 
         adapter = new AnnonceAdapter();
 
         LoadAnnonce loadAnnonce = new LoadAnnonce();
-        loadAnnonce.execute(etudiant);
+        loadAnnonce.execute(userEtudiant);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -111,12 +109,12 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
     }
-    private class LoadAnnonce extends AsyncTask<Etudiant,Void,ArrayList<Annonce>>{
+    private class LoadAnnonce extends AsyncTask<UserEtudiant,Void,ArrayList<Annonce>>{
         @Override
-        public ArrayList<Annonce> doInBackground(Etudiant... etudiants){
+        public ArrayList<Annonce> doInBackground(UserEtudiant... userEtudiants){
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
             try {
-                return annonceDataAccess.getAnnonceEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(), etudiants[0]);
+                return annonceDataAccess.getAnnonceEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
             }
             catch (EtudiantDontExist e){
                 runOnUiThread(new Runnable() {

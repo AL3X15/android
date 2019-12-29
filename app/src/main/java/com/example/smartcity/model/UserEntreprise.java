@@ -2,10 +2,10 @@ package com.example.smartcity.model;
 
 import java.io.Serializable;
 
-public class Entreprise implements Serializable {
+public class UserEntreprise implements Serializable {
     private String nom;
 
-    public Entreprise(String nom) {
+    public UserEntreprise(String nom) {
         this.nom = nom;
     }
 

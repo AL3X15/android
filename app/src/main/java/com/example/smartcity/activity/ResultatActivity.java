@@ -6,10 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +108,7 @@ public class ResultatActivity extends AppCompatActivity {
         protected ArrayList<Annonce> doInBackground(ArrayList<Tag>... tags) {
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
             try {
-                return annonceDataAccess.getResultatSerch(((MyApplication) getApplication()).getEtudiant().getAccesToken(),new GregorianCalendar(),new GregorianCalendar(),tags[0]);
+                return annonceDataAccess.getResultatSerch(((MyApplication) getApplication()).getInfoConnection().getAccessToken(),new GregorianCalendar(),new GregorianCalendar(),tags[0]);
             }
             catch (AnnonceDontExist e){
                 runOnUiThread(new Runnable() {

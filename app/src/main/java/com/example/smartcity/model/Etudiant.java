@@ -1,163 +1,79 @@
 package com.example.smartcity.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Etudiant implements Serializable {
-	private int id;
-	private String nom;
-	private String prenom;
-	private String password;
-	private Character sexe;
-	private String numTel;
-	private String mail;
-	private GregorianCalendar dateNaissance;
-	private String registreNational;
-	private GregorianCalendar expirationBadge;
-	private String cv;
-	private Boolean aEvalue;
-	private Adresse adresse;
-	private ArrayList<Tag> tags;
-	private AccessToken accesToken;
+public class Etudiant {
+    private int id;
+    private String prenom;
+    private Character sexe;
+    private GregorianCalendar dateNaissance;
+    private String registreNational;
+    private GregorianCalendar expirationBadge;
+    private Adresse adresse;
+    private ArrayList<Tag> tags;
 
+    public int getId() {
+        return id;
+    }
 
-	public Etudiant() {
-		id = 4;
-		nom = "billy";
-		prenom = "the kid";
-		password = "Billy3141";
-		sexe = 'M';
-		numTel = "0476046664";
-		mail = "billy@mail.com";
-		dateNaissance = new GregorianCalendar();
-		registreNational = "01.01.01-123.12";
-		expirationBadge = new GregorianCalendar();
-		tags = new ArrayList<>();
-		adresse = new Adresse();
-		adresse.setLocalite("localite");
-		adresse.setCodePostal(1000);
-		adresse.setNumero("10");
-		adresse.setRoute("route de");
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public String getPrenom() {
+        return prenom;
+    }
 
-	public String getNom() {
-		return nom;
-	}
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+    public Character getSexe() {
+        return sexe;
+    }
 
-	public String getPrenom() {
-		return prenom;
-	}
+    public void setSexe(Character sexe) {
+        this.sexe = sexe;
+    }
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
+    public GregorianCalendar getDateNaissance() {
+        return dateNaissance;
+    }
 
-	public Character getSexe() {
-		return sexe;
-	}
+    public void setDateNaissance(GregorianCalendar dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
 
-	public void setSexe(Character sexe) {
-		this.sexe = sexe;
-	}
+    public String getRegistreNational() {
+        return registreNational;
+    }
 
-	public String getNumTel() {
-		return numTel;
-	}
+    public void setRegistreNational(String registreNational) {
+        this.registreNational = registreNational;
+    }
 
-	public void setNumTel(String numTel) {
-		this.numTel = numTel;
-	}
+    public GregorianCalendar getExpirationBadge() {
+        return expirationBadge;
+    }
 
-	public String getMail() {
-		return mail;
-	}
+    public void setExpirationBadge(GregorianCalendar expirationBadge) {
+        this.expirationBadge = expirationBadge;
+    }
 
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+    public Adresse getAdresse() {
+        return adresse;
+    }
 
-	public GregorianCalendar getDateNaissance() {
-		return dateNaissance;
-	}
+    public void setAdresse(Adresse adresse) {
+        this.adresse = adresse;
+    }
 
-	public void setDateNaissance(GregorianCalendar dateNaissance) {
-		this.dateNaissance = dateNaissance;
-	}
+    public ArrayList<Tag> getTags() {
+        return tags;
+    }
 
-	public String getRegistreNational() {
-		return registreNational;
-	}
-
-	public void setRegistreNational(String registreNational) {
-		this.registreNational = registreNational;
-	}
-
-	public GregorianCalendar getExpirationBadge() {
-		return expirationBadge;
-	}
-
-	public void setExpirationBadge(GregorianCalendar expirationBadge) {
-		this.expirationBadge = expirationBadge;
-	}
-
-	public String getCv() {
-		return cv;
-	}
-
-	public void setCv(String cv) {
-		this.cv = cv;
-	}
-
-	public Boolean getaEvalue() {
-		return aEvalue;
-	}
-
-	public void setaEvalue(Boolean aEvalue) {
-		this.aEvalue = aEvalue;
-	}
-
-	public Adresse getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
-	public ArrayList<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(ArrayList<Tag> tags) {
-		this.tags = tags;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public AccessToken getAccesToken() {
-		return accesToken;
-	}
-
-	public void setAccesToken(AccessToken accesToken) {
-		this.accesToken = accesToken;
-	}
+    public void setTags(ArrayList<Tag> tags) {
+        this.tags = tags;
+    }
 }

@@ -22,7 +22,7 @@ public class FaqDao implements FaqDataAccess{
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON, line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();

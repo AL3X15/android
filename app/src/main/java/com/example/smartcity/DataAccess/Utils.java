@@ -2,13 +2,12 @@ package com.example.smartcity.DataAccess;
 
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.Entreprise;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEntreprise;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.Tag;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,23 +19,24 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Utils {
-    public static String etudiantToJson(Etudiant etudiant){
-        return "";
+    public static String etudiantToJson(UserEtudiant userEtudiant){
+       Gson gson = new Gson();
+       return gson.toJson(userEtudiant);
     }
 
-    public static Etudiant jsonToEtudiant (String json) throws Exception{
+    public static UserEtudiant jsonToEtudiant (String json) {
         Gson object = new GsonBuilder().create();
-        return object.fromJson(json,Etudiant.class);
+        return object.fromJson(json, UserEtudiant.class);
     }
 
-    public static Entreprise jsonToEntreprise (String json) throws Exception{
+    public static UserEntreprise jsonToEntreprise (String json) {
         Gson object = new GsonBuilder().create();
-        return object.fromJson(json,Entreprise.class);
+        return object.fromJson(json, UserEntreprise.class);
     }
 
     public static ArrayList<Tag> jsonToTags (String json) throws Exception{
         ArrayList<Tag> tags = new ArrayList<Tag>();
-        Tag tag= null;
+        Tag tag;
         JSONArray jsonArray = new JSONArray(json);
         for(int i = 0 ; i < jsonArray.length();i++){
             JSONObject jsonTag = jsonArray.getJSONObject(i);
@@ -48,12 +48,13 @@ public class Utils {
     }
 
     public static String postulationToJson (int idAnnonce, int idEtudiant){
-        return "";
+        return "\"annonceId\" : "+idAnnonce+"\n" +
+                "\"etudiantId\" : "+idEtudiant+"";
     }
 
     public static ArrayList<Annonce> jsonToAnnonces (String json) throws Exception{
         ArrayList<Annonce> annonces = new ArrayList<Annonce>();
-        Annonce annonce= null;
+        Annonce annonce;
         JSONArray jsonArray = new JSONArray(json);
         for(int i = 0 ; i < jsonArray.length();i++){
             JSONObject jsonAnnonce = jsonArray.getJSONObject(i);
@@ -66,7 +67,7 @@ public class Utils {
 
     public static ArrayList<Faq> jsonToFaqs(String json) throws Exception{
         ArrayList<Faq> faqs = new ArrayList<Faq>();
-        Faq faq= null;
+        Faq faq;
         JSONArray jsonArray = new JSONArray(json);
         for(int i = 0 ; i < jsonArray.length();i++){
             JSONObject jsonFaq = jsonArray.getJSONObject(i);

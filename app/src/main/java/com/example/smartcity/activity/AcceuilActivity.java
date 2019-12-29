@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Preference;
 
 import butterknife.BindView;
@@ -30,7 +28,6 @@ public class AcceuilActivity extends AppCompatActivity {
     @BindView(R.id.buttonDisconnect)
     public Button disconnect;
 
-    private Etudiant etudiant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +65,7 @@ public class AcceuilActivity extends AppCompatActivity {
         disconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Preference preference = new Preference(getString(R.string.mail_default));
+                Preference preference = new Preference(getString(R.string.mail_default),null);
                 Utils.editSharedPreference(AcceuilActivity.this,preference);
                 Intent intent = new Intent(AcceuilActivity.this,ConnexionActivity.class);
                 startActivity(intent);

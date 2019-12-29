@@ -3,7 +3,7 @@
     <string name="logIn">Log in</string>
     <string name="signIn">Sign in</string>
     <string name="password">Password :</string>
-    <string name="mail">"Mail adress : "</string>
+    <string name="email">"Mail adress : "</string>
     <string name="welcome">Welcome</string>
     <string name="accountExist">you alreday have an account ?</string>
     <string name="accountNew">first time ?</string>
@@ -37,7 +37,7 @@
     <string name="user" translatable="false">user</string>
     <string name="mail_regex" translatable="false">^[\\\\w-_\\\\.+]*[\\\\w-_\\\\.]\\\\@([\\\\w]+\\\\.)+[\\\\w]+[\\\\w]$</string>
     <string name="password_regex" translatable="false">^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$</string>
-    <string name="mail_error">mail unvalidable</string>
+    <string name="mail_error">email unvalidable</string>
     <string name="password_error">unvalidable password</string>
     <string name="annonce" translatable="false">annonce</string>
     <string name="tiret" translatable="false">-</string>
@@ -48,7 +48,13 @@
     <string name="Login_error">error login request invalide</string>
     <string name="accessApiError">error access Api</string>
     <string name="connection_error">internet error</string>
-    <string name="etudiant_error">etudiant does not exist</string>
+    <string name="etudiant_error">userEtudiant does not exist</string>
     <string name="annonce_error">annonce does not exist</string>
     <string name="tag_errors">It looks you don\'t have any tag go to edit to avoid this message</string>
+    <string name="accessToken" translatable="false">accessToken</string>
+    <string name="year" translatable="false">year</string>
+    <string name="month" translatable="false">month</string>
+    <string name="dayOfMonth" translatable="false">dayOfMonth</string>
+    <string name="hourOfDay" translatable="false">hourOfDay</string>
+    <string name="minute" translatable="false">minute</string>
 </resources>

@@ -2,11 +2,10 @@ package com.example.smartcity.DataAccess;
 
 import com.example.smartcity.Exception.AnnonceDontExist;
 import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
 import java.io.BufferedReader;
@@ -27,7 +26,7 @@ public class TagDao implements TagDataAccess {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON, line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();
@@ -44,15 +43,15 @@ public class TagDao implements TagDataAccess {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON , line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();
         stringJSON = builder.toString();
         return Utils.jsonToTags(stringJSON);
     }
-    public ArrayList<Tag>getTagsEtudiant(AccessToken accessToken, Etudiant etudiant)throws Exception{
-        URL url = new URL("https://smartcityjober.azurewebsites.net/tag/etudiant/"+etudiant.getId());
+    public ArrayList<Tag>getTagsEtudiant(AccessToken accessToken, UserEtudiant userEtudiant)throws Exception{
+        URL url = new URL("https://smartcityjober.azurewebsites.net/tag/etudiant/"+ userEtudiant.getEtudiant().getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
         switch (connection.getResponseCode()) {
@@ -61,7 +60,7 @@ public class TagDao implements TagDataAccess {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON , line;
         while((line = buffer.readLine())!=null)
             builder.append(line);
         buffer.close();

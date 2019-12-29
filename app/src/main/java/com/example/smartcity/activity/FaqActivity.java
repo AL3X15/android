@@ -19,7 +19,7 @@ import com.example.smartcity.DataAccess.FaqDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Faq;
 
 import java.util.ArrayList;
@@ -108,8 +108,8 @@ public class FaqActivity extends AppCompatActivity {
         protected ArrayList<Faq> doInBackground(Void... voids) {
             FaqDataAccess access = new FaqDao();
             try {
-                Etudiant etudiant = ((MyApplication) getApplication()).getEtudiant();
-                return access.getAllFaq(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+                UserEtudiant userEtudiant = ((MyApplication) getApplication()).getInfoConnection().getUserEtudiant();
+                return access.getAllFaq(((MyApplication) getApplication()).getInfoConnection().getAccessToken());
             }catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override

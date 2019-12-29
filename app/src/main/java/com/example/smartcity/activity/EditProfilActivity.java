@@ -22,12 +22,11 @@ import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class EditProfilActivity extends AppCompatActivity {
     RecyclerView tagRecyclerView;
     private TagAdapter adapter;
     private ArrayList<Tag> tagsEtudiant;
-    private Etudiant etudiant;
+    private UserEtudiant userEtudiant;
 
     @BindView(R.id.roadEdit)
     public EditText roadEdit;
@@ -67,25 +66,25 @@ public class EditProfilActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         validateEdit.setEnabled(false);
 
-        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
+        userEtudiant = ((MyApplication)this.getApplication()).getInfoConnection().getUserEtudiant();
 
         adapter = new TagAdapter();
         tagsEtudiant = new ArrayList<>();
 
 
         LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
-        loadTagEtudiant.execute(etudiant);
+        loadTagEtudiant.execute(userEtudiant);
 
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
 
 
-        roadEdit.setText(etudiant.getAdresse().getRoute());
-        numberEdit.setText(etudiant.getAdresse().getNumero());
-        zipEdit.setText(etudiant.getAdresse().getCodePostal().toString());
-        localityEdit.setText(etudiant.getAdresse().getLocalite());
-        phoneEdit.setText(etudiant.getNumTel().toString());
-        mailEdit.setText(etudiant.getMail());
+        roadEdit.setText(userEtudiant.getEtudiant().getAdresse().getRoute());
+        numberEdit.setText(userEtudiant.getEtudiant().getAdresse().getNumero());
+        zipEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getCodePostal().toString());
+        localityEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getLocalite());
+        phoneEdit.setText(userEtudiant.getPhoneNumber().toString());
+        mailEdit.setText(userEtudiant.getEmail());
 
         validateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,19 +93,19 @@ public class EditProfilActivity extends AppCompatActivity {
                 boolean passwordValide = passwordEdit.getText().toString().isEmpty() || passwordEdit.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
                 boolean formulaireValide = passwordValide && mailValide;
                 if (formulaireValide){
-                        etudiant.setMail(mailEdit.getText().toString());
+                        userEtudiant.setEmail(mailEdit.getText().toString());
                     if (passwordEdit.getText().toString().isEmpty())
-                        etudiant.setPassword(passwordEdit.getText().toString());
-                    etudiant.setNumTel(phoneEdit.getText().toString());
-                    etudiant.setAdresse(new Adresse(
+                        userEtudiant.setPassword(passwordEdit.getText().toString());
+                    userEtudiant.setPhoneNumber(phoneEdit.getText().toString());
+                    userEtudiant.getEtudiant().setAdresse(new Adresse(
                             roadEdit.getText().toString(),
                             numberEdit.getText().toString(),
                             Integer.parseInt(zipEdit.getText().toString()),
                             localityEdit.getText().toString()
                     ));
-                    etudiant.setTags(tagsEtudiant);
+                    userEtudiant.getEtudiant().setTags(tagsEtudiant);
                     EditProfile editProfile = new EditProfile();
-                    editProfile.execute(etudiant);
+                    editProfile.execute(userEtudiant);
                 }
             }
         });
@@ -164,12 +163,12 @@ public class EditProfilActivity extends AppCompatActivity {
         }
     }
 
-    private class LoadTagEtudiant extends AsyncTask<Etudiant,Void,ArrayList<Tag>>{
+    private class LoadTagEtudiant extends AsyncTask<UserEtudiant,Void,ArrayList<Tag>>{
         @Override
-        protected ArrayList<Tag> doInBackground(Etudiant... etudiants) {
+        protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
             try {
                 TagDataAccess tagDataAccess = new TagDao();
-                return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(),etudiants[0]);
+                return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
             }
             catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
@@ -180,12 +179,7 @@ public class EditProfilActivity extends AppCompatActivity {
                 });
             }
             catch (NoTag e){
-                /*runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        errorMessage(getString(R.string.tag_errors));
-                    }
-                });*/
+
             }
             catch (Exception e){
                 runOnUiThread(new Runnable() {
@@ -212,7 +206,7 @@ public class EditProfilActivity extends AppCompatActivity {
         protected ArrayList<Tag> doInBackground(Void... voids) {
             TagDataAccess tagDataAccess = new TagDao();
             try {
-                return tagDataAccess.getAllTag(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+                return tagDataAccess.getAllTag(((MyApplication) getApplication()).getInfoConnection().getAccessToken());
             }
             catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
@@ -239,12 +233,12 @@ public class EditProfilActivity extends AppCompatActivity {
         }
     }
 
-    private class EditProfile extends AsyncTask<Etudiant,Void,Etudiant>{
+    private class EditProfile extends AsyncTask<UserEtudiant,Void, UserEtudiant>{
         @Override
-        protected Etudiant doInBackground(Etudiant... etudiants) {
+        protected UserEtudiant doInBackground(UserEtudiant... userEtudiants) {
             UserDataAccess userDataAccess = new UserDao();
             try {
-                userDataAccess.editMe(((MyApplication) getApplication()).getEtudiant().getAccesToken(), etudiants[0]);
+                userDataAccess.editMe(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
             }
             catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
@@ -263,13 +257,13 @@ public class EditProfilActivity extends AppCompatActivity {
                     }
                 });
             }
-            return etudiants[0];
+            return userEtudiants[0];
         }
 
         @Override
-        protected void onPostExecute(Etudiant etudiant) {
+        protected void onPostExecute(UserEtudiant userEtudiant) {
             Intent intent = new Intent(EditProfilActivity.this,AcceuilActivity.class);
-            intent.putExtra(getResources().getString(R.string.user),etudiant);
+            intent.putExtra(getResources().getString(R.string.user), userEtudiant);
             startActivity(intent);
         }
     }

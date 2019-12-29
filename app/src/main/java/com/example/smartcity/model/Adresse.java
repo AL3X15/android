@@ -7,14 +7,12 @@ import java.io.Serializable;
 public class Adresse implements Serializable {
 	private String route;
 	private String numero;
-	private Integer codePostal;
-	private String localite;
+	private Localite localite;
 
 	public Adresse(String route, String numero, Integer codePostal, String localite) {
 		this.route = route;
 		this.numero = numero;
-		this.codePostal = codePostal;
-		this.localite = localite;
+		this.localite = new  Localite(codePostal,localite);
 	}
 
 	public Adresse() {
@@ -36,19 +34,11 @@ public class Adresse implements Serializable {
 		this.numero = numero;
 	}
 
-	public Integer getCodePostal() {
-		return codePostal;
-	}
-
-	public void setCodePostal(Integer codePostal) {
-		this.codePostal = codePostal;
-	}
-
-	public String getLocalite() {
+	public Localite getLocalite() {
 		return localite;
 	}
 
-	public void setLocalite(String localite) {
+	public void setLocalite(Localite localite) {
 		this.localite = localite;
 	}
 

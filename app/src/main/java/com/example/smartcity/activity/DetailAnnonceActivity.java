@@ -24,7 +24,7 @@ import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
     public Button button;
     private TagAdapter adapter;
     Annonce annonce;
-    Etudiant etudiant;
+    UserEtudiant userEtudiant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +54,13 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
         annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
-        entrepriseNom.setText(annonce.getEntreprise().getNom());
+        entrepriseNom.setText(annonce.getUserEntreprise().getNom());
 
         details.setText(annonce.toString());
 
         adapter = new TagAdapter();
 
-        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
+        userEtudiant = ((MyApplication)this.getApplication()).getInfoConnection().getUserEtudiant();
 
         LoadTag loadTag = new LoadTag();
         loadTag.execute(annonce);
@@ -120,7 +120,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
             TagDataAccess tagDataAccess = new TagDao();
             ArrayList<Tag> tags = new ArrayList<Tag>();
             try {
-                tags = tagDataAccess.getTagsAnnonce(((MyApplication) getApplication()).getEtudiant().getAccesToken(), params[0]);
+                tags = tagDataAccess.getTagsAnnonce(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), params[0]);
             }
             catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
@@ -158,7 +158,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params){
             AnnonceDataAccess dataAccess = new AnnonceDao();
             try {
-                dataAccess.acceptAnnonce(((MyApplication) getApplication()).getEtudiant().getAccesToken(),annonce,((MyApplication) getApplication()).getEtudiant());
+                dataAccess.acceptAnnonce(((MyApplication) getApplication()).getInfoConnection().getAccessToken(),annonce,((MyApplication) getApplication()).getInfoConnection().getUserEtudiant());
             }catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override

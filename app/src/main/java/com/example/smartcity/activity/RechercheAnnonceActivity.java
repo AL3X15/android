@@ -20,11 +20,10 @@ import android.widget.Toast;
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
-import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
     public RecyclerView tagRecyclerView;
     private TagRechercheAdapter adapter;
     private ArrayList<Tag> tagsEtudiant;
-    private Etudiant etudiant;
+    private UserEtudiant userEtudiant;
 
     @BindView(R.id.dateDebut)
     public EditText dateDebut;
@@ -54,13 +53,13 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 
         search.setEnabled(false);
 
-        etudiant = ((MyApplication)this.getApplication()).getEtudiant();
+        userEtudiant = ((MyApplication)this.getApplication()).getInfoConnection().getUserEtudiant();
 
         adapter = new TagRechercheAdapter();
         tagsEtudiant = new ArrayList<>();
 
         LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
-        loadTagEtudiant.execute(etudiant);
+        loadTagEtudiant.execute(userEtudiant);
 
         tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tagRecyclerView.setAdapter(adapter);
@@ -124,12 +123,12 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
     }
-    private class LoadTagEtudiant extends AsyncTask<Etudiant,Void,ArrayList<Tag>> {
+    private class LoadTagEtudiant extends AsyncTask<UserEtudiant,Void,ArrayList<Tag>> {
         @Override
-        protected ArrayList<Tag> doInBackground(Etudiant... etudiants) {
+        protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
             TagDataAccess tagDataAccess = new TagDao();
             try{
-                return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getEtudiant().getAccesToken(),etudiants[0]);
+                return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
             }catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
@@ -167,7 +166,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         protected ArrayList<Tag> doInBackground(Void... voids) {
             TagDataAccess tagDataAccess = new TagDao();
             try {
-                return tagDataAccess.getAllTag(((MyApplication) getApplication()).getEtudiant().getAccesToken());
+                return tagDataAccess.getAllTag(((MyApplication) getApplication()).getInfoConnection().getAccessToken());
             }catch (ApiAccessException e){
                 runOnUiThread(new Runnable() {
                     @Override
