@@ -81,7 +81,7 @@ public class UserDao implements UserDataAccess {
         String jsonString = Utils.etudiantToJson(userEtudiant);
         URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-        urlConnection.setRequestProperty("Authorization","Bearer"+accessToken.getAccessToken());
+        urlConnection.setRequestProperty("Authorization","Bearer "+accessToken.getAccessToken());
         urlConnection.setRequestProperty("Content-Type","application/json");
         urlConnection.setRequestProperty("Accept","application/json");
         urlConnection.setRequestMethod("PUT");
@@ -96,6 +96,7 @@ public class UserDao implements UserDataAccess {
         writer.flush();
         writer.close();
         out.close();
+        String requet =urlConnection.getRequestMethod();
         int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 404: throw new EtudiantDontExist();

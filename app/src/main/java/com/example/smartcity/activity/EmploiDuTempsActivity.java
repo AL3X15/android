@@ -157,7 +157,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Annonce> annonces) {
-            if(!annonces.isEmpty()){
+            if(annonces != null){
                 LoadEntrepriseAnnonces loadEntreprise = new LoadEntrepriseAnnonces();
                 loadEntreprise.execute((Annonce[]) annonces.toArray());
             }

@@ -55,7 +55,6 @@ public class AnnonceDao implements AnnonceDataAccess {
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
         connection.setRequestProperty("Content-Type","application/json");
         connection.setRequestProperty("Accept","application/json");
-        int reponse = connection.getResponseCode();
         switch (connection.getResponseCode()) {
             case 404: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();

@@ -74,21 +74,24 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
                 boolean dateValide = (dateDebut.getText().toString().length() == 8) && (dateFin.getText().toString().length() == 8);
                 if(dateValide) {
                     int jour, mois, année;
-                    jour = Integer.parseInt(dateDebut.getText().toString().substring(0, 1));
-                    mois = Integer.parseInt(dateDebut.getText().toString().substring(2, 3));
-                    année = Integer.parseInt(dateDebut.getText().toString().substring(4, 7));
-                    Date dateDebut = new GregorianCalendar(année, mois, jour).getTime();
-                    jour = Integer.parseInt(dateFin.getText().toString().substring(0, 1));
-                    mois = Integer.parseInt(dateFin.getText().toString().substring(2, 3));
-                    année = Integer.parseInt(dateFin.getText().toString().substring(4, 7));
-                    Date dateFin = new GregorianCalendar(année, mois, jour).getTime();
-                    boolean FormulaireValide = dateDebut.before(dateFin);
+                    jour = Integer.parseInt(dateDebut.getText().toString().substring(0, 2));
+                    mois = Integer.parseInt(dateDebut.getText().toString().substring(2, 4));
+                    année = Integer.parseInt(dateDebut.getText().toString().substring(4, 8));
+                    Date dateDebutRech = new GregorianCalendar(année, mois, jour).getTime();
+                    jour = Integer.parseInt(dateFin.getText().toString().substring(0, 2));
+                    mois = Integer.parseInt(dateFin.getText().toString().substring(2, 4));
+                    année = Integer.parseInt(dateFin.getText().toString().substring(4, 8));
+                    Date dateFinRech = new GregorianCalendar(année, mois, jour).getTime();
+                    boolean FormulaireValide = dateDebutRech.before(dateFinRech);
                     if(FormulaireValide){
                         Intent intent = new Intent(RechercheAnnonceActivity.this, ResultatActivity.class);
                         intent.putParcelableArrayListExtra(getString(R.string.tags_transfer),tagsEtudiant);
-                        intent.putExtra(getString(R.string.date_start),dateDebut);
-                        intent.putExtra(getString(R.string.date_end),dateFin);
+                        intent.putExtra(getString(R.string.date_start),dateDebutRech);
+                        intent.putExtra(getString(R.string.date_end),dateFinRech);
                         startActivity(intent);
+                    }else {
+                        dateDebut.setBackgroundColor(Color.parseColor("#FF0000"));
+                        dateFin.setBackgroundColor(Color.parseColor("#FF0000"));
                     }
                 }else {
                     dateDebut.setBackgroundColor(Color.parseColor("#FF0000"));
