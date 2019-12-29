@@ -76,7 +76,7 @@ public class AnnonceDao implements AnnonceDataAccess {
         String jsonString = Utils.postulationToJson(annonce.getId(), userEtudiant.getEtudiant().getId());
         URL url = new URL("https://smartcityjober.azurewebsites.net/postulation");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-        urlConnection.setRequestProperty("Authorization","Bearer"+accessToken);
+        urlConnection.setRequestProperty("Authorization","Bearer "+accessToken);
         urlConnection.setRequestMethod("POST");
         urlConnection.setRequestProperty("Content-Type","application/json");
         urlConnection.setRequestProperty("Accept","application/json");
@@ -91,10 +91,11 @@ public class AnnonceDao implements AnnonceDataAccess {
         writer.flush();
         writer.close();
         out.close();
-        urlConnection.disconnect();
+        int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 404: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();
         }
+        urlConnection.disconnect();
     }
 }

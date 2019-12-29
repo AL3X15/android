@@ -50,8 +50,8 @@ public class Utils {
     }
 
     public static String postulationToJson (int idAnnonce, int idEtudiant){
-        return "\"annonceId\" : "+idAnnonce+"\n" +
-                "\"etudiantId\" : "+idEtudiant+"";
+        return "{\"annonceId\" : "+idAnnonce+",\n" +
+                "\"etudiantId\" : "+idEtudiant+"}";
     }
 
     public static ArrayList<Annonce> jsonToAnnonces (String json) throws Exception{
