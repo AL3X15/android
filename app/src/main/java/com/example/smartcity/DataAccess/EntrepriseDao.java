@@ -14,9 +14,12 @@ import javax.net.ssl.HttpsURLConnection;
 public class EntrepriseDao implements EntrepriseDataAccess {
     @Override
     public UserEntreprise getEntrepriseByAnnonce(String accessToken, Annonce annonce) throws Exception{
-        URL url = new URL("https://smartcityjober.azurewebsites.net/annonce/"+annonce.getId());
+        URL url = new URL("https://smartcityjober.azurewebsites.net/annonce/etudiant/"+annonce.getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        connection.setRequestProperty("Content-Type","application/json");
+        connection.setRequestProperty("Accept","application/json");
+        int reponse = connection.getResponseCode();
         switch (connection.getResponseCode()) {
             case 404: throw new AnnonceDontExist();
             case 500: throw new ApiAccessException();

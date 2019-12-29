@@ -1,15 +1,15 @@
 package com.example.smartcity.model;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 public class Etudiant {
     private int id;
     private String prenom;
     private Character sexe;
-    private GregorianCalendar dateNaissance;
+    private Date dateNaissance;
     private String registreNational;
-    private GregorianCalendar expirationBadge;
+    private Date expirationBadge;
     private Adresse adresse;
     private ArrayList<Tag> tags;
 
@@ -37,11 +37,11 @@ public class Etudiant {
         this.sexe = sexe;
     }
 
-    public GregorianCalendar getDateNaissance() {
+    public Date getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(GregorianCalendar dateNaissance) {
+    public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
@@ -53,11 +53,11 @@ public class Etudiant {
         this.registreNational = registreNational;
     }
 
-    public GregorianCalendar getExpirationBadge() {
+    public Date getExpirationBadge() {
         return expirationBadge;
     }
 
-    public void setExpirationBadge(GregorianCalendar expirationBadge) {
+    public void setExpirationBadge(Date expirationBadge) {
         this.expirationBadge = expirationBadge;
     }
 

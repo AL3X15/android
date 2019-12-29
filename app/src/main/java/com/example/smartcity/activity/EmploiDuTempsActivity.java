@@ -19,11 +19,16 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
+import com.example.smartcity.DataAccess.EntrepriseDao;
+import com.example.smartcity.DataAccess.EntrepriseDataAccess;
+import com.example.smartcity.Exception.AnnonceDontExist;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.Exception.NothingFoundException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
+import com.example.smartcity.model.UserEntreprise;
 import com.example.smartcity.model.UserEtudiant;
 
 import java.util.ArrayList;
@@ -83,11 +88,11 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         public AnnonceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
             LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.horraire_element,parent,false);
             AnnonceViewHolder vh = new AnnonceViewHolder(v,position -> {
-                Annonce annonceSelect = myAnnonces.get(position);
-                Uri gmmIntentUri = Uri.parse(getString(R.string.uri_map)+annonceSelect.getAddress().toString());
+                /*Annonce annonceSelect = myAnnonces.get(position);
+                Uri gmmIntentUri = Uri.parse(getString(R.string.uri_map)+annonceSelect.getEntreprise().getAdresse().toString());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage(getString(R.string.map_intent));
-                startActivity(mapIntent);
+                startActivity(mapIntent);*/
 
             });
             return vh;
@@ -96,8 +101,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AnnonceViewHolder holder, int position){
             Annonce annonce = myAnnonces.get(position);
             holder.activite.setText(annonce.getPoste());
-            holder.horraire.setText(annonce.getDateDebut().getWeekYear() +getString(R.string.tiret)+ annonce.getDateFin().getWeekYear());
-            holder.localise.setText(annonce.getAddress().toString());
+            holder.horraire.setText(annonce.getDateDebut() +getString(R.string.tiret)+ annonce.getDateFin());
+            //holder.localise.setText(annonce.getEntreprise().getAdresse().toString());
         }
         @Override
         public int getItemCount(){
@@ -129,6 +134,60 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }catch (NothingFoundException e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.emploieDuTemp_error));
+                    }
+                });
+            }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
+                    }
+                });
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Annonce> annonces) {
+            if(!annonces.isEmpty()){
+                LoadEntrepriseAnnonces loadEntreprise = new LoadEntrepriseAnnonces();
+                loadEntreprise.execute((Annonce[]) annonces.toArray());
+            }
+        }
+    }
+    private class LoadEntrepriseAnnonces extends AsyncTask<Annonce,Void, ArrayList<Annonce>>{
+        @Override
+        protected ArrayList<Annonce> doInBackground(Annonce... params){
+            EntrepriseDataAccess entrepriseDataAccess = new EntrepriseDao();
+            try {
+                ArrayList<Annonce> annoncesComplete = new ArrayList<>();
+                for (Annonce a:params) {
+                    a.setEntreprise(entrepriseDataAccess.getEntrepriseByAnnonce(((MyApplication)getApplication()).getInfoConnection().getAccessToken().getAccessToken(),params[0]));
+                    annoncesComplete.add(a);
+                }
+                return annoncesComplete;
+            }
+            catch (ApiAccessException e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }
+            catch (AnnonceDontExist e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.annonce_error));
                     }
                 });
             }

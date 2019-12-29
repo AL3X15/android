@@ -79,10 +79,10 @@ public class EditProfilActivity extends AppCompatActivity {
         tagRecyclerView.setAdapter(adapter);
 
 
-        roadEdit.setText(userEtudiant.getEtudiant().getAdresse().getRoute());
+        roadEdit.setText(userEtudiant.getEtudiant().getAdresse().getRue());
         numberEdit.setText(userEtudiant.getEtudiant().getAdresse().getNumero());
         zipEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getCodePostal().toString());
-        localityEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getLocalite());
+        localityEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getNom());
         phoneEdit.setText(userEtudiant.getPhoneNumber().toString());
         mailEdit.setText(userEtudiant.getEmail());
 
@@ -94,13 +94,15 @@ public class EditProfilActivity extends AppCompatActivity {
                 boolean formulaireValide = passwordValide && mailValide;
                 if (formulaireValide){
                         userEtudiant.setEmail(mailEdit.getText().toString());
-                    if (passwordEdit.getText().toString().isEmpty())
+                    if (!passwordEdit.getText().toString().isEmpty()) {
                         userEtudiant.setPassword(passwordEdit.getText().toString());
+                        userEtudiant.setConfirmationPassword(passwordEdit.getText().toString());
+                    }
                     userEtudiant.setPhoneNumber(phoneEdit.getText().toString());
                     userEtudiant.getEtudiant().setAdresse(new Adresse(
                             roadEdit.getText().toString(),
                             numberEdit.getText().toString(),
-                            Integer.parseInt(zipEdit.getText().toString()),
+                            zipEdit.getText().toString(),
                             localityEdit.getText().toString()
                     ));
                     userEtudiant.getEtudiant().setTags(tagsEtudiant);
@@ -196,9 +198,9 @@ public class EditProfilActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Tag> tags) {
             if(tags != null) {
                 tagsEtudiant = tags;
-                LoadAllTags loadAllTags = new LoadAllTags();
-                loadAllTags.execute();
             }
+            LoadAllTags loadAllTags = new LoadAllTags();
+            loadAllTags.execute();
         }
     }
     private class LoadAllTags extends AsyncTask<Void,Void,ArrayList<Tag>>{
@@ -263,7 +265,7 @@ public class EditProfilActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(UserEtudiant userEtudiant) {
             Intent intent = new Intent(EditProfilActivity.this,AcceuilActivity.class);
-            intent.putExtra(getResources().getString(R.string.user), userEtudiant);
+            ((MyApplication) getApplication()).getInfoConnection().setUserEtudiant(userEtudiant);
             startActivity(intent);
         }
     }

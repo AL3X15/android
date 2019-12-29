@@ -22,6 +22,9 @@ import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.UserEtudiant;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import butterknife.BindView;
@@ -96,29 +99,31 @@ public class InscriptionActivity extends AppCompatActivity {
 					e.getEtudiant().setAdresse(new Adresse(
 							roadInscription.getText().toString(),
 							numberInscription.getText().toString(),
-							Integer.parseInt(zipInscription.getText().toString()),
+							zipInscription.getText().toString(),
 							localityInscription.getText().toString())
 					);
 					char s;
-					if(homme.isChecked())	s = 'h';
+					if(homme.isChecked())	s = 'M';
 					else {
-						if(femme.isChecked())	s = 'f';
-						else	s = 'a';
+						if(femme.isChecked())	s = 'F';
+						else	s = 'A';
 					}
 					e.getEtudiant().setSexe(s);
 					e.setPhoneNumber(phoneInscription.getText().toString());
+
 					int jour, mois,année;
 					jour = Integer.parseInt(birthdayInscription.getText().toString().substring(0,1));
 					mois = Integer.parseInt(birthdayInscription.getText().toString().substring(2,3));
 					année = Integer.parseInt(birthdayInscription.getText().toString().substring(4,7));
-					e.getEtudiant().setDateNaissance(new GregorianCalendar(année,mois,jour));
+					//verifie que date existe
+					e.getEtudiant().setDateNaissance(new GregorianCalendar(année,mois,jour).getTime());
 
 					e.setEmail(mailInscription.getText().toString());
 
 					e.getEtudiant().setRegistreNational(idNumberInscription.getText().toString());
 
 					e.setPassword(password.getText().toString());
-
+					e.setConfirmationPassword(password.getText().toString());
 					Inscription inscription = new Inscription();
 					inscription.execute(e);
 				}

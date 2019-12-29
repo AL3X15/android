@@ -6,8 +6,11 @@ import java.util.GregorianCalendar;
 
 public class UserEtudiant implements Serializable {
 
+	private String id;
 	private Etudiant etudiant;
+	private String username;
 	private String nom;
+	private String previousPassword;
 	private String password;
 	private String confirmationPassword;
 	private String phoneNumber;
@@ -73,5 +76,29 @@ public class UserEtudiant implements Serializable {
 
 	public void setNbSignalement(int nbSignalement) {
 		this.nbSignalement = nbSignalement;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPreviousPassword() {
+		return previousPassword;
+	}
+
+	public void setPreviousPassword(String previousPassword) {
+		this.previousPassword = previousPassword;
 	}
 }

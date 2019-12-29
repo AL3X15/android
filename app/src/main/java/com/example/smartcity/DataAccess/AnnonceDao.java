@@ -2,6 +2,7 @@ package com.example.smartcity.DataAccess;
 
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.Exception.NothingFoundException;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.UserEtudiant;
@@ -24,8 +25,11 @@ public class AnnonceDao implements AnnonceDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/postulation/etudiant/"+ userEtudiant.getEtudiant().getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        connection.setRequestProperty("Content-Type","application/json");
+        connection.setRequestProperty("Accept","application/json");
+        int reponse = connection.getResponseCode();
         switch (connection.getResponseCode()) {
-            case 404: throw new EtudiantDontExist();
+            case 400: throw new NothingFoundException();
             case 500: throw new ApiAccessException();
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -45,9 +49,13 @@ public class AnnonceDao implements AnnonceDataAccess {
             tagDeRecherche.append(tag.getNom());
             tagDeRecherche.append(',');
         }
+        if (tags.size() == 0) tagDeRecherche.append("\"\"");
         URL url = new URL("https://smartcityjober.azurewebsites.net/annonce/recherche/"+Utils.CalendarToString(dateDebut)+"_"+Utils.CalendarToString(dateFin)+"_"+tagDeRecherche);
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        connection.setRequestProperty("Content-Type","application/json");
+        connection.setRequestProperty("Accept","application/json");
+        int reponse = connection.getResponseCode();
         switch (connection.getResponseCode()) {
             case 404: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();
@@ -59,6 +67,7 @@ public class AnnonceDao implements AnnonceDataAccess {
             builder.append(line);
         buffer.close();
         stringJSON = builder.toString();
+        if(stringJSON.isEmpty()) throw  new NothingFoundException();
         return Utils.jsonToAnnonces(stringJSON);
     }
 
@@ -70,6 +79,8 @@ public class AnnonceDao implements AnnonceDataAccess {
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestProperty("Authorization","Bearer"+accessToken);
         urlConnection.setRequestMethod("POST");
+        urlConnection.setRequestProperty("Content-Type","application/json");
+        urlConnection.setRequestProperty("Accept","application/json");
         urlConnection.setDoOutput(true);
 
         OutputStream out = urlConnection.getOutputStream();

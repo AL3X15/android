@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.smartcity.DataAccess.AnnonceDao;
 import com.example.smartcity.DataAccess.AnnonceDataAccess;
+import com.example.smartcity.DataAccess.EntrepriseDao;
+import com.example.smartcity.DataAccess.EntrepriseDataAccess;
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
 import com.example.smartcity.Exception.AnnonceDontExist;
@@ -24,6 +26,7 @@ import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
+import com.example.smartcity.model.UserEntreprise;
 import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
@@ -54,7 +57,8 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
         annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
-        entrepriseNom.setText(annonce.getUserEntreprise().getNom());
+        LoadEntreprise loadEntreprise = new LoadEntreprise();
+        loadEntreprise.execute(annonce);
 
         details.setText(annonce.toString());
 
@@ -153,6 +157,47 @@ public class DetailAnnonceActivity extends AppCompatActivity {
             adapter.setTags(tags);
         }
     }
+
+    private class LoadEntreprise extends AsyncTask<Annonce,Void, UserEntreprise>{
+        @Override
+        protected UserEntreprise doInBackground(Annonce... params){
+            EntrepriseDataAccess entrepriseDataAccess = new EntrepriseDao();
+            try {
+                return entrepriseDataAccess.getEntrepriseByAnnonce(((MyApplication)getApplication()).getInfoConnection().getAccessToken().getAccessToken(),params[0]);
+            }
+            catch (ApiAccessException e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.accessApiError));
+                    }
+                });
+            }
+            catch (AnnonceDontExist e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.annonce_error));
+                    }
+                });
+            }
+            catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.connection_error));
+                    }
+                });
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(UserEntreprise entreprise){
+            if(entreprise != null)
+                entrepriseNom.setText(entreprise.getNom());
+        }
+    }
+
     private class AccepterOffre extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... params){

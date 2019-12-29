@@ -33,6 +33,8 @@ public class AccessTokenDao {
         writer.close();
         out.close();
 
+        int reponse = urlConnection.getResponseCode();
+
         switch (urlConnection.getResponseCode()) {
             case 400: throw new LoginException();
             case 500: throw new ApiAccessException();

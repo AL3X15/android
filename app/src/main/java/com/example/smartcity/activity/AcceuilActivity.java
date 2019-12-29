@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
-import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Preference;
 
 import butterknife.BindView;

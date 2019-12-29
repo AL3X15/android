@@ -3,28 +3,28 @@ package com.example.smartcity.model;
 import androidx.annotation.NonNull;
 
 public class Localite {
-    private Integer codePostal;
-    private String localite;
+    private String codePostal;
+    private String nom;
 
-    public Integer getCodePostal() {
+    public String getCodePostal() {
         return codePostal;
     }
 
-    public void setCodePostal(Integer codePostal) {
+    public void setCodePostal(String codePostal) {
         this.codePostal = codePostal;
     }
 
-    public String getLocalite() {
-        return localite;
+    public String getNom() {
+        return nom;
     }
 
-    public void setLocalite(String localite) {
-        this.localite = localite;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public Localite(Integer codePostal, String localite) {
+    public Localite(String codePostal, String nom) {
         this.codePostal = codePostal;
-        this.localite = localite;
+        this.nom = nom;
     }
 
     public Localite() {
@@ -33,6 +33,6 @@ public class Localite {
     @NonNull
     @Override
     public String toString() {
-        return getLocalite();
+        return getNom();
     }
 }

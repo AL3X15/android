@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import butterknife.BindView;
@@ -48,6 +50,10 @@ public class ResultatActivity extends AppCompatActivity {
         adapter = new AnnonceAdapter();
 
         tags = getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer));
+        dateDebut =new GregorianCalendar();
+        dateDebut.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_start)));
+        dateFin =new GregorianCalendar();
+        dateFin.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_end)));
         LoadAnnonce loadAnnonce = new LoadAnnonce();
         loadAnnonce.execute(tags);
 
@@ -108,7 +114,7 @@ public class ResultatActivity extends AppCompatActivity {
         protected ArrayList<Annonce> doInBackground(ArrayList<Tag>... tags) {
             AnnonceDataAccess annonceDataAccess = new AnnonceDao();
             try {
-                return annonceDataAccess.getResultatSerch(((MyApplication) getApplication()).getInfoConnection().getAccessToken(),new GregorianCalendar(),new GregorianCalendar(),tags[0]);
+                return annonceDataAccess.getResultatSerch(((MyApplication) getApplication()).getInfoConnection().getAccessToken(),dateDebut,dateFin,tags[0]);
             }
             catch (AnnonceDontExist e){
                 runOnUiThread(new Runnable() {
@@ -133,6 +139,7 @@ public class ResultatActivity extends AppCompatActivity {
                         errorMessage(getString(R.string.connection_error));
                     }
                 });
+                Log.i("erreur", e.getMessage());
             }
             return null;
         }

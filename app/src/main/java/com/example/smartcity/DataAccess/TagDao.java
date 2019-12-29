@@ -37,6 +37,8 @@ public class TagDao implements TagDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/tag/annonce/"+annonce.getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        connection.setRequestProperty("Content-Type","application/json");
+        connection.setRequestProperty("Accept","application/json");
         switch (connection.getResponseCode()) {
             case 404: throw new AnnonceDontExist();
             case 500: throw new ApiAccessException();
@@ -54,6 +56,8 @@ public class TagDao implements TagDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/tag/etudiant/"+ userEtudiant.getEtudiant().getId());
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        connection.setRequestProperty("Content-Type","application/json");
+        connection.setRequestProperty("Accept","application/json");
         switch (connection.getResponseCode()) {
             case 400: throw new NoTag();
             case 500: throw new ApiAccessException();

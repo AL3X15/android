@@ -17,16 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Utils {
     public static String etudiantToJson(UserEtudiant userEtudiant){
-       Gson gson = new Gson();
+       Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
        return gson.toJson(userEtudiant);
     }
 
-    public static UserEtudiant jsonToEtudiant (String json) {
-        Gson object = new GsonBuilder().create();
-        return object.fromJson(json, UserEtudiant.class);
+    public static UserEtudiant jsonToEtudiant (String json) throws Exception{
+        JSONObject jsonObject = new JSONObject(json);
+        Gson object = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+        return object.fromJson(jsonObject.toString(), UserEtudiant.class);
     }
 
     public static UserEntreprise jsonToEntreprise (String json) {
@@ -58,7 +60,7 @@ public class Utils {
         JSONArray jsonArray = new JSONArray(json);
         for(int i = 0 ; i < jsonArray.length();i++){
             JSONObject jsonAnnonce = jsonArray.getJSONObject(i);
-            Gson object = new GsonBuilder().create();
+            Gson object = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
             annonce = object.fromJson(jsonAnnonce.toString(),Annonce.class);
             annonces.add(annonce);
         }
@@ -77,11 +79,10 @@ public class Utils {
         }
         return faqs;
     }
-
     public static String CalendarToString(GregorianCalendar calendar){
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date dateDate = calendar.getGregorianChange();
+        java.util.Date dateDate = calendar.getTime();
         return dateFormat.format(dateDate);
     }
 

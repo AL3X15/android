@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 public class UserEntreprise implements Serializable {
     private String nom;
+    private String email;
+    private String phoneNumber;
 
-    public UserEntreprise(String nom) {
-        this.nom = nom;
+    public UserEntreprise() {
+
     }
 
     public String getNom() {
@@ -15,5 +17,21 @@ public class UserEntreprise implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

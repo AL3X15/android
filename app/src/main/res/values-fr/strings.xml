@@ -38,4 +38,6 @@
     <string name="etudiant_error">Étudiant n\'existe pas</string>
     <string name="annonce_error">annonce n\'existe pas</string>
     <string name="tag_errors">il semble que vous n\'ayez aucun tag nous vous conseillons d\'aller dans éditer mon profil pour éviter ces messages</string>
+    <string name="recherche_error">aucun résultat trouvé</string>
+    <string name="emploieDuTemp_error">vous n\'avez aucune annonce enregistré</string>
 </resources>

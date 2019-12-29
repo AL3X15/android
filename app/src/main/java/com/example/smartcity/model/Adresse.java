@@ -5,12 +5,12 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 
 public class Adresse implements Serializable {
-	private String route;
+	private String rue;
 	private String numero;
 	private Localite localite;
 
-	public Adresse(String route, String numero, Integer codePostal, String localite) {
-		this.route = route;
+	public Adresse(String rue, String numero, String codePostal, String localite) {
+		this.rue = rue;
 		this.numero = numero;
 		this.localite = new  Localite(codePostal,localite);
 	}
@@ -18,12 +18,12 @@ public class Adresse implements Serializable {
 	public Adresse() {
 	}
 
-	public String getRoute() {
-		return route;
+	public String getRue() {
+		return rue;
 	}
 
-	public void setRoute(String route) {
-		this.route = route;
+	public void setRue(String rue) {
+		this.rue = rue;
 	}
 
 	public String getNumero() {
@@ -45,6 +45,6 @@ public class Adresse implements Serializable {
 	@NonNull
 	@Override
 	public String toString() {
-		return getNumero() +" "+getRoute()+ ", "+getLocalite();
+		return getNumero() +" "+ getRue()+ ", "+getLocalite();
 	}
 }

@@ -7,8 +7,11 @@ import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.InfoConnection;
 import com.example.smartcity.model.UserEtudiant;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -22,11 +25,12 @@ public class UserDao implements UserDataAccess {
         return getMe(mail,accessToken);
     }
     public InfoConnection getMe(String mail, AccessToken accessToken) throws Exception{
-        /*URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant/");
+        URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant/"+mail);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("Authorization","Bearer"+accessToken.getAccessToken());
+        connection.setRequestProperty("Authorization","Bearer"+accessToken.getAccessToken());connection.setRequestProperty("Content-Type","application/json");
+        connection.setRequestProperty("Accept","application/json");
         switch (connection.getResponseCode()) {
-            case 404: throw new EtudiantDontExist();
+            case 400: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -37,36 +41,8 @@ public class UserDao implements UserDataAccess {
         }
         buffer.close();
         stringJSON = builder.toString();
-        UserEtudiant userEtudiant =Utils.jsonToEtudiant(stringJSON);*/
+        UserEtudiant userEtudiant =Utils.jsonToEtudiant(stringJSON);
         InfoConnection infoConnection = new InfoConnection();
-        UserEtudiant userEtudiant =Utils.jsonToEtudiant("{\n" +
-                "    \"userEtudiant\": {\n" +
-                "        \"id\": 11,\n" +
-                "        \"prenom\": \"maxime\",\n" +
-                "        \"sexe\": \"M\",\n" +
-                "        \"dateNaissance\": \"2000-01-11T00:00:00Z\",\n" +
-                "        \"registreNational\": \"00.01.11.123\",\n" +
-                "        \"expirationBadge\": \"0001-01-01T00:00:00\",\n" +
-                "        \"adresse\": {\n" +
-                "            \"id\": 13,\n" +
-                "            \"rue\": \"rue de lonzee 206\",\n" +
-                "            \"numero\": \"206\",\n" +
-                "            \"localite\": {\n" +
-                "                \"id\": 1,\n" +
-                "                \"codePostal\": \"5030\",\n" +
-                "                \"nom\": \"GEMBLOUX\"\n" +
-                "            }\n" +
-                "        },\n" +
-                "        \"tags\": []\n" +
-                "    },\n" +
-                "    \"id\": \"2562261d-3c20-4e7f-b038-6b2dd4c13351\",\n" +
-                "    \"nom\": \"Davister\",\n" +
-                "    \"nbSignalement\": 0,\n" +
-                "    \"email\": \"billy@mail.com\",\n" +
-                "    \"password\": null,\n" +
-                "    \"confimrationPassword\": null,\n" +
-                "    \"phoneNumber\": \"0476046664\"\n" +
-                "}");
         infoConnection.setAccessToken(accessToken);
         infoConnection.setUserEtudiant(userEtudiant);
         return infoConnection;
@@ -77,6 +53,8 @@ public class UserDao implements UserDataAccess {
         String jsonString = Utils.etudiantToJson(userEtudiant);
         URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        urlConnection.setRequestProperty("Content-Type","application/json");
+        urlConnection.setRequestProperty("Accept","application/json");
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoOutput(true);
 
@@ -89,11 +67,13 @@ public class UserDao implements UserDataAccess {
         writer.flush();
         writer.close();
         out.close();
-        urlConnection.disconnect();
+        int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 400: throw new InscriptionInvalide();
             case 500: throw new ApiAccessException();
         }
+        urlConnection.disconnect();
+
     }
 
     @Override
@@ -102,6 +82,8 @@ public class UserDao implements UserDataAccess {
         URL url = new URL("https://smartcityjober.azurewebsites.net/etudiant");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestProperty("Authorization","Bearer"+accessToken.getAccessToken());
+        urlConnection.setRequestProperty("Content-Type","application/json");
+        urlConnection.setRequestProperty("Accept","application/json");
         urlConnection.setRequestMethod("PUT");
         urlConnection.setDoOutput(true);
 
@@ -114,11 +96,13 @@ public class UserDao implements UserDataAccess {
         writer.flush();
         writer.close();
         out.close();
-        urlConnection.disconnect();
+        int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 404: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();
         }
+        urlConnection.disconnect();
+
     }
 
 
