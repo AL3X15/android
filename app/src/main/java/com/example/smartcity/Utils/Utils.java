@@ -3,6 +3,9 @@ package com.example.smartcity.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.example.smartcity.R;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Preference;
@@ -68,6 +71,10 @@ public class Utils {
         jour = Integer.parseInt(date.substring(0, 2));
         mois = Integer.parseInt(date.substring(3, 5));
         année = Integer.parseInt(date.substring(6, 10));
+        if(mois > 12 || mois <1)return null;
+        if(jour >31 || jour < 1)return null;
+        if(jour == 31 && (mois == 4 || mois == 6 || mois == 9 ||mois ==11)) return null;
+        if(mois == 2 && année % 4 !=0 && jour > 28 )return null;
         return new GregorianCalendar(année, mois, jour).getTime();
     }
 }
