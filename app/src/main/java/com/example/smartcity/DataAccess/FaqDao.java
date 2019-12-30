@@ -16,7 +16,7 @@ public class FaqDao implements FaqDataAccess{
     public ArrayList<Faq> getAllFaq(AccessToken accessToken)throws Exception{
         URL url = new URL("https://smartcityjober.azurewebsites.net/faq");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setRequestProperty("Authorization","Bearer"+accessToken);
+        connection.setRequestProperty("Authorization","Bearer "+accessToken);
         connection.setRequestProperty("Content-Type","application/json");
         connection.setRequestProperty("Accept","application/json");
         int reponse = connection.getResponseCode();
