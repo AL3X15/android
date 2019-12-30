@@ -79,7 +79,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		validateInscription.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				boolean dateValide = (birthdayInscription.getText().toString().length() == 8);
+				boolean dateValide = (birthdayInscription.getText().toString().matches("[0-9]{2}/[0-9]{2}/[0-9]{4}"));
 				boolean registreNationalValide = (idNumberInscription.getText().toString().matches("[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]{3}.[0-9]{2}"));
 				boolean mailValide = mailInscription.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
 				boolean passwordValide = password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
@@ -113,9 +113,9 @@ public class InscriptionActivity extends AppCompatActivity {
 					e.setPhoneNumber(phoneInscription.getText().toString());
 
 					int jour, mois,année;
-					jour = Integer.parseInt(birthdayInscription.getText().toString().substring(0,1));
-					mois = Integer.parseInt(birthdayInscription.getText().toString().substring(2,3));
-					année = Integer.parseInt(birthdayInscription.getText().toString().substring(4,7));
+					jour = Integer.parseInt(birthdayInscription.getText().toString().substring(0,2));
+					mois = Integer.parseInt(birthdayInscription.getText().toString().substring(3,5));
+					année = Integer.parseInt(birthdayInscription.getText().toString().substring(6,10));
 					//verifie que date existe
 					e.getEtudiant().setDateNaissance(new GregorianCalendar(année,mois,jour).getTime());
 

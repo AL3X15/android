@@ -21,6 +21,7 @@ import com.example.smartcity.DataAccess.EntrepriseDao;
 import com.example.smartcity.DataAccess.EntrepriseDataAccess;
 import com.example.smartcity.DataAccess.TagDao;
 import com.example.smartcity.DataAccess.TagDataAccess;
+import com.example.smartcity.Exception.AlreadyPostul;
 import com.example.smartcity.Exception.AnnonceDontExist;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
@@ -135,12 +136,6 @@ public class DetailAnnonceActivity extends AppCompatActivity {
                 });
             }
             catch (AnnonceDontExist e){
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        errorMessage(getString(R.string.annonce_error));
-                    }
-                });
             }
             catch (Exception e){
                 runOnUiThread(new Runnable() {
@@ -217,6 +212,14 @@ public class DetailAnnonceActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         errorMessage(getString(R.string.annonce_error));
+                    }
+                });
+            }
+            catch (AlreadyPostul e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        errorMessage(getString(R.string.deja_postule));
                     }
                 });
             }

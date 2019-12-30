@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,11 +68,13 @@ public class ResultatActivity extends AppCompatActivity {
 
     private class AnnonceViewHolder extends RecyclerView.ViewHolder{
         public TextView poste;
+        public Button moreInfo;
 
         public AnnonceViewHolder (@NonNull View itemView, OnItemSelectedListener listener){
             super(itemView);
             poste = itemView.findViewById(R.id.annonce);
-            poste.setOnClickListener(e->{
+            moreInfo = itemView.findViewById(R.id.moredetail);
+            moreInfo.setOnClickListener(e->{
                 int cur = getAdapterPosition();
                 listener.onItemSelected(cur);
             });

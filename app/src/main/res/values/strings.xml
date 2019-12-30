@@ -60,4 +60,6 @@
     <string name="recherche_error">not result found</string>
     <string name="emploieDuTemp_error">your schedule is void</string>
     <string name="inscription_error">inscription error</string>
+    <string name="deja_postule">already postul</string>
+    <string name="moreinfo">more infos</string>
 </resources>

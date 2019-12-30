@@ -41,4 +41,6 @@
     <string name="recherche_error">aucun résultat trouvé</string>
     <string name="emploieDuTemp_error">vous n\'avez aucune annonce enregistré</string>
     <string name="inscription_error">l\'inscription a échoué a cause d\'un mail non valide</string>
+    <string name="deja_postule">vous avez déjà postulé</string>
+    <string name="moreinfo">plus d\'infos</string>
 </resources>

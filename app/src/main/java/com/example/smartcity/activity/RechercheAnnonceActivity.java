@@ -71,16 +71,16 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean dateValide = (dateDebut.getText().toString().length() == 8) && (dateFin.getText().toString().length() == 8);
+                boolean dateValide = (dateDebut.getText().toString().matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) && (dateFin.getText().toString().matches("[0-9]{2}/[0-9]{2}/[0-9]{4}"));
                 if(dateValide) {
                     int jour, mois, année;
                     jour = Integer.parseInt(dateDebut.getText().toString().substring(0, 2));
-                    mois = Integer.parseInt(dateDebut.getText().toString().substring(2, 4));
-                    année = Integer.parseInt(dateDebut.getText().toString().substring(4, 8));
+                    mois = Integer.parseInt(dateDebut.getText().toString().substring(3, 5));
+                    année = Integer.parseInt(dateDebut.getText().toString().substring(6, 10));
                     Date dateDebutRech = new GregorianCalendar(année, mois, jour).getTime();
                     jour = Integer.parseInt(dateFin.getText().toString().substring(0, 2));
-                    mois = Integer.parseInt(dateFin.getText().toString().substring(2, 4));
-                    année = Integer.parseInt(dateFin.getText().toString().substring(4, 8));
+                    mois = Integer.parseInt(dateFin.getText().toString().substring(3, 5));
+                    année = Integer.parseInt(dateFin.getText().toString().substring(6, 10));
                     Date dateFinRech = new GregorianCalendar(année, mois, jour).getTime();
                     boolean FormulaireValide = dateDebutRech.before(dateFinRech);
                     if(FormulaireValide){

@@ -81,4 +81,8 @@ public class Annonce implements Serializable {
     public void setEntreprise(UserEntreprise entreprise) {
         this.entreprise = entreprise;
     }
+
+    public String toString(){
+        return this.poste +" \npayé :"+this.paie+" \ndébute le "+dateDebut+" \nfini le "+dateFin;
+    }
 }

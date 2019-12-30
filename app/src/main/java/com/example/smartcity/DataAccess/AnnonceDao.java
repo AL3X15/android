@@ -1,5 +1,6 @@
 package com.example.smartcity.DataAccess;
 
+import com.example.smartcity.Exception.AlreadyPostul;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.NothingFoundException;
@@ -93,6 +94,7 @@ public class AnnonceDao implements AnnonceDataAccess {
         out.close();
         int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
+            case 400: throw new AlreadyPostul();
             case 404: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();
         }
