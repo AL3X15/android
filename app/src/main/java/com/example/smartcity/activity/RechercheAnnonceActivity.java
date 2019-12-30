@@ -25,12 +25,12 @@ import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.Exception.NothingFoundException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,33 +71,18 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean dateValide = (dateDebut.getText().toString().matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) && (dateFin.getText().toString().matches("[0-9]{2}/[0-9]{2}/[0-9]{4}"));
-                if(dateValide) {
-                    int jour, mois, année;
-                    jour = Integer.parseInt(dateDebut.getText().toString().substring(0, 2));
-                    mois = Integer.parseInt(dateDebut.getText().toString().substring(3, 5));
-                    année = Integer.parseInt(dateDebut.getText().toString().substring(6, 10));
-                    Date dateDebutRech = new GregorianCalendar(année, mois, jour).getTime();
-                    jour = Integer.parseInt(dateFin.getText().toString().substring(0, 2));
-                    mois = Integer.parseInt(dateFin.getText().toString().substring(3, 5));
-                    année = Integer.parseInt(dateFin.getText().toString().substring(6, 10));
-                    Date dateFinRech = new GregorianCalendar(année, mois, jour).getTime();
-                    boolean FormulaireValide = dateDebutRech.before(dateFinRech);
-                    if(FormulaireValide){
-                        Intent intent = new Intent(RechercheAnnonceActivity.this, ResultatActivity.class);
-                        intent.putParcelableArrayListExtra(getString(R.string.tags_transfer),tagsEtudiant);
-                        intent.putExtra(getString(R.string.date_start),dateDebutRech);
-                        intent.putExtra(getString(R.string.date_end),dateFinRech);
-                        startActivity(intent);
-                    }else {
-                        dateDebut.setBackgroundColor(Color.parseColor("#FF0000"));
-                        dateFin.setBackgroundColor(Color.parseColor("#FF0000"));
-                    }
+                Date dateDebutRech = Utils.stringToDate(dateDebut.getText().toString());
+                Date dateFinRech = Utils.stringToDate(dateFin.getText().toString());
+                if(dateDebutRech !=null && dateFinRech !=null && dateDebutRech.before(dateFinRech)){
+                    Intent intent = new Intent(RechercheAnnonceActivity.this, ResultatActivity.class);
+                    intent.putParcelableArrayListExtra(getString(R.string.tags_transfer),tagsEtudiant);
+                    intent.putExtra(getString(R.string.date_start),dateDebutRech);
+                    intent.putExtra(getString(R.string.date_end),dateFinRech);
+                    startActivity(intent);
                 }else {
                     dateDebut.setBackgroundColor(Color.parseColor("#FF0000"));
                     dateFin.setBackgroundColor(Color.parseColor("#FF0000"));
                 }
-
             }
         });
     }

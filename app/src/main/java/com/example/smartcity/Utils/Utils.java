@@ -9,6 +9,7 @@ import com.example.smartcity.model.Preference;
 
 import java.time.Year;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Utils {
@@ -57,5 +58,16 @@ public class Utils {
                 )
         );
         return new Preference(emailUser,accessToken);
+    }
+
+    public static Date stringToDate(String date){
+        if(!date.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) return null;
+        int jour;
+        int mois;
+        int année;
+        jour = Integer.parseInt(date.substring(0, 2));
+        mois = Integer.parseInt(date.substring(3, 5));
+        année = Integer.parseInt(date.substring(6, 10));
+        return new GregorianCalendar(année, mois, jour).getTime();
     }
 }
