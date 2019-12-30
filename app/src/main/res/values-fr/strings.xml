@@ -43,4 +43,5 @@
     <string name="inscription_error">l\'inscription a échoué a cause d\'un mail non valide</string>
     <string name="deja_postule">vous avez déjà postulé</string>
     <string name="moreinfo">plus d\'infos</string>
+    <string name="PasswordPrevious">mot de passe précédent :</string>
 </resources>

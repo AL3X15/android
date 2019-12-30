@@ -62,4 +62,5 @@
     <string name="inscription_error">inscription error</string>
     <string name="deja_postule">already postul</string>
     <string name="moreinfo">more infos</string>
+    <string name="PasswordPrevious">Previous password :</string>
 </resources>

@@ -54,6 +54,8 @@ public class EditProfilActivity extends AppCompatActivity {
     public EditText phoneEdit;
     @BindView(R.id.mailEdit)
     public EditText mailEdit;
+    @BindView(R.id.passwordPreviousEdit)
+    public EditText previousPassword;
     @BindView(R.id.passwordEdit)
     public EditText passwordEdit;
     @BindView(R.id.validateEdit)
@@ -90,14 +92,17 @@ public class EditProfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean mailValide = mailEdit.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
-                boolean passwordValide = passwordEdit.getText().toString().isEmpty() || passwordEdit.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
-                boolean formulaireValide = passwordValide && mailValide;
+                boolean passwordValide = (passwordEdit.getText().toString().isEmpty() && previousPassword.getText().toString().isEmpty()) || ( !previousPassword.getText().toString().isEmpty()&& passwordEdit.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$"));
+                boolean previousPasswordValide = previousPassword.getText().toString().isEmpty() || previousPassword.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
+                boolean formulaireValide = passwordValide && mailValide && previousPasswordValide;
                 if (formulaireValide){
                         userEtudiant.setEmail(mailEdit.getText().toString());
                     if (!passwordEdit.getText().toString().isEmpty()) {
                         userEtudiant.setPassword(passwordEdit.getText().toString());
                         userEtudiant.setConfirmationPassword(passwordEdit.getText().toString());
                     }
+                    if (!previousPassword.getText().toString().isEmpty())
+                        userEtudiant.setPreviousPassword(previousPassword.getText().toString());
                     userEtudiant.setPhoneNumber(phoneEdit.getText().toString());
                     userEtudiant.getEtudiant().setAdresse(new Adresse(
                             roadEdit.getText().toString(),

@@ -97,7 +97,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/password" />
+                android:text="@string/PasswordPrevious" />
+
+
+            <EditText
+                android:id="@+id/passwordPreviousEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" />
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/password" />
+
 
             <EditText
                 android:id="@+id/passwordEdit"
