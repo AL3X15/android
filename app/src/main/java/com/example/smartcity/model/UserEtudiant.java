@@ -1,8 +1,6 @@
 package com.example.smartcity.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class UserEtudiant implements Serializable {
 

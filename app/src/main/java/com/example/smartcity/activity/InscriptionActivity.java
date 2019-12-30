@@ -17,17 +17,13 @@ import com.example.smartcity.DataAccess.UserDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.InscriptionInvalide;
-import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.UserEtudiant;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

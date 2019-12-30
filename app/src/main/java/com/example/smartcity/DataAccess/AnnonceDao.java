@@ -28,7 +28,6 @@ public class AnnonceDao implements AnnonceDataAccess {
         connection.setRequestProperty("Authorization","Bearer"+accessToken);
         connection.setRequestProperty("Content-Type","application/json");
         connection.setRequestProperty("Accept","application/json");
-        int reponse = connection.getResponseCode();
         switch (connection.getResponseCode()) {
             case 400: throw new NothingFoundException();
             case 500: throw new ApiAccessException();
@@ -92,7 +91,6 @@ public class AnnonceDao implements AnnonceDataAccess {
         writer.flush();
         writer.close();
         out.close();
-        int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 400: throw new AlreadyPostul();
             case 404: throw new EtudiantDontExist();

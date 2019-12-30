@@ -1,7 +1,6 @@
 package com.example.smartcity.DataAccess;
 
 import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Faq;
 
@@ -19,7 +18,6 @@ public class FaqDao implements FaqDataAccess{
         connection.setRequestProperty("Authorization","Bearer "+accessToken);
         connection.setRequestProperty("Content-Type","application/json");
         connection.setRequestProperty("Accept","application/json");
-        int reponse = connection.getResponseCode();
         switch (connection.getResponseCode()) {
             case 500: throw new ApiAccessException();
         }

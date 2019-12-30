@@ -3,14 +3,11 @@ package com.example.smartcity.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import com.example.smartcity.R;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Preference;
 
-import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;

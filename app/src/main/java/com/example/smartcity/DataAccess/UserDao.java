@@ -35,9 +35,9 @@ public class UserDao implements UserDataAccess {
         }
         BufferedReader buffer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         StringBuilder builder = new StringBuilder();
-        String stringJSON = "", line;
+        String stringJSON, line;
         while ((line = buffer.readLine()) != null) {
-            builder.append(line.toString());
+            builder.append(line);
         }
         buffer.close();
         stringJSON = builder.toString();
@@ -67,7 +67,6 @@ public class UserDao implements UserDataAccess {
         writer.flush();
         writer.close();
         out.close();
-        int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 400: throw new InscriptionInvalide();
             case 500: throw new ApiAccessException();
@@ -96,8 +95,6 @@ public class UserDao implements UserDataAccess {
         writer.flush();
         writer.close();
         out.close();
-        String requet =urlConnection.getRequestMethod();
-        int reponse = urlConnection.getResponseCode();
         switch (urlConnection.getResponseCode()) {
             case 404: throw new EtudiantDontExist();
             case 500: throw new ApiAccessException();
