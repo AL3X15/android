@@ -16,6 +16,7 @@ import com.example.smartcity.DataAccess.UserDao;
 import com.example.smartcity.DataAccess.UserDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
+import com.example.smartcity.Exception.InscriptionInvalide;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
@@ -156,6 +157,14 @@ public class InscriptionActivity extends AppCompatActivity {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.accessApiError));
+					}
+				});
+			}
+			catch (InscriptionInvalide e){
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						errorMessage(getString(R.string.inscription_error));
 					}
 				});
 			}

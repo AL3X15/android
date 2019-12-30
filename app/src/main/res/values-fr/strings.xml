@@ -40,4 +40,5 @@
     <string name="tag_errors">il semble que vous n\'ayez aucun tag nous vous conseillons d\'aller dans éditer mon profil pour éviter ces messages</string>
     <string name="recherche_error">aucun résultat trouvé</string>
     <string name="emploieDuTemp_error">vous n\'avez aucune annonce enregistré</string>
+    <string name="inscription_error">l\'inscription a échoué a cause d\'un mail non valide</string>
 </resources>

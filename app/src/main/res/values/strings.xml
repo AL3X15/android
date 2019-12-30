@@ -59,4 +59,5 @@
     <string name="minute" translatable="false">minute</string>
     <string name="recherche_error">not result found</string>
     <string name="emploieDuTemp_error">your schedule is void</string>
+    <string name="inscription_error">inscription error</string>
 </resources>
