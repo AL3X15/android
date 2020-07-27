@@ -5,83 +5,83 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Annonce implements Serializable {
-    private int id;
-    private String poste;
-    private Date dateDebut;
-    private Date dateFin;
-    private int paie;
-    private ArrayList<Tag> tags;
-    private UserEntreprise entreprise;
+	private int id;
+	private String poste;
+	private Date dateDebut;
+	private Date dateFin;
+	private int paie;
+	private ArrayList<Tag> tags;
+	private UserEntreprise entreprise;
 
-    public Annonce(String poste, Date dateDebut, Date dateFin, int paie, UserEntreprise userEntreprise, Adresse address) {
-        this.poste = poste;
-        this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
-        this.paie = paie;
-        tags = new ArrayList<>();
-    }
+	public Annonce(String poste, Date dateDebut, Date dateFin, int paie, UserEntreprise userEntreprise, Adresse address) {
+		this.poste = poste;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.paie = paie;
+		tags = new ArrayList<>();
+	}
 
-    public Annonce(){
-        tags = new ArrayList<>();
-    }
+	public Annonce() {
+		tags = new ArrayList<>();
+	}
 
-    public String getPoste() {
-        return poste;
-    }
+	public String getPoste() {
+		return poste;
+	}
 
-    public void setPoste(String poste) {
-        this.poste = poste;
-    }
+	public void setPoste(String poste) {
+		this.poste = poste;
+	}
 
-    public Date getDateDebut() {
-        return dateDebut;
-    }
+	public Date getDateDebut() {
+		return dateDebut;
+	}
 
-    public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
-    }
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
 
-    public Date getDateFin() {
-        return dateFin;
-    }
+	public Date getDateFin() {
+		return dateFin;
+	}
 
-    public void setDateFin(Date dateFin) {
-        this.dateFin = dateFin;
-    }
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
+	}
 
-    public int getPaie() {
-        return paie;
-    }
+	public int getPaie() {
+		return paie;
+	}
 
-    public void setPaie(int paie) {
-        this.paie = paie;
-    }
+	public void setPaie(int paie) {
+		this.paie = paie;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public ArrayList<Tag> getTags() {
-        return tags;
-    }
+	public ArrayList<Tag> getTags() {
+		return tags;
+	}
 
-    public void setTags(ArrayList<Tag> tags) {
-        this.tags = tags;
-    }
+	public void setTags(ArrayList<Tag> tags) {
+		this.tags = tags;
+	}
 
-    public UserEntreprise getEntreprise() {
-        return entreprise;
-    }
+	public UserEntreprise getEntreprise() {
+		return entreprise;
+	}
 
-    public void setEntreprise(UserEntreprise entreprise) {
-        this.entreprise = entreprise;
-    }
+	public void setEntreprise(UserEntreprise entreprise) {
+		this.entreprise = entreprise;
+	}
 
-    public String toString(){
-        return this.poste +" \npayé :"+this.paie+" \ndébute le "+dateDebut+" \nfini le "+dateFin;
-    }
+	public String toString() {
+		return this.poste + " \npayé :" + this.paie + " \ndébute le " + dateDebut + " \nfini le " + dateFin;
+	}
 }

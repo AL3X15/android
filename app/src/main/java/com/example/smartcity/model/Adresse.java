@@ -12,7 +12,7 @@ public class Adresse implements Serializable {
 	public Adresse(String rue, String numero, String codePostal, String localite) {
 		this.rue = rue;
 		this.numero = numero;
-		this.localite = new  Localite(codePostal,localite);
+		this.localite = new Localite(codePostal, localite);
 	}
 
 	public Adresse() {
@@ -45,6 +45,6 @@ public class Adresse implements Serializable {
 	@NonNull
 	@Override
 	public String toString() {
-		return getNumero() +" "+ getRue()+ ", "+getLocalite();
+		return getNumero() + " " + getRue() + ", " + getLocalite();
 	}
 }

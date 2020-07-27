@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smartcity.DataAccess.UserDao;
-import com.example.smartcity.DataAccess.UserDataAccess;
+import com.example.smartcity.DataAccess.dao.UserDao;
+import com.example.smartcity.DataAccess.dao.UserDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
@@ -47,22 +47,22 @@ public class ConnexionActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		Preference user = Utils.getSharedPreference(this);
 		GregorianCalendar now = new GregorianCalendar();
-		if(now.compareTo(user.getAccessToken().getDateExpiration())<0){
+		if (now.compareTo(user.getAccessToken().getDateExpiration()) < 0) {
 			accessToken = user.getAccessToken();
 			ConnectionByPass connection = new ConnectionByPass();
 			connection.execute(user.getEmail());
 		}
-		if(!user.isDefaultMail()){
+		if (!user.isDefaultMail()) {
 			mail.setText(user.getEmail());
 		}
-		logInBtn.setOnClickListener (new View.OnClickListener() {
+		logInBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if(mail.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")){
-					if(password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")){
+				if (mail.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+					if (password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$")) {
 						Connection connection = new Connection();
-						connection.execute(mail.getText().toString(),password.getText().toString());
+						connection.execute(mail.getText().toString(), password.getText().toString());
 					} else {
-						Toast.makeText(ConnexionActivity.this,getString(R.string.password_error),Toast.LENGTH_SHORT).show();
+						Toast.makeText(ConnexionActivity.this, getString(R.string.password_error), Toast.LENGTH_SHORT).show();
 						password.setBackgroundColor(Color.parseColor("#FF0000"));
 					}
 				} else {
@@ -71,44 +71,43 @@ public class ConnexionActivity extends AppCompatActivity {
 				}
 			}
 		});
-		signInBtn.setOnClickListener (new View.OnClickListener() {
+		signInBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ConnexionActivity.this, InscriptionActivity.class);
 				startActivity(intent);
 			}
 		});
 	}
-	public void errorMessage(String error){
-		Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+
+	public void errorMessage(String error) {
+		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
-	private class Connection extends AsyncTask<String,Void, UserEtudiant> {
+
+	private class Connection extends AsyncTask<String, Void, UserEtudiant> {
 		@Override
 		protected UserEtudiant doInBackground(String... strings) {
 			UserDataAccess dataAccess = new UserDao();
 			try {
-				InfoConnection infoConnection = dataAccess.getMe(strings[0],strings[1]);
+				InfoConnection infoConnection = dataAccess.getMe(strings[0], strings[1]);
 
-				((MyApplication)ConnexionActivity.this.getApplication()).setInfoConnection(infoConnection);
+				((MyApplication) ConnexionActivity.this.getApplication()).setInfoConnection(infoConnection);
 
 				return infoConnection.getUserEtudiant();
-			}
-			catch (LoginException e){
+			} catch (LoginException e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.Login_error));
 					}
 				});
-			}
-			catch (ApiAccessException e){
+			} catch (ApiAccessException e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.accessApiError));
 					}
 				});
-			}
-			catch (Exception e){
+			} catch (Exception e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -121,43 +120,41 @@ public class ConnexionActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPostExecute(UserEtudiant userEtudiant) {
-			if(userEtudiant != null) {
+			if (userEtudiant != null) {
 				Intent intent = new Intent(ConnexionActivity.this, AcceuilActivity.class);
 
-				Preference preference = new Preference(userEtudiant.getEmail(), ((MyApplication)getApplication()).getInfoConnection().getAccessToken());
-				Utils.editSharedPreference(ConnexionActivity.this,preference);
+				Preference preference = new Preference(userEtudiant.getEmail(), ((MyApplication) getApplication()).getInfoConnection().getAccessToken());
+				Utils.editSharedPreference(ConnexionActivity.this, preference);
 				startActivity(intent);
 			}
 		}
 	}
-	private class ConnectionByPass extends AsyncTask<String,Void, UserEtudiant> {
+
+	private class ConnectionByPass extends AsyncTask<String, Void, UserEtudiant> {
 		@Override
 		protected UserEtudiant doInBackground(String... strings) {
 			UserDataAccess dataAccess = new UserDao();
 			try {
-				InfoConnection infoConnection = dataAccess.getMe(strings[0],accessToken);
+				InfoConnection infoConnection = dataAccess.getMe(strings[0], accessToken);
 
-				((MyApplication)ConnexionActivity.this.getApplication()).setInfoConnection(infoConnection);
+				((MyApplication) ConnexionActivity.this.getApplication()).setInfoConnection(infoConnection);
 
 				return infoConnection.getUserEtudiant();
-			}
-			catch (LoginException e){
+			} catch (LoginException e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.Login_error));
 					}
 				});
-			}
-			catch (ApiAccessException e){
+			} catch (ApiAccessException e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.accessApiError));
 					}
 				});
-			}
-			catch (Exception e){
+			} catch (Exception e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -170,11 +167,11 @@ public class ConnexionActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPostExecute(UserEtudiant userEtudiant) {
-			if(userEtudiant != null) {
+			if (userEtudiant != null) {
 				Intent intent = new Intent(ConnexionActivity.this, AcceuilActivity.class);
 
-				Preference preference = new Preference(userEtudiant.getEmail(), ((MyApplication)getApplication()).getInfoConnection().getAccessToken());
-				Utils.editSharedPreference(ConnexionActivity.this,preference);
+				Preference preference = new Preference(userEtudiant.getEmail(), ((MyApplication) getApplication()).getInfoConnection().getAccessToken());
+				Utils.editSharedPreference(ConnexionActivity.this, preference);
 				startActivity(intent);
 			}
 		}

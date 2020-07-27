@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.smartcity.DataAccess.UserDao;
-import com.example.smartcity.DataAccess.UserDataAccess;
+import com.example.smartcity.DataAccess.dao.UserDao;
+import com.example.smartcity.DataAccess.dao.UserDataAccess;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.Exception.EtudiantDontExist;
 import com.example.smartcity.Exception.InscriptionInvalide;
@@ -33,12 +33,12 @@ public class InscriptionActivity extends AppCompatActivity {
 	@BindView(R.id.firstInscription)
 	public EditText firstName;
 	@BindView(R.id.nameInscription)
-    public EditText lastName;
+	public EditText lastName;
 
 	@BindView(R.id.hommeInscription)
 	public RadioButton homme;
 	@BindView(R.id.femmeInscription)
-    public RadioButton femme;
+	public RadioButton femme;
 
 	@BindView(R.id.roadInscription)
 	public EditText roadInscription;
@@ -50,7 +50,7 @@ public class InscriptionActivity extends AppCompatActivity {
 	public EditText localityInscription;
 
 	@BindView(R.id.phoneInscription)
-    public EditText phoneInscription;
+	public EditText phoneInscription;
 	@BindView(R.id.mailInscription)
 	public EditText mailInscription;
 
@@ -82,15 +82,15 @@ public class InscriptionActivity extends AppCompatActivity {
 				boolean mailValide = mailInscription.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
 				boolean passwordValide = password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
 				boolean formulaireValide = mailValide && dateValide && registreNationalValide && passwordValide;
-				if(!mailValide)
+				if (!mailValide)
 					mailInscription.setBackgroundColor(Color.parseColor("#FF0000"));
-				if(!registreNationalValide)
+				if (!registreNationalValide)
 					idNumberInscription.setBackgroundColor(Color.parseColor("#FF0000"));
-				if(!dateValide)
+				if (!dateValide)
 					birthdayInscription.setBackgroundColor(Color.parseColor("#FF0000"));
-				if(!passwordValide)
+				if (!passwordValide)
 					password.setBackgroundColor(Color.parseColor("#FF0000"));
-				if(formulaireValide){
+				if (formulaireValide) {
 					UserEtudiant e = new UserEtudiant();
 					e.setEtudiant(new Etudiant());
 					e.getEtudiant().setPrenom(firstName.getText().toString());
@@ -102,10 +102,10 @@ public class InscriptionActivity extends AppCompatActivity {
 							localityInscription.getText().toString())
 					);
 					char s;
-					if(homme.isChecked())	s = 'M';
+					if (homme.isChecked()) s = 'M';
 					else {
-						if(femme.isChecked())	s = 'F';
-						else	s = 'A';
+						if (femme.isChecked()) s = 'F';
+						else s = 'A';
 					}
 					e.getEtudiant().setSexe(s);
 					e.setPhoneNumber(phoneInscription.getText().toString());
@@ -124,44 +124,41 @@ public class InscriptionActivity extends AppCompatActivity {
 			}
 		});
 	}
-	public void errorMessage(String error){
-		Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+
+	public void errorMessage(String error) {
+		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
 
-	private class Inscription extends AsyncTask<UserEtudiant,Void,Void>{
+	private class Inscription extends AsyncTask<UserEtudiant, Void, Void> {
 		@Override
 		protected Void doInBackground(UserEtudiant... userEtudiants) {
 			UserDataAccess userDataAccess = new UserDao();
 			try {
 				userDataAccess.inscription(userEtudiants[0]);
-				Intent intent = new Intent(InscriptionActivity.this,ConnexionActivity.class);
+				Intent intent = new Intent(InscriptionActivity.this, ConnexionActivity.class);
 				startActivity(intent);
-			}
-			catch (EtudiantDontExist e){
+			} catch (EtudiantDontExist e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.etudiant_error));
 					}
 				});
-			}
-			catch (ApiAccessException e){
+			} catch (ApiAccessException e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.accessApiError));
 					}
 				});
-			}
-			catch (InscriptionInvalide e){
+			} catch (InscriptionInvalide e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						errorMessage(getString(R.string.inscription_error));
 					}
 				});
-			}
-			catch (Exception e){
+			} catch (Exception e) {
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {

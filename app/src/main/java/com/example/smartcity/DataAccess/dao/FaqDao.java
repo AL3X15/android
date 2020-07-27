@@ -1,17 +1,25 @@
-package com.example.smartcity.DataAccess;
+package com.example.smartcity.DataAccess.dao;
 
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.model.AccessToken;
+import com.example.smartcity.DataAccess.ApiClient;
+import com.example.smartcity.DataAccess.service.FaqService;
 import com.example.smartcity.model.Faq;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.net.ssl.HttpsURLConnection;
+import retrofit2.Response;
 
-public class FaqDao implements FaqDataAccess{
+public class FaqDao implements FaqDataAccess {
+
+	@Override
+	public Response<ArrayList<Faq>> getAllFaq(int id) throws IOException{
+		return ApiClient.getInstance().getRetrofit()
+				.create(FaqService.class)
+				.getAllFaq(id)
+				.execute();
+	}
+
+    /*
     public ArrayList<Faq> getAllFaq(AccessToken accessToken)throws Exception{
         URL url = new URL("https://smartcityjober.azurewebsites.net/faq");
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
@@ -29,5 +37,5 @@ public class FaqDao implements FaqDataAccess{
         buffer.close();
         stringJSON = builder.toString();
         return Utils.jsonToFaqs(stringJSON);
-    }
+    }*/
 }

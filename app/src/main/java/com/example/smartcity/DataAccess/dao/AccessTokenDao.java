@@ -1,5 +1,6 @@
-package com.example.smartcity.DataAccess;
+package com.example.smartcity.DataAccess.dao;
 
+import com.example.smartcity.DataAccess.Utils;
 import com.example.smartcity.Exception.ApiAccessException;
 import com.example.smartcity.model.AccessToken;
 

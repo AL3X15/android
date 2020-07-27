@@ -37,9 +37,9 @@ public class Tag implements Serializable, Parcelable {
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
-		return !( obj == null||
-				  !(obj instanceof Tag)||
-				  ((Tag) obj).getNom().compareTo(this.getNom())!=0);
+		return !(obj == null ||
+				!(obj instanceof Tag) ||
+				((Tag) obj).getNom().compareTo(this.getNom()) != 0);
 
 	}
 
@@ -54,7 +54,7 @@ public class Tag implements Serializable, Parcelable {
 		dest.writeString(description);
 	}
 
-	public static final Parcelable.Creator<Tag> CREATOR = new Parcelable.Creator<Tag>(){
+	public static final Parcelable.Creator<Tag> CREATOR = new Parcelable.Creator<Tag>() {
 		@Override
 		public Tag createFromParcel(Parcel in) {
 			return new Tag(in);
@@ -66,7 +66,7 @@ public class Tag implements Serializable, Parcelable {
 		}
 	};
 
-	private Tag(Parcel in){
+	private Tag(Parcel in) {
 		nom = in.readString();
 		description = in.readString();
 	}
