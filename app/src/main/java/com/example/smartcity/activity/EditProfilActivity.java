@@ -29,10 +29,12 @@ import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 
 public class EditProfilActivity extends AppCompatActivity {
 
@@ -111,9 +113,12 @@ public class EditProfilActivity extends AppCompatActivity {
 							localityEdit.getText().toString()
 					));
 					userEtudiant.getEtudiant().setTags(tagsEtudiant);
-					EditProfile editProfile = new EditProfile();
-					editProfile.execute(userEtudiant);
+					new EditProfile().execute(userEtudiant);
+					((MyApplication) getApplication()).getInfoConnection().setUserEtudiant(userEtudiant);
+					startActivity(new Intent(EditProfilActivity.this, AcceuilActivity.class));
 				}
+
+
 			}
 		});
 
@@ -242,8 +247,8 @@ public class EditProfilActivity extends AppCompatActivity {
 		}
 	}
 
-	private class EditProfile extends AsyncTask<UserEtudiant, Void, UserEtudiant> {
-		@Override
+	private class EditProfile extends AsyncTask<UserEtudiant, Void, Void> {
+		/*@Override
 		protected UserEtudiant doInBackground(UserEtudiant... userEtudiants) {
 			UserDataAccess userDataAccess = new UserDao();
 			try {
@@ -268,9 +273,30 @@ public class EditProfilActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPostExecute(UserEtudiant userEtudiant) {
-			Intent intent = new Intent(EditProfilActivity.this, AcceuilActivity.class);
 			((MyApplication) getApplication()).getInfoConnection().setUserEtudiant(userEtudiant);
-			startActivity(intent);
+			startActivity(new Intent(EditProfilActivity.this, AcceuilActivity.class));
+		}*/
+		@Override
+		protected Void doInBackground(UserEtudiant... userEtudiants) {
+			try {
+				Response<Void> response = new UserDao().editMe(userEtudiants[0]);
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return null;
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
 	}
 }

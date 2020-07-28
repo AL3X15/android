@@ -1,10 +1,5 @@
 package com.example.smartcity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,25 +9,30 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smartcity.DataAccess.dao.FaqDao;
-import com.example.smartcity.DataAccess.dao.FaqDataAccess;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.MyApplication;
-import com.example.smartcity.R;
-import com.example.smartcity.model.UserEtudiant;
-import com.example.smartcity.model.Faq;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartcity.DataAccess.dao.FaqDao;
+import com.example.smartcity.R;
+import com.example.smartcity.model.Faq;
+import com.example.smartcity.model.PageResultFaq;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 
 public class FaqActivity extends AppCompatActivity {
 
 	@BindView(R.id.faqs)
 	RecyclerView recyclerView;
 	FaqAdapter adapter;
-
+	int page = 0;
+	//TODO pagination
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ public class FaqActivity extends AppCompatActivity {
 		adapter = new FaqAdapter();
 
 		LoadFaq loadFaq = new LoadFaq();
-		loadFaq.execute();
+		loadFaq.execute(page);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
@@ -107,8 +107,8 @@ public class FaqActivity extends AppCompatActivity {
 		}
 	}
 
-	private class LoadFaq extends AsyncTask<Void, Void, ArrayList<Faq>> {
-		@Override
+	private class LoadFaq extends AsyncTask<Integer, Void, PageResultFaq> {
+		/*@Override
 		protected ArrayList<Faq> doInBackground(Void... voids) {
 			FaqDataAccess access = new FaqDao();
 			try {
@@ -135,6 +135,34 @@ public class FaqActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(ArrayList<Faq> faqs) {
 			adapter.setFaq(faqs);
+		}*/
+		@Override
+		protected PageResultFaq doInBackground(Integer... page) {
+			try {
+				Response<PageResultFaq> response = new FaqDao().getFaq(page[0]);
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return response.body();
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {Toast.makeText(FaqActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(FaqActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+
+		}
+		@Override
+		protected void onPostExecute(PageResultFaq pageResultFaq) {
+			page = pageResultFaq.getPageindex();
+			adapter.setFaq(pageResultFaq.getFaqs());
 		}
 	}
 }

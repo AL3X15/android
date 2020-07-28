@@ -1,10 +1,5 @@
 package com.example.smartcity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,26 +10,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
-import com.example.smartcity.DataAccess.dao.AnnonceDataAccess;
-import com.example.smartcity.DataAccess.dao.EntrepriseDao;
-import com.example.smartcity.DataAccess.dao.EntrepriseDataAccess;
-import com.example.smartcity.DataAccess.dao.TagDao;
-import com.example.smartcity.DataAccess.dao.TagDataAccess;
-import com.example.smartcity.Exception.AlreadyPostul;
-import com.example.smartcity.Exception.AnnonceDontExist;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.UserEntreprise;
-import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 
 public class DetailAnnonceActivity extends AppCompatActivity {
 
@@ -48,7 +39,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 	public Button button;
 	private TagAdapter adapter;
 	Annonce annonce;
-	UserEtudiant userEtudiant;
+	//UserEtudiant userEtudiant;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +56,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
 		adapter = new TagAdapter();
 
-		userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
+		//userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
 
 		//LoadTag loadTag = new LoadTag();
 		//loadTag.execute(annonce);
@@ -77,8 +68,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				button.setEnabled(false);
-				AccepterOffre accepterOffre = new AccepterOffre();
-				accepterOffre.execute();
+				new AccepterOffre().execute(annonce.getId());
 			}
 		});
 	}
@@ -194,8 +184,8 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 		}
 	}
 */
-	private class AccepterOffre extends AsyncTask<Void, Void, Void> {
-		@Override
+	private class AccepterOffre extends AsyncTask<Integer, Void, Void> {
+		/*@Override
 		protected Void doInBackground(Void... params) {
 			AnnonceDataAccess dataAccess = new AnnonceDao();
 			try {
@@ -231,6 +221,31 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 			}
 			return null;
 		}
+
+		 */
+		@Override
+		protected Void doInBackground(Integer... id) {
+			try {
+				Response<Void> response = new AnnonceDao().acceptAnnonce(id[0]);
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return null;
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {Toast.makeText(DetailAnnonceActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(DetailAnnonceActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
 	}
 
 }

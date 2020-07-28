@@ -1,14 +1,8 @@
 package com.example.smartcity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +11,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
-import com.example.smartcity.DataAccess.dao.AnnonceDataAccess;
-import com.example.smartcity.Exception.AnnonceDontExist;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
+import com.example.smartcity.model.CritereRecherche;
 import com.example.smartcity.model.Tag;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 
 public class ResultatActivity extends AppCompatActivity {
 
@@ -42,6 +40,7 @@ public class ResultatActivity extends AppCompatActivity {
 
 	private GregorianCalendar dateFin;
 	private GregorianCalendar dateDebut;
+	private CritereRecherche critereRecherche;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +49,17 @@ public class ResultatActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		adapter = new AnnonceAdapter();
 
-		tags = getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer));
+		critereRecherche.setTags(getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer)));
+		critereRecherche.setDateDebut(new GregorianCalendar());
+		critereRecherche.getDateDebut().setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_start)));
+		critereRecherche.setDateFin(new GregorianCalendar());
+		critereRecherche.getDateFin().setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_end)));
+		/*tags = getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer));
 		dateDebut = new GregorianCalendar();
 		dateDebut.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_start)));
 		dateFin = new GregorianCalendar();
-		dateFin.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_end)));
-		LoadAnnonce loadAnnonce = new LoadAnnonce();
-		loadAnnonce.execute(tags);
+		dateFin.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_end)));*/
+		new LoadAnnonce().execute(critereRecherche);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
@@ -115,8 +118,8 @@ public class ResultatActivity extends AppCompatActivity {
 		}
 	}
 
-	private class LoadAnnonce extends AsyncTask<ArrayList<Tag>, Void, ArrayList<Annonce>> {
-		@Override
+	private class LoadAnnonce extends AsyncTask<CritereRecherche, Void, ArrayList<Annonce>> {
+		/*@Override
 		protected ArrayList<Annonce> doInBackground(ArrayList<Tag>... tags) {
 			AnnonceDataAccess annonceDataAccess = new AnnonceDao();
 			try {
@@ -150,6 +153,36 @@ public class ResultatActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(ArrayList<Annonce> annonces) {
 			adapter.setMyAnnonces(annonces);
+		}
+
+		 */
+		@Override
+		protected ArrayList<Annonce> doInBackground(CritereRecherche... critereRecherches) {
+			try {
+				Response<ArrayList<Annonce>> response = new AnnonceDao().getResultatSerch(critereRecherches[0]);
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return response.body();
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {Toast.makeText(ResultatActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(ResultatActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		protected void onPostExecute(ArrayList<Annonce> annonces) {
+			if(annonces != null) {
+				adapter.setMyAnnonces(annonces);
+			}
 		}
 	}
 }

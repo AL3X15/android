@@ -8,13 +8,8 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 public class Tag implements Serializable, Parcelable {
+	private Integer id;
 	private String nom;
-	private String description;
-
-	public Tag(String nom, String description) {
-		this.nom = nom;
-		this.description = description;
-	}
 
 	public Tag() {
 	}
@@ -27,13 +22,6 @@ public class Tag implements Serializable, Parcelable {
 		this.nom = nom;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
@@ -51,7 +39,6 @@ public class Tag implements Serializable, Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(nom);
-		dest.writeString(description);
 	}
 
 	public static final Parcelable.Creator<Tag> CREATOR = new Parcelable.Creator<Tag>() {
@@ -68,6 +55,5 @@ public class Tag implements Serializable, Parcelable {
 
 	private Tag(Parcel in) {
 		nom = in.readString();
-		description = in.readString();
 	}
 }

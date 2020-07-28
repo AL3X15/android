@@ -4,6 +4,7 @@ import com.example.smartcity.DataAccess.ApiClient;
 import com.example.smartcity.DataAccess.service.AnnonceService;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.CritereRecherche;
+import com.example.smartcity.model.PageResultAnnonce;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ public class AnnonceDao implements AnnonceDataAccess {
 	}
 
 	@Override
-	public Response<ArrayList<Annonce>> getResultatSerch(CritereRecherche critereRecherche) throws IOException{
+	public Response<PageResultAnnonce> getResultatSerch(int ligne, CritereRecherche critereRecherche) throws IOException{
 		return ApiClient.getInstance().getRetrofit()
 				.create(AnnonceService.class)
-				.getResultatSerch(critereRecherche)
+				.getResultatSerch(ligne, critereRecherche)
 				.execute();
 	}
 

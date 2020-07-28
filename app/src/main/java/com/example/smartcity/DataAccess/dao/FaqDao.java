@@ -2,20 +2,19 @@ package com.example.smartcity.DataAccess.dao;
 
 import com.example.smartcity.DataAccess.ApiClient;
 import com.example.smartcity.DataAccess.service.FaqService;
-import com.example.smartcity.model.Faq;
+import com.example.smartcity.model.PageResultFaq;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import retrofit2.Response;
 
 public class FaqDao implements FaqDataAccess {
 
 	@Override
-	public Response<ArrayList<Faq>> getAllFaq(int id) throws IOException{
+	public Response<PageResultFaq> getFaq(int page) throws IOException{
 		return ApiClient.getInstance().getRetrofit()
 				.create(FaqService.class)
-				.getAllFaq(id)
+				.getFaq(page)
 				.execute();
 	}
 

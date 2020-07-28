@@ -62,8 +62,8 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 		adapter = new TagRechercheAdapter();
 		tagsEtudiant = new ArrayList<>();
 
-		LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
-		loadTagEtudiant.execute(userEtudiant);
+		//LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
+		//loadTagEtudiant.execute(userEtudiant);
 
 		tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		tagRecyclerView.setAdapter(adapter);

@@ -171,7 +171,7 @@ public class ConnexionActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
 				}
-
+				//TODO vérifier si ca marche
 				runOnUiThread(() -> {Toast.makeText(ConnexionActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
 					try {
 						Toast.makeText(ConnexionActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();

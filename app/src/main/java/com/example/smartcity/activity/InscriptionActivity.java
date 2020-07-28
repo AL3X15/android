@@ -1,8 +1,5 @@
 package com.example.smartcity.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,21 +9,21 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.smartcity.DataAccess.dao.UserDao;
-import com.example.smartcity.DataAccess.dao.UserDataAccess;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.EtudiantDontExist;
-import com.example.smartcity.Exception.InscriptionInvalide;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.UserEtudiant;
 
+import java.io.IOException;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 
 public class InscriptionActivity extends AppCompatActivity {
 
@@ -80,16 +77,16 @@ public class InscriptionActivity extends AppCompatActivity {
 				boolean dateValide = birthdate != null;
 				boolean registreNationalValide = (idNumberInscription.getText().toString().matches("[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]{3}.[0-9]{2}"));
 				boolean mailValide = mailInscription.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
-				boolean passwordValide = password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
-				boolean formulaireValide = mailValide && dateValide && registreNationalValide && passwordValide;
+				//boolean passwordValide = password.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
+				boolean formulaireValide = mailValide && dateValide && registreNationalValide /*&& passwordValide*/;
 				if (!mailValide)
 					mailInscription.setBackgroundColor(Color.parseColor("#FF0000"));
 				if (!registreNationalValide)
 					idNumberInscription.setBackgroundColor(Color.parseColor("#FF0000"));
 				if (!dateValide)
 					birthdayInscription.setBackgroundColor(Color.parseColor("#FF0000"));
-				if (!passwordValide)
-					password.setBackgroundColor(Color.parseColor("#FF0000"));
+				//if (!passwordValide)
+				//	password.setBackgroundColor(Color.parseColor("#FF0000"));
 				if (formulaireValide) {
 					UserEtudiant e = new UserEtudiant();
 					e.setEtudiant(new Etudiant());
@@ -130,7 +127,7 @@ public class InscriptionActivity extends AppCompatActivity {
 	}
 
 	private class Inscription extends AsyncTask<UserEtudiant, Void, Void> {
-		@Override
+		/*@Override
 		protected Void doInBackground(UserEtudiant... userEtudiants) {
 			UserDataAccess userDataAccess = new UserDao();
 			try {
@@ -165,6 +162,28 @@ public class InscriptionActivity extends AppCompatActivity {
 						errorMessage(getString(R.string.connection_error));
 					}
 				});
+			}
+			return null;
+		}*/
+		@Override
+		protected Void doInBackground(UserEtudiant... userEtudiants) {
+			try {
+				Response<Void> response = new UserDao().inscription(userEtudiants[0]);
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return null;
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {Toast.makeText(InscriptionActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(InscriptionActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			return null;
 		}
