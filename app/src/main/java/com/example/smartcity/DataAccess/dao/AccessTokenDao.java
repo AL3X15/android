@@ -1,19 +1,7 @@
 package com.example.smartcity.DataAccess.dao;
 
-import com.example.smartcity.DataAccess.Utils;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.model.AccessToken;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.security.auth.login.LoginException;
-
 public class AccessTokenDao {
+    /*
     public AccessToken getAccessToken(String username, String password) throws Exception{
 
         String jsonString = Utils.loginToJson(username,password);
@@ -50,4 +38,6 @@ public class AccessTokenDao {
 
         return Utils.jsonToAccessToken(stringJSON);
     }
+*/
+
 }

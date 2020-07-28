@@ -1,6 +1,5 @@
 package com.example.smartcity.DataAccess.dao;
 
-import com.example.smartcity.model.InfoConnection;
 import com.example.smartcity.model.UserEtudiant;
 
 import java.io.IOException;
@@ -9,7 +8,7 @@ import retrofit2.Response;
 
 public interface UserDataAccess {
 
-	Response<InfoConnection> getMe() throws IOException;
+	Response<UserEtudiant> getMe() throws IOException;
 	Response<Void> inscription(UserEtudiant userEtudiant) throws IOException;
 	Response<Void> editMe(UserEtudiant userEtudiant) throws IOException;
 

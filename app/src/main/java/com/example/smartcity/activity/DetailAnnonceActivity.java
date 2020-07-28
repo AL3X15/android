@@ -58,8 +58,8 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
 		annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
-		LoadEntreprise loadEntreprise = new LoadEntreprise();
-		loadEntreprise.execute(annonce);
+		//LoadEntreprise loadEntreprise = new LoadEntreprise();
+		//loadEntreprise.execute(annonce);
 
 		details.setText(annonce.toString());
 
@@ -67,8 +67,8 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
 		userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
 
-		LoadTag loadTag = new LoadTag();
-		loadTag.execute(annonce);
+		//LoadTag loadTag = new LoadTag();
+		//loadTag.execute(annonce);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
@@ -123,7 +123,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 			notifyDataSetChanged();
 		}
 	}
-
+/*
 	private class LoadTag extends AsyncTask<Annonce, Void, ArrayList<Tag>> {
 		@Override
 		protected ArrayList<Tag> doInBackground(Annonce... params) {
@@ -193,7 +193,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 				entrepriseNom.setText(entreprise.getNom());
 		}
 	}
-
+*/
 	private class AccepterOffre extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {

@@ -2,10 +2,10 @@ package com.example.smartcity;
 
 import android.app.Application;
 
-import com.example.smartcity.model.InfoConnection;
+import com.example.smartcity.model.InfoEtudiant;
 
 public class MyApplication extends Application {
-	private InfoConnection infoConnection;
+	private InfoEtudiant infoEtudiant;
 	private static MyApplication instance;
 
 	@Override
@@ -14,12 +14,12 @@ public class MyApplication extends Application {
 		instance = this;
 	}
 
-	public InfoConnection getInfoConnection() {
-		return infoConnection;
+	public InfoEtudiant getInfoConnection() {
+		return infoEtudiant;
 	}
 
-	public void setInfoConnection(InfoConnection infoConnection) {
-		this.infoConnection = infoConnection;
+	public void setInfoEtudiant(InfoEtudiant infoEtudiant) {
+		this.infoEtudiant = infoEtudiant;
 	}
 
 	public static MyApplication getInstance() {

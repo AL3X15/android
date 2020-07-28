@@ -1,22 +1,27 @@
 package com.example.smartcity.model;
 
 public class InfoConnection {
-	private UserEtudiant userEtudiant;
-	private AccessToken accessToken;
+		private String mail;
+		private String password;
 
-	public UserEtudiant getUserEtudiant() {
-		return userEtudiant;
+	public InfoConnection(String mail, String password) {
+		setMail(mail);
+		setPassword(password);
 	}
 
-	public void setUserEtudiant(UserEtudiant userEtudiant) {
-		this.userEtudiant = userEtudiant;
+	public String getMail() {
+		return mail;
 	}
 
-	public AccessToken getAccessToken() {
-		return accessToken;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
-	public void setAccessToken(AccessToken accessToken) {
-		this.accessToken = accessToken;
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

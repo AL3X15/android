@@ -74,8 +74,8 @@ public class EditProfilActivity extends AppCompatActivity {
 		tagsEtudiant = new ArrayList<>();
 
 
-		LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
-		loadTagEtudiant.execute(userEtudiant);
+		//LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
+		//loadTagEtudiant.execute(userEtudiant);
 
 		tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		tagRecyclerView.setAdapter(adapter);
@@ -174,7 +174,7 @@ public class EditProfilActivity extends AppCompatActivity {
 			notifyDataSetChanged();
 		}
 	}
-
+/*
 	private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
 		@Override
 		protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
@@ -210,7 +210,7 @@ public class EditProfilActivity extends AppCompatActivity {
 			loadAllTags.execute();
 		}
 	}
-
+*/
 	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<Tag>> {
 		@Override
 		protected ArrayList<Tag> doInBackground(Void... voids) {

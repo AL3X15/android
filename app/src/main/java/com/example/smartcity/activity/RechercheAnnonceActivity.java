@@ -141,7 +141,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 			notifyDataSetChanged();
 		}
 	}
-
+/*
 	private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
 		@Override
 		protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
@@ -192,7 +192,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 		}
 
 	}
-
+*/
 	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<Tag>> {
 		@Override
 		protected ArrayList<Tag> doInBackground(Void... voids) {
