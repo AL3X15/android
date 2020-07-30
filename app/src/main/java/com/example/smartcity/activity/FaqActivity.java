@@ -47,9 +47,7 @@ public class FaqActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		adapter = new FaqAdapter();
 		page = 1;
-		Log.d("test",",on create "+page);
 		new LoadFaq().execute(page);
-		Log.d("test",",on create "+page);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
 
@@ -118,13 +116,12 @@ public class FaqActivity extends AppCompatActivity {
 				@Override
 				public void onClick(View v) {
 					int currentPosition = holder.getAdapterPosition();
-					//if (!holder.isAffiche()) {
+					if (!holder.isAffiche()) {
+						holder.reponse.setText("");
+					} else {
 						Faq faqSelect = myFaq.get(position);
 						holder.reponse.setText(faqSelect.getReponse());
-					//} else {
-					//	holder.reponse.clearComposingText();
-					//	holder.reponse.setText(getString(R.string.void_string));
-					//}
+					}
 				}
 			});
 		}
@@ -168,7 +165,7 @@ public class FaqActivity extends AppCompatActivity {
 		protected void onPostExecute(PageResultFaq pageResultFaq) {
 			page = pageResultFaq.getPageindex();
 			prec.setEnabled(pageResultFaq.getPageindex() > 1);
-			next.setEnabled(pageResultFaq.getPageSize() > pageResultFaq.getFaqs().size());
+			next.setEnabled(pageResultFaq.getFaqs().size()+pageResultFaq.getPageindex()*pageResultFaq.getPageSize() < pageResultFaq.getTotalCount());
 			adapter.setFaq(pageResultFaq.getFaqs());
 		}
 	}

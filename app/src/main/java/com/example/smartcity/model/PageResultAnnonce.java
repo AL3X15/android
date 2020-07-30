@@ -5,16 +5,16 @@ import java.util.ArrayList;
 public class PageResultAnnonce {
 	private int totalCount;
 	private int pageSize;
-	private int pageindex;
+	private int pageIndex;
 	private ArrayList<Annonce> items;
 
 	public PageResultAnnonce() {
 	}
 
-	public PageResultAnnonce(int totalCount, int pageSize, int pageindex, ArrayList<Annonce> annonces) {
+	public PageResultAnnonce(int totalCount, int pageSize, int pageIndex, ArrayList<Annonce> annonces) {
 		this.totalCount = totalCount;
 		this.pageSize = pageSize;
-		this.pageindex = pageindex;
+		this.pageIndex = pageIndex;
 		this.items = annonces;
 	}
 
@@ -34,12 +34,12 @@ public class PageResultAnnonce {
 		this.pageSize = pageSize;
 	}
 
-	public int getPageindex() {
-		return pageindex;
+	public int getPageIndex() {
+		return pageIndex;
 	}
 
-	public void setPageindex(int pageindex) {
-		this.pageindex = pageindex;
+	public void setPageIndex(int pageindex) {
+		this.pageIndex = pageindex;
 	}
 
 	public ArrayList<Annonce> getAnnonces() {

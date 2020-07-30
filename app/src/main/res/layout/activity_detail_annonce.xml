@@ -46,17 +46,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tagsDescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/AcceptAnnonce"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DetailEntrepriseDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

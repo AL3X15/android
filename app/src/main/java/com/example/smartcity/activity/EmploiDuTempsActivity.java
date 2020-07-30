@@ -1,5 +1,6 @@
 package com.example.smartcity.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,11 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
-import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
-import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.PageResultPostulation;
-import com.example.smartcity.model.UserEtudiant;
+import com.example.smartcity.model.Postulation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,136 +32,105 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 
 	@BindView(R.id.ListAnnonce)
 	public RecyclerView recyclerView;
+	@BindView(R.id.next3)
+	public Button next;
+	@BindView(R.id.prec3)
+	public Button prec;
+
+	private int page;
 	private AnnonceAdapter adapter;
-	private UserEtudiant userEtudiant;
-//TODO pagination
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_emploi_du_temps);
 		ButterKnife.bind(this);
 
-		userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
-
 		adapter = new AnnonceAdapter();
 
-		LoadAnnonce loadAnnonce = new LoadAnnonce();
-		loadAnnonce.execute();
+		page = 1;
+		new LoadAnnonce().execute();
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
-	}
 
-	public void errorMessage(String error) {
-		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+		next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				page++;
+				new LoadAnnonce().execute();
+
+				recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
+				recyclerView.setAdapter(adapter);
+			}
+		});
+		prec.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				page--;
+				new LoadAnnonce().execute();
+
+				recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
+				recyclerView.setAdapter(adapter);
+			}
+		});
+
 	}
 
 	private class AnnonceViewHolder extends RecyclerView.ViewHolder {
-
-		public TextView horraire;
-		public TextView activite;
-		public Button localise;
+		public TextView poste;
+		public Button moreInfo;
 
 		public AnnonceViewHolder(@NonNull View itemView, OnItemSelectedListener listener) {
 			super(itemView);
-			horraire = itemView.findViewById(R.id.horraire);
-			activite = itemView.findViewById(R.id.descElemHorraire);
-			localise = itemView.findViewById(R.id.localise);
-			localise.setOnClickListener(e -> {
-				int currentPosition = getAdapterPosition();
-				listener.onItemSelected(currentPosition);
+			poste = itemView.findViewById(R.id.annonce);
+			moreInfo = itemView.findViewById(R.id.moredetail);
+			moreInfo.setOnClickListener(e -> {
+				int cur = getAdapterPosition();
+				listener.onItemSelected(cur);
 			});
 		}
 	}
 
-	private class AnnonceAdapter extends RecyclerView.Adapter<AnnonceViewHolder> {
-		private ArrayList<Annonce> myAnnonces;
+	private class AnnonceAdapter extends RecyclerView.Adapter<EmploiDuTempsActivity.AnnonceViewHolder> {
+		private ArrayList<Postulation> postulations;
 
 		@NonNull
 		@Override
-		public AnnonceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-			LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.horraire_element, parent, false);
-			AnnonceViewHolder vh = new AnnonceViewHolder(v, position -> {
-                /*Annonce annonceSelect = myAnnonces.get(position);
-                Uri gmmIntentUri = Uri.parse(getString(R.string.uri_map)+annonceSelect.getEntreprise().getAdresse().toString());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage(getString(R.string.map_intent));
-                startActivity(mapIntent);*/
-
+		public EmploiDuTempsActivity.AnnonceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+			LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.annonce_element, parent, false);
+			EmploiDuTempsActivity.AnnonceViewHolder vh = new EmploiDuTempsActivity.AnnonceViewHolder(v, position -> {
+				//TODO fix destination
+				Intent intent = new Intent(EmploiDuTempsActivity.this, DetailAnnonceActivity.class);
+				intent.putExtra(getString(R.string.annonce), postulations.get(position).toString());
+				startActivity(intent);
 			});
 			return vh;
 		}
 
 		@Override
-		public void onBindViewHolder(@NonNull AnnonceViewHolder holder, int position) {
-			Annonce annonce = myAnnonces.get(position);
-			holder.activite.setText(annonce.getPoste());
-			holder.horraire.setText(annonce.getDateDebut() + getString(R.string.tiret) + annonce.getDateFin());
-			//holder.localise.setText(annonce.getEntreprise().getAdresse().toString());
+		public void onBindViewHolder(@NonNull EmploiDuTempsActivity.AnnonceViewHolder holder, int position) {
+			Postulation postulation = postulations.get(position);
+			holder.poste.setText(postulation.getAnnonce().getPoste());
 		}
 
 		@Override
 		public int getItemCount() {
-			return myAnnonces == null ? 0 : myAnnonces.size();
+			return postulations == null ? 0 : postulations.size();
 		}
 
-		public void setAnnonces(ArrayList<Annonce> myAnnonces) {
-			this.myAnnonces = myAnnonces;
+		public void setMyPostulation(ArrayList<Postulation> postulations) {
+			this.postulations = postulations;
+			notifyDataSetChanged();
 			notifyDataSetChanged();
 		}
 	}
 
-	private class LoadAnnonce extends AsyncTask<Integer, Void, PageResultPostulation> {
-		/*@Override
-		public ArrayList<Annonce> doInBackground(UserEtudiant... userEtudiants) {
-			AnnonceDataAccess annonceDataAccess = new AnnonceDao();
-			try {
-				return annonceDataAccess.getAnnonceEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
-			} catch (EtudiantDontExist e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.etudiant_error));
-					}
-				});
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (NothingFoundException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.emploieDuTemp_error));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return null;
-		}
-
+	private class LoadAnnonce extends AsyncTask<Void, Void, PageResultPostulation> {
 		@Override
-		protected void onPostExecute(ArrayList<Annonce> annonces) {
-			if (annonces != null) {
-				//LoadEntrepriseAnnonces loadEntreprise = new LoadEntrepriseAnnonces();
-				//loadEntreprise.execute((Annonce[]) annonces.toArray());
-			}
-
-		 */
-
-		@Override
-		protected PageResultPostulation doInBackground(Integer... ligne) {
+		protected PageResultPostulation doInBackground(Void... voids) {
 			try {
-				Response<PageResultPostulation> response = new AnnonceDao().getAnnonceEtudiant(ligne[0]);
+				Response<PageResultPostulation> response = new AnnonceDao().getAnnonceEtudiant(page);
 
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
@@ -184,51 +152,10 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		}
 
 		protected void onPostExecute(PageResultPostulation postulation) {
-			//adapter.setAnnonces(postulation);//TODO commentaire pour test
+			page = postulation.getPageIndex();
+			prec.setEnabled(postulation.getPageIndex() > 1);
+			next.setEnabled((postulation.getPageIndex()-1)*postulation.getPageSize()+postulation.getItems().size() < postulation.getTotalCount());
+			adapter.setMyPostulation(postulation.getItems());//TODO commentaire pour test
 		}
 	}
 }
-
-	/*private class LoadEntrepriseAnnonces extends AsyncTask<Annonce, Void, ArrayList<Annonce>> {
-		@Override
-		protected ArrayList<Annonce> doInBackground(Annonce... params) {
-			EntrepriseDataAccess entrepriseDataAccess = new EntrepriseDao();
-			try {
-				ArrayList<Annonce> annoncesComplete = new ArrayList<>();
-				for (Annonce a : params) {
-					a.setEntreprise(entrepriseDataAccess.getEntrepriseByAnnonce(((MyApplication) getApplication()).getInfoConnection().getAccessToken().getAccessToken(), params[0]));
-					annoncesComplete.add(a);
-				}
-				return annoncesComplete;
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (AnnonceDontExist e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.annonce_error));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Annonce> annonces) {
-			adapter.setAnnonces(annonces);
-		}
-	}
-}
-*/

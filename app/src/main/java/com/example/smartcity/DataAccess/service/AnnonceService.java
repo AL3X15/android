@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface AnnonceService {
 	//TODO adapter
-	@GET("/postulation/etudiant/{ligne}")
+	@GET("/postulation/mesPostulations/{ligne}")
 	Call<PageResultPostulation> getAnnonceEtudiant(@Path("ligne")int ligne);
 
 	@POST("/Annonce/page/{ligne}")

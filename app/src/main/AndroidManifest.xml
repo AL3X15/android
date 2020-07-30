@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.smartcity">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -10,7 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".activity.ResultatActivity"></activity>
+        <activity
+            android:name=".activity.PostulationActivity"
+            android:label="@string/title_activity_postulation"
+            android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".activity.ResultatActivity" />
         <activity android:name=".activity.EditProfilActivity" />
         <activity android:name=".activity.FaqActivity" />
         <activity
@@ -28,5 +34,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

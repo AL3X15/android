@@ -1,34 +1,45 @@
 package com.example.smartcity.model;
 
+import java.util.ArrayList;
+
 public class PageResultPostulation {
-	private int id;
-	private Boolean estAccepte;
-	private Annonce annonce;
+	private int totalCount;
+	private int pageSize;
+	private int pageIndex;
+	private ArrayList<Postulation> items;
 
 	public PageResultPostulation() {
 	}
 
-	public int getId() {
-		return id;
+	public int getTotalCount() {
+		return totalCount;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 
-	public Boolean getEstAccepte() {
-		return estAccepte;
+	public int getPageSize() {
+		return pageSize;
 	}
 
-	public void setEstAccepte(Boolean estAccepte) {
-		this.estAccepte = estAccepte;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 
-	public Annonce getAnnonce() {
-		return annonce;
+	public int getPageIndex() {
+		return pageIndex;
 	}
 
-	public void setAnnonce(Annonce annonce) {
-		this.annonce = annonce;
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
+
+	public ArrayList<Postulation> getItems() {
+		return items;
+	}
+
+	public void setItems(ArrayList<Postulation> items) {
+		this.items = items;
 	}
 }

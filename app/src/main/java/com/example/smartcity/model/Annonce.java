@@ -9,14 +9,7 @@ public class Annonce implements Serializable {
 	private Date dateDebut;
 	private Date dateFin;
 	private int paie;
-	private UserEntreprise entreprise;
-
-	public Annonce(String poste, Date dateDebut, Date dateFin, int paie, UserEntreprise userEntreprise, Adresse address) {
-		this.poste = poste;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.paie = paie;
-	}
+	private Entreprise entreprise;
 
 	public Annonce() {
 
@@ -63,11 +56,11 @@ public class Annonce implements Serializable {
 	}
 
 
-	public UserEntreprise getEntreprise() {
+	public Entreprise getEntreprise() {
 		return entreprise;
 	}
 
-	public void setEntreprise(UserEntreprise entreprise) {
+	public void setEntreprise(Entreprise entreprise) {
 		this.entreprise = entreprise;
 	}
 

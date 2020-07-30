@@ -86,9 +86,6 @@ public class ResultatActivity extends AppCompatActivity {
 
 	}
 
-	public void errorMessage(String error) {
-		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-	}
 
 	private class AnnonceViewHolder extends RecyclerView.ViewHolder {
 		public TextView poste;
@@ -164,12 +161,10 @@ public class ResultatActivity extends AppCompatActivity {
 		}
 
 		protected void onPostExecute(PageResultAnnonce annonces) {
-			if(annonces != null) {
-				page = annonces.getPageindex();
-				prec.setEnabled(annonces.getPageindex() > 1);
-				next.setEnabled(annonces.getPageSize() > annonces.getAnnonces().size());
+				page = annonces.getPageIndex();
+				prec.setEnabled(annonces.getPageIndex() > 1);
+				next.setEnabled((annonces.getPageIndex()-1)*annonces.getPageSize()+annonces.getAnnonces().size() < annonces.getTotalCount());
 				adapter.setMyAnnonces(annonces.getAnnonces());//TODO commentaire pour test
-			}
 		}
 	}
 }

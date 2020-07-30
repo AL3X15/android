@@ -1,10 +1,21 @@
 package com.example.smartcity.model;
 
-public class Entreprise {
-	private String nomResponsable;
-	private String numeroBanqueCarrefourEts;
-	private Adresse adresse;
+import java.io.Serializable;
 
+public class Entreprise implements Serializable {
+	private String nomResponsable;
+	private UserEntreprise user;
+
+	public Entreprise() {
+	}
+
+	public UserEntreprise getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntreprise user) {
+		this.user = user;
+	}
 	public String getNomResponsable() {
 		return nomResponsable;
 	}
@@ -13,19 +24,6 @@ public class Entreprise {
 		this.nomResponsable = nomResponsable;
 	}
 
-	public String getNumeroBanqueCarrefourEts() {
-		return numeroBanqueCarrefourEts;
-	}
 
-	public void setNumeroBanqueCarrefourEts(String numeroBanqueCarrefourEts) {
-		this.numeroBanqueCarrefourEts = numeroBanqueCarrefourEts;
-	}
 
-	public Adresse getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(Adresse adresse) {
-		this.adresse = adresse;
-	}
 }
