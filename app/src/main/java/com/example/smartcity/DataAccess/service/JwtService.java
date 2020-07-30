@@ -9,6 +9,6 @@ import retrofit2.http.POST;
 
 public interface JwtService {
 
-	@POST("Jwt")
+	@POST("/Jwt/")
 	Call<AccessToken> getAccessToken(@Body InfoConnection infoConnection);
 }

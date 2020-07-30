@@ -9,6 +9,4 @@ import retrofit2.Response;
 public interface EntrepriseDataAccess {
 
 	Response<UserEntreprise> getEntrepriseByAnnonce(int id) throws IOException;
-
-	//public UserEntreprise getEntrepriseByAnnonce(String accessToken, Annonce annonce)throws Exception;
 }

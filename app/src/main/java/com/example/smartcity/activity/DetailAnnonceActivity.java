@@ -53,7 +53,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 		//loadEntreprise.execute(annonce);
 
 		details.setText(annonce.toString());
-
+		entrepriseNom.setText(annonce.getEntreprise().getNom());
 		adapter = new TagAdapter();
 
 		//userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();

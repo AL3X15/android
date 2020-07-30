@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 
 public class AccessToken {
 	private GregorianCalendar dateExpiration;
-	private String accessToken;
+	private String access_token;
 
 	public GregorianCalendar getDateExpiration() {
 		return dateExpiration;
@@ -15,10 +15,10 @@ public class AccessToken {
 	}
 
 	public String getAccessToken() {
-		return accessToken;
+		return access_token;
 	}
 
 	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
+		this.access_token = accessToken;
 	}
 }

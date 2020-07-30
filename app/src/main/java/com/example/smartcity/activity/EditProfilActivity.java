@@ -1,10 +1,5 @@
 package com.example.smartcity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,17 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartcity.DataAccess.dao.TagDao;
-import com.example.smartcity.DataAccess.dao.TagDataAccess;
 import com.example.smartcity.DataAccess.dao.UserDao;
-import com.example.smartcity.DataAccess.dao.UserDataAccess;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.NoTag;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Adresse;
-import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Tag;
+import com.example.smartcity.model.TagClasse;
+import com.example.smartcity.model.UserEtudiant;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -179,45 +176,81 @@ public class EditProfilActivity extends AppCompatActivity {
 			notifyDataSetChanged();
 		}
 	}
-/*
-	private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
-		@Override
-		protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
-			try {
-				TagDataAccess tagDataAccess = new TagDao();
-				return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (NoTag e) {
 
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
+	/*
+		private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
+			@Override
+			protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
+				try {
+					TagDataAccess tagDataAccess = new TagDao();
+					return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
+				} catch (ApiAccessException e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							errorMessage(getString(R.string.accessApiError));
+						}
+					});
+				} catch (NoTag e) {
+
+				} catch (Exception e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							errorMessage(getString(R.string.connection_error));
+						}
+					});
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(ArrayList<Tag> tags) {
+				if (tags != null) {
+					tagsEtudiant = tags;
+				}
+				LoadAllTags loadAllTags = new LoadAllTags();
+				loadAllTags.execute();
+			}
+		}
+	*/
+
+	private class GetUser extends AsyncTask<Void, Void, UserEtudiant> {
+
+		@Override
+		protected UserEtudiant doInBackground(Void... voids) {
+			try {
+				Response<UserEtudiant> response = new UserDao().getMe();
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return response.body();
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			return null;
 		}
 
-		@Override
-		protected void onPostExecute(ArrayList<Tag> tags) {
-			if (tags != null) {
-				tagsEtudiant = tags;
+		protected void onPostExecute(UserEtudiant userEtudiant) {
+			if(userEtudiant != null) {
+				//Context context = activity.getBaseContext();
+				//Preference preference = new Preference(userEtudiant.getEmail(), AuthSessionService.getToken(context));
+				//Utils.editSharedPreference(ConnexionActivity.this, preference);
 			}
-			LoadAllTags loadAllTags = new LoadAllTags();
-			loadAllTags.execute();
 		}
 	}
-*/
-	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<Tag>> {
-		@Override
+
+	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<TagClasse>> {
+		/*@Override
 		protected ArrayList<Tag> doInBackground(Void... voids) {
 			TagDataAccess tagDataAccess = new TagDao();
 			try {
@@ -245,6 +278,38 @@ public class EditProfilActivity extends AppCompatActivity {
 			adapter.setTags(tags);
 			validateEdit.setEnabled(true);
 		}
+
+		 */
+
+		@Override
+		protected ArrayList<TagClasse> doInBackground(Void... voids) {
+			try {
+				Response<ArrayList<TagClasse>> response = new TagDao().GetTags();
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return response.body();
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {
+					Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		protected void onPostExecute(ArrayList<TagClasse> tags) {
+			//adapter.setTags(tags);//TODO commentaire pour test
+			validateEdit.setEnabled(true);
+		}
+
 	}
 
 	private class EditProfile extends AsyncTask<UserEtudiant, Void, Void> {
@@ -285,7 +350,8 @@ public class EditProfilActivity extends AppCompatActivity {
 					return null;
 				}
 				//TODO vérifier si ca marche
-				runOnUiThread(() -> {Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+				runOnUiThread(() -> {
+					Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
 					try {
 						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
 					} catch (IOException e) {

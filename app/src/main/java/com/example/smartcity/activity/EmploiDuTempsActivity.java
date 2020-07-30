@@ -1,10 +1,5 @@
 package com.example.smartcity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,23 +10,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
-import com.example.smartcity.DataAccess.dao.AnnonceDataAccess;
-import com.example.smartcity.DataAccess.dao.EntrepriseDao;
-import com.example.smartcity.DataAccess.dao.EntrepriseDataAccess;
-import com.example.smartcity.Exception.AnnonceDontExist;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.EtudiantDontExist;
-import com.example.smartcity.Exception.NothingFoundException;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.model.Annonce;
+import com.example.smartcity.model.PageResultPostulation;
 import com.example.smartcity.model.UserEtudiant;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Response;
 
 public class EmploiDuTempsActivity extends AppCompatActivity {
 
@@ -39,7 +35,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 	public RecyclerView recyclerView;
 	private AnnonceAdapter adapter;
 	private UserEtudiant userEtudiant;
-
+//TODO pagination
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +47,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		adapter = new AnnonceAdapter();
 
 		LoadAnnonce loadAnnonce = new LoadAnnonce();
-		loadAnnonce.execute(userEtudiant);
+		loadAnnonce.execute();
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
@@ -116,8 +112,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		}
 	}
 
-	private class LoadAnnonce extends AsyncTask<UserEtudiant, Void, ArrayList<Annonce>> {
-		@Override
+	private class LoadAnnonce extends AsyncTask<Integer, Void, PageResultPostulation> {
+		/*@Override
 		public ArrayList<Annonce> doInBackground(UserEtudiant... userEtudiants) {
 			AnnonceDataAccess annonceDataAccess = new AnnonceDao();
 			try {
@@ -157,13 +153,43 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(ArrayList<Annonce> annonces) {
 			if (annonces != null) {
-				LoadEntrepriseAnnonces loadEntreprise = new LoadEntrepriseAnnonces();
-				loadEntreprise.execute((Annonce[]) annonces.toArray());
+				//LoadEntrepriseAnnonces loadEntreprise = new LoadEntrepriseAnnonces();
+				//loadEntreprise.execute((Annonce[]) annonces.toArray());
 			}
+
+		 */
+
+		@Override
+		protected PageResultPostulation doInBackground(Integer... ligne) {
+			try {
+				Response<PageResultPostulation> response = new AnnonceDao().getAnnonceEtudiant(ligne[0]);
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return response.body();
+				}
+				//TODO vérifier si ca marche
+				runOnUiThread(() -> {
+					Toast.makeText(EmploiDuTempsActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(EmploiDuTempsActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		protected void onPostExecute(PageResultPostulation postulation) {
+			//adapter.setAnnonces(postulation);//TODO commentaire pour test
 		}
 	}
+}
 
-	private class LoadEntrepriseAnnonces extends AsyncTask<Annonce, Void, ArrayList<Annonce>> {
+	/*private class LoadEntrepriseAnnonces extends AsyncTask<Annonce, Void, ArrayList<Annonce>> {
 		@Override
 		protected ArrayList<Annonce> doInBackground(Annonce... params) {
 			EntrepriseDataAccess entrepriseDataAccess = new EntrepriseDao();
@@ -205,3 +231,4 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		}
 	}
 }
+*/

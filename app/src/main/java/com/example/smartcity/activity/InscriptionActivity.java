@@ -69,7 +69,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_inscription);
 		ButterKnife.bind(this);
 		homme.setChecked(true);
-
+		//TODO check forù AddEventActi
 		validateInscription.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

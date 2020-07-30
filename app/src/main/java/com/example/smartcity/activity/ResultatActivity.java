@@ -18,14 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.CritereRecherche;
-import com.example.smartcity.model.Tag;
+import com.example.smartcity.model.PageResultAnnonce;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,12 +35,14 @@ public class ResultatActivity extends AppCompatActivity {
 
 	@BindView(R.id.AnnoncesResultat)
 	public RecyclerView recyclerView;
-	private AnnonceAdapter adapter;
-	private ArrayList<Tag> tags;
+	@BindView(R.id.next)
+	public Button next;
+	@BindView(R.id.prec)
+	public Button prec;
 
-	private GregorianCalendar dateFin;
-	private GregorianCalendar dateDebut;
+	private AnnonceAdapter adapter;
 	private CritereRecherche critereRecherche;
+	private int page;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +50,40 @@ public class ResultatActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_resultat);
 		ButterKnife.bind(this);
 		adapter = new AnnonceAdapter();
+		page = 1;
 
-		critereRecherche.setTags(getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer)));
-		critereRecherche.setDateDebut(new GregorianCalendar());
-		critereRecherche.getDateDebut().setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_start)));
-		critereRecherche.setDateFin(new GregorianCalendar());
-		critereRecherche.getDateFin().setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_end)));
-		/*tags = getIntent().getParcelableArrayListExtra(getString(R.string.tags_transfer));
-		dateDebut = new GregorianCalendar();
-		dateDebut.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_start)));
-		dateFin = new GregorianCalendar();
-		dateFin.setTime((Date) getIntent().getSerializableExtra(getString(R.string.date_end)));*/
+		critereRecherche = new CritereRecherche();
+		critereRecherche.setDateDebut(new Date());
+		critereRecherche.setDateDebut(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_start))));
+		critereRecherche.setDateFin(new Date());
+		critereRecherche.setDateFin(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_end))));
 		new LoadAnnonce().execute(critereRecherche);
 
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
+
+
+		next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				page++;
+				new LoadAnnonce().execute(critereRecherche);
+
+				recyclerView.setLayoutManager(new LinearLayoutManager(ResultatActivity.this));
+				recyclerView.setAdapter(adapter);
+			}
+		});
+		prec.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				page--;
+				new LoadAnnonce().execute(critereRecherche);
+
+				recyclerView.setLayoutManager(new LinearLayoutManager(ResultatActivity.this));
+				recyclerView.setAdapter(adapter);
+			}
+		});
+
 	}
 
 	public void errorMessage(String error) {
@@ -118,48 +139,11 @@ public class ResultatActivity extends AppCompatActivity {
 		}
 	}
 
-	private class LoadAnnonce extends AsyncTask<CritereRecherche, Void, ArrayList<Annonce>> {
-		/*@Override
-		protected ArrayList<Annonce> doInBackground(ArrayList<Tag>... tags) {
-			AnnonceDataAccess annonceDataAccess = new AnnonceDao();
-			try {
-				return annonceDataAccess.getResultatSerch(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), dateDebut, dateFin, tags[0]);
-			} catch (AnnonceDontExist e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.annonce_error));
-					}
-				});
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-				Log.i("erreur", e.getMessage());
-			}
-			return null;
-		}
-
+	private class LoadAnnonce extends AsyncTask<CritereRecherche, Void, PageResultAnnonce> {
 		@Override
-		protected void onPostExecute(ArrayList<Annonce> annonces) {
-			adapter.setMyAnnonces(annonces);
-		}
-
-		 */
-		@Override
-		protected ArrayList<Annonce> doInBackground(CritereRecherche... critereRecherches) {
+		protected PageResultAnnonce doInBackground(CritereRecherche... critereRecherches) {
 			try {
-				Response<ArrayList<Annonce>> response = new AnnonceDao().getResultatSerch(critereRecherches[0]);
+				Response<PageResultAnnonce> response = new AnnonceDao().getResultatSerch(page, critereRecherches[0]);
 
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
@@ -179,9 +163,12 @@ public class ResultatActivity extends AppCompatActivity {
 			return null;
 		}
 
-		protected void onPostExecute(ArrayList<Annonce> annonces) {
+		protected void onPostExecute(PageResultAnnonce annonces) {
 			if(annonces != null) {
-				adapter.setMyAnnonces(annonces);
+				page = annonces.getPageindex();
+				prec.setEnabled(annonces.getPageindex() > 1);
+				next.setEnabled(annonces.getPageSize() > annonces.getAnnonces().size());
+				adapter.setMyAnnonces(annonces.getAnnonces());//TODO commentaire pour test
 			}
 		}
 	}

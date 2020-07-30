@@ -43,7 +43,7 @@ public class Utils {
         editor.commit();
     }
     public static Preference getSharedPreference(Activity activity){
-        SharedPreferences sharedPreferences = activity.getSharedPreferences(activity.getString(R.string.file_user),Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(activity.getString(R.string.file_user), Context.MODE_PRIVATE);
         String defaultValueMail = activity.getString(R.string.mail_default);
         String emailUser = sharedPreferences.getString(activity.getString(R.string.user_saved),defaultValueMail);
         AccessToken accessToken = new AccessToken();

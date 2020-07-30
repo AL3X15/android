@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 
 public interface FaqService {
 
-	@GET("/Faq/page/")
+	@GET("/Faq/page/{ligne}")
 	Call<PageResultFaq> getFaq(@Path("ligne")int ligne);
 }

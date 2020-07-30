@@ -10,5 +10,4 @@ public interface FaqDataAccess {
 
 	Response<PageResultFaq> getFaq(int page) throws IOException;
 
-	//public ArrayList<Faq> getAllFaq(AccessToken accessToken)throws Exception;
 }

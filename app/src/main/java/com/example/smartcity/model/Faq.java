@@ -27,4 +27,5 @@ public class Faq {
 	public void setReponse(String reponse) {
 		this.reponse = reponse;
 	}
+
 }

@@ -2,6 +2,7 @@ package com.example.smartcity.DataAccess.service;
 
 import com.example.smartcity.model.CritereRecherche;
 import com.example.smartcity.model.PageResultAnnonce;
+import com.example.smartcity.model.PageResultPostulation;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,13 +11,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface AnnonceService {
-	//TODO faire dans l'api
-	@GET("/postulation/etudiant/")
-	Call<PageResultAnnonce> getAnnonceEtudiant(@Path("id")int id);
+	//TODO adapter
+	@GET("/postulation/etudiant/{ligne}")
+	Call<PageResultPostulation> getAnnonceEtudiant(@Path("ligne")int ligne);
 
-	@GET("/https://smartcityjober.azurewebsites.net/annonce/page/")
+	@POST("/Annonce/page/{ligne}")
 	Call<PageResultAnnonce> getResultatSerch(@Path("ligne")int ligne, @Body CritereRecherche critereRecherche);
 
-	@POST("/Postulation/")
-	Call<Void> acceptAnnonce(@Path("id")int id);
+	@POST("/Postulation/{ligne}")
+	Call<Void> acceptAnnonce(@Path("ligne")int ligne);
 }

@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 
 public interface EntrepriseService {
 
-	@GET("/entreprise/")
+	@GET("/entreprise/{id}")
 	Call<UserEntreprise> getEntrepriseByAnnonce(@Path("id")int id);
 }

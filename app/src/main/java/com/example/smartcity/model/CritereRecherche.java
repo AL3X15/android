@@ -1,29 +1,29 @@
 package com.example.smartcity.model;
 
 import java.io.Serializable;
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 public class CritereRecherche implements Serializable {
-	private GregorianCalendar dateDebut;
-	private GregorianCalendar dateFin;
+	private Date dateDebut;
+	private Date dateFin;
 
 
 	public CritereRecherche() {
 	}
 
-	public GregorianCalendar getDateDebut() {
+	public Date getDateDebut() {
 		return dateDebut;
 	}
 
-	public void setDateDebut(GregorianCalendar dateDebut) {
+	public void setDateDebut(Date dateDebut) {
 		this.dateDebut = dateDebut;
 	}
 
-	public GregorianCalendar getDateFin() {
+	public Date getDateFin() {
 		return dateFin;
 	}
 
-	public void setDateFin(GregorianCalendar dateFin) {
+	public void setDateFin(Date dateFin) {
 		this.dateFin = dateFin;
 	}
 

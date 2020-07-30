@@ -5,18 +5,18 @@ import java.util.ArrayList;
 public class PageResultFaq {
 	private int totalCount;
 	private int pageSize;
-	private int pageindex;
-	private ArrayList<Faq> faqs;
+	private int pageIndex;
+	private ArrayList<Faq> items;
 
 
 	public PageResultFaq() {
 	}
 
-	public PageResultFaq(int totalCount, int pageSize, int pageindex, ArrayList<Faq> faqs) {
+	public PageResultFaq(int totalCount, int pageSize, int pageIndex, ArrayList<Faq> faqs) {
 		this.totalCount = totalCount;
 		this.pageSize = pageSize;
-		this.pageindex = pageindex;
-		this.faqs = faqs;
+		this.pageIndex = pageIndex;
+		this.items = faqs;
 	}
 
 	public int getTotalCount() {
@@ -36,19 +36,19 @@ public class PageResultFaq {
 	}
 
 	public int getPageindex() {
-		return pageindex;
+		return pageIndex;
 	}
 
-	public void setPageindex(int pageindex) {
-		this.pageindex = pageindex;
+	public void setPageindex(int pageIndex) {
+		this.pageIndex = pageIndex;
 	}
 
 	public ArrayList<Faq> getFaqs() {
-		return faqs;
+		return items;
 	}
 
 	public void setFaqs(ArrayList<Faq> faqs) {
-		this.faqs = faqs;
+		this.items = faqs;
 	}
 }
 

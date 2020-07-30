@@ -1,46 +1,26 @@
 package com.example.smartcity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import com.example.smartcity.DataAccess.dao.TagDao;
-import com.example.smartcity.DataAccess.dao.TagDataAccess;
-import com.example.smartcity.Exception.ApiAccessException;
-import com.example.smartcity.Exception.NoTag;
-import com.example.smartcity.Exception.NothingFoundException;
-import com.example.smartcity.MyApplication;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
-import com.example.smartcity.model.UserEtudiant;
-import com.example.smartcity.model.Tag;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RechercheAnnonceActivity extends AppCompatActivity {
-	@BindView(R.id.TagRecherche)
-	public RecyclerView tagRecyclerView;
-	private TagRechercheAdapter adapter;
-	private ArrayList<Tag> tagsEtudiant;
-	private UserEtudiant userEtudiant;
+	//@BindView(R.id.TagRecherche)
+	//public RecyclerView tagRecyclerView;
+	//private TagRechercheAdapter adapter;
+	//private ArrayList<Tag> tagsEtudiant;
+	//private UserEtudiant userEtudiant;
 
 	@BindView(R.id.dateDebut)
 	public EditText dateDebut;
@@ -55,27 +35,52 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_recherche_annonce);
 		ButterKnife.bind(this);
 
-		search.setEnabled(false);
+		//search.setEnabled(false);
 
-		userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
+		//userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
 
-		adapter = new TagRechercheAdapter();
-		tagsEtudiant = new ArrayList<>();
+		//adapter = new TagRechercheAdapter();
+		//tagsEtudiant = new ArrayList<>();
 
 		//LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
 		//loadTagEtudiant.execute(userEtudiant);
 
-		tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-		tagRecyclerView.setAdapter(adapter);
+		//tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+		//tagRecyclerView.setAdapter(adapter);
 
 		search.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Date dateDebutRech = Utils.stringToDate(dateDebut.getText().toString());
-				Date dateFinRech = Utils.stringToDate(dateFin.getText().toString());
-				if (dateDebutRech != null && dateFinRech != null && dateDebutRech.before(dateFinRech)) {
+/*
+
+				if(dateDebut.getText().toString().isEmpty()) {
+					dateDebut.setError(getResources().getString(R.string.error_empty));
+					success = false;
+				} else if (!dateDebut.getText().toString().matches("\\d{4}\\/\\d{2}\\/\\d{2}")) {
+
+					dateDebut.setError(getResources().getString(R.string.error_matche_birthdate));
+					success = false;
+				} else if(!(DateFormatUtil.getDateFormated(dateDebut.getText().toString()).after(new Date()))) {
+					dateDebut.setError(getResources().getString(R.string.error_date_after_today));
+					success = false;
+				}
+
+				if(!dateFin.getText().toString().isEmpty() && !dateFin.getText().toString().matches("\\d{4}\\/\\d{2}\\/\\d{2}")){
+					dateFin.setError(getResources().getString(R.string.error_matche_birthdate));
+					success = false;
+				}else if(!endDateText.getText().toString().isEmpty()) {
+
+					if(!DateFormatUtil.getDateFormated(dateFin.getText().toString()).after(DateFormatUtil.getDateFormated(startDateText.getText().toString()))) {
+						dateFin.setError(getResources().getString(R.string.error_date_after_begin_date));
+						success = false;
+					}
+				}
+*/
+
+				String dateDebutRech = dateDebut.getText().toString();
+				String dateFinRech = dateFin.getText().toString();
+				if (dateDebutRech != null && dateFinRech != null && Utils.stringToDate(dateDebutRech).before(Utils.stringToDate(dateFinRech))) {
 					Intent intent = new Intent(RechercheAnnonceActivity.this, ResultatActivity.class);
-					intent.putParcelableArrayListExtra(getString(R.string.tags_transfer), tagsEtudiant);
 					intent.putExtra(getString(R.string.date_start), dateDebutRech);
 					intent.putExtra(getString(R.string.date_end), dateFinRech);
 					startActivity(intent);
@@ -86,7 +91,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 			}
 		});
 	}
-
+/*
 	public void errorMessage(String error) {
 		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 	}
@@ -141,59 +146,60 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 			notifyDataSetChanged();
 		}
 	}
-/*
-	private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
-		@Override
-		protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
-			TagDataAccess tagDataAccess = new TagDao();
-			try {
-				return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (NoTag e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.tag_errors));
-					}
-				});
-			} catch (NothingFoundException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.recherche_error));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
+
+
+		private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
+			@Override
+			protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
+				TagDataAccess tagDataAccess = new TagDao();
+				try {
+					return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
+				} catch (ApiAccessException e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							errorMessage(getString(R.string.accessApiError));
+						}
+					});
+				} catch (NoTag e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							errorMessage(getString(R.string.tag_errors));
+						}
+					});
+				} catch (NothingFoundException e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							errorMessage(getString(R.string.recherche_error));
+						}
+					});
+				} catch (Exception e) {
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							errorMessage(getString(R.string.connection_error));
+						}
+					});
+				}
+
+
+				return null;
 			}
 
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Tag> tags) {
-			if (tags != null) {
-				tagsEtudiant = tags;
+			@Override
+			protected void onPostExecute(ArrayList<Tag> tags) {
+				if (tags != null) {
+					tagsEtudiant = tags;
+				}
+				LoadAllTags loadAllTags = new LoadAllTags();
+				loadAllTags.execute();
 			}
-			LoadAllTags loadAllTags = new LoadAllTags();
-			loadAllTags.execute();
+
 		}
 
-	}
-*/
-	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<Tag>> {
+	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<TagClasse>> {
 		@Override
 		protected ArrayList<Tag> doInBackground(Void... voids) {
 			TagDataAccess tagDataAccess = new TagDao();
@@ -222,5 +228,33 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 			adapter.setTags(tags);
 			search.setEnabled(true);
 		}
-	}
+		@Override
+		protected ArrayList<TagClasse> doInBackground(Void... voids) {
+			try {
+				Response<ArrayList<TagClasse>> response = new TagDao().GetTags();
+
+				if (response.isSuccessful() && response.code() == 200) {
+					return response.body();
+				}
+
+				runOnUiThread(() -> {
+					Toast.makeText(RechercheAnnonceActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
+					try {
+						Toast.makeText(RechercheAnnonceActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		protected void onPostExecute(ArrayList<TagClasse> tags) {
+			adapter.setTags(tags);
+			search.setEnabled(true);
+		}
+	}*/
 }

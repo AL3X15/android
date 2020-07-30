@@ -63,4 +63,6 @@
     <string name="deja_postule">already postul</string>
     <string name="moreinfo">more infos</string>
     <string name="PasswordPrevious">Previous password :</string>
+    <string name="next">Next</string>
+    <string name="prec" translatable="false">Precedent</string>
 </resources>

@@ -2,9 +2,11 @@ package com.example.smartcity.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +33,12 @@ public class FaqActivity extends AppCompatActivity {
 	@BindView(R.id.faqs)
 	RecyclerView recyclerView;
 	FaqAdapter adapter;
-	int page = 0;
+	@BindView(R.id.next2)
+	public Button next;
+	@BindView(R.id.prec2)
+	public Button prec;
+	int page;
+
 	//TODO pagination
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +46,37 @@ public class FaqActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_faq);
 		ButterKnife.bind(this);
 		adapter = new FaqAdapter();
-
-		LoadFaq loadFaq = new LoadFaq();
-		loadFaq.execute(page);
-
+		page = 1;
+		Log.d("test",",on create "+page);
+		new LoadFaq().execute(page);
+		Log.d("test",",on create "+page);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		recyclerView.setAdapter(adapter);
+
+
+
+		next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				page++;
+				new LoadFaq().execute(page);
+
+				recyclerView.setLayoutManager(new LinearLayoutManager(FaqActivity.this));
+				recyclerView.setAdapter(adapter);
+			}
+		});
+		prec.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				page--;
+				new LoadFaq().execute(page);
+
+				recyclerView.setLayoutManager(new LinearLayoutManager(FaqActivity.this));
+				recyclerView.setAdapter(adapter);
+			}
+		});
+
+
 	}
 
 	public void errorMessage(String error) {
@@ -86,12 +118,13 @@ public class FaqActivity extends AppCompatActivity {
 				@Override
 				public void onClick(View v) {
 					int currentPosition = holder.getAdapterPosition();
-					if (!holder.isAffiche()) {
+					//if (!holder.isAffiche()) {
 						Faq faqSelect = myFaq.get(position);
 						holder.reponse.setText(faqSelect.getReponse());
-					} else {
-						holder.reponse.setText(getString(R.string.void_string));
-					}
+					//} else {
+					//	holder.reponse.clearComposingText();
+					//	holder.reponse.setText(getString(R.string.void_string));
+					//}
 				}
 			});
 		}
@@ -108,34 +141,6 @@ public class FaqActivity extends AppCompatActivity {
 	}
 
 	private class LoadFaq extends AsyncTask<Integer, Void, PageResultFaq> {
-		/*@Override
-		protected ArrayList<Faq> doInBackground(Void... voids) {
-			FaqDataAccess access = new FaqDao();
-			try {
-				UserEtudiant userEtudiant = ((MyApplication) getApplication()).getInfoConnection().getUserEtudiant();
-				return access.getAllFaq(((MyApplication) getApplication()).getInfoConnection().getAccessToken());
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Faq> faqs) {
-			adapter.setFaq(faqs);
-		}*/
 		@Override
 		protected PageResultFaq doInBackground(Integer... page) {
 			try {
@@ -162,6 +167,8 @@ public class FaqActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(PageResultFaq pageResultFaq) {
 			page = pageResultFaq.getPageindex();
+			prec.setEnabled(pageResultFaq.getPageindex() > 1);
+			next.setEnabled(pageResultFaq.getPageSize() > pageResultFaq.getFaqs().size());
 			adapter.setFaq(pageResultFaq.getFaqs());
 		}
 	}

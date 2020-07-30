@@ -1,7 +1,6 @@
 package com.example.smartcity.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Annonce implements Serializable {
@@ -10,7 +9,6 @@ public class Annonce implements Serializable {
 	private Date dateDebut;
 	private Date dateFin;
 	private int paie;
-	private ArrayList<Tag> tags;
 	private UserEntreprise entreprise;
 
 	public Annonce(String poste, Date dateDebut, Date dateFin, int paie, UserEntreprise userEntreprise, Adresse address) {
@@ -18,11 +16,10 @@ public class Annonce implements Serializable {
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.paie = paie;
-		tags = new ArrayList<>();
 	}
 
 	public Annonce() {
-		tags = new ArrayList<>();
+
 	}
 
 	public String getPoste() {
@@ -65,13 +62,6 @@ public class Annonce implements Serializable {
 		this.id = id;
 	}
 
-	public ArrayList<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(ArrayList<Tag> tags) {
-		this.tags = tags;
-	}
 
 	public UserEntreprise getEntreprise() {
 		return entreprise;
