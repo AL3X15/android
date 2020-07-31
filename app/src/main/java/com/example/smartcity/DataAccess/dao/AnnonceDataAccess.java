@@ -12,6 +12,7 @@ public interface AnnonceDataAccess {
 
     Response<PageResultPostulation> getAnnonceEtudiant(int ligne) throws IOException;
     Response<PageResultAnnonce> getResultatSerch(int ligne, CritereRecherche critereRecherche) throws IOException;
-    Response<Void> acceptAnnonce(int ligne) throws IOException;
+    Response<Void> acceptAnnonce(int id) throws IOException;
+    Response<Void> annulerPost(int id) throws  IOException;
 
 }

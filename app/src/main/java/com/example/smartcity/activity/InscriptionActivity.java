@@ -127,50 +127,12 @@ public class InscriptionActivity extends AppCompatActivity {
 	}
 
 	private class Inscription extends AsyncTask<UserEtudiant, Void, Void> {
-		/*@Override
-		protected Void doInBackground(UserEtudiant... userEtudiants) {
-			UserDataAccess userDataAccess = new UserDao();
-			try {
-				userDataAccess.inscription(userEtudiants[0]);
-				Intent intent = new Intent(InscriptionActivity.this, ConnexionActivity.class);
-				startActivity(intent);
-			} catch (EtudiantDontExist e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.etudiant_error));
-					}
-				});
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (InscriptionInvalide e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.inscription_error));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return null;
-		}*/
 		@Override
 		protected Void doInBackground(UserEtudiant... userEtudiants) {
 			try {
 				Response<Void> response = new UserDao().inscription(userEtudiants[0]);
 
-				if (response.isSuccessful() && response.code() == 200) {
+				if (response.isSuccessful() && response.code() == 201) {
 					return null;
 				}
 				//TODO vérifier si ca marche

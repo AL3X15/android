@@ -177,43 +177,6 @@ public class EditProfilActivity extends AppCompatActivity {
 		}
 	}
 
-	/*
-		private class LoadTagEtudiant extends AsyncTask<UserEtudiant, Void, ArrayList<Tag>> {
-			@Override
-			protected ArrayList<Tag> doInBackground(UserEtudiant... userEtudiants) {
-				try {
-					TagDataAccess tagDataAccess = new TagDao();
-					return tagDataAccess.getTagsEtudiant(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
-				} catch (ApiAccessException e) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							errorMessage(getString(R.string.accessApiError));
-						}
-					});
-				} catch (NoTag e) {
-
-				} catch (Exception e) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							errorMessage(getString(R.string.connection_error));
-						}
-					});
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(ArrayList<Tag> tags) {
-				if (tags != null) {
-					tagsEtudiant = tags;
-				}
-				LoadAllTags loadAllTags = new LoadAllTags();
-				loadAllTags.execute();
-			}
-		}
-	*/
 
 	private class GetUser extends AsyncTask<Void, Void, UserEtudiant> {
 
@@ -250,37 +213,6 @@ public class EditProfilActivity extends AppCompatActivity {
 	}
 
 	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<TagClasse>> {
-		/*@Override
-		protected ArrayList<Tag> doInBackground(Void... voids) {
-			TagDataAccess tagDataAccess = new TagDao();
-			try {
-				return tagDataAccess.getAllTag(((MyApplication) getApplication()).getInfoConnection().getAccessToken());
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Tag> tags) {
-			adapter.setTags(tags);
-			validateEdit.setEnabled(true);
-		}
-
-		 */
-
 		@Override
 		protected ArrayList<TagClasse> doInBackground(Void... voids) {
 			try {
@@ -313,34 +245,6 @@ public class EditProfilActivity extends AppCompatActivity {
 	}
 
 	private class EditProfile extends AsyncTask<UserEtudiant, Void, Void> {
-		/*@Override
-		protected UserEtudiant doInBackground(UserEtudiant... userEtudiants) {
-			UserDataAccess userDataAccess = new UserDao();
-			try {
-				userDataAccess.editMe(((MyApplication) getApplication()).getInfoConnection().getAccessToken(), userEtudiants[0]);
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return userEtudiants[0];
-		}
-
-		@Override
-		protected void onPostExecute(UserEtudiant userEtudiant) {
-			((MyApplication) getApplication()).getInfoConnection().setUserEtudiant(userEtudiant);
-			startActivity(new Intent(EditProfilActivity.this, AcceuilActivity.class));
-		}*/
 		@Override
 		protected Void doInBackground(UserEtudiant... userEtudiants) {
 			try {

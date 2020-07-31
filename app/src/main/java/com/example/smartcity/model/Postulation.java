@@ -1,6 +1,8 @@
 package com.example.smartcity.model;
 
-public class Postulation {
+import java.io.Serializable;
+
+public class Postulation implements Serializable {
 	private int id;
 	private Boolean estAccepte;
 	private Annonce annonce;

@@ -29,10 +29,18 @@ public class AnnonceDao implements AnnonceDataAccess {
 	}
 
 	@Override
-	public Response<Void> acceptAnnonce(int ligne) throws IOException{
+	public Response<Void> acceptAnnonce(int id) throws IOException{
 		return ApiClient.getInstance().getRetrofit()
 				.create(AnnonceService.class)
-				.acceptAnnonce(ligne)
+				.acceptAnnonce(id)
+				.execute();
+	}
+
+	@Override
+	public Response<Void> annulerPost(int id) throws  IOException{
+		return ApiClient.getInstance().getRetrofit()
+				.create(AnnonceService.class)
+				.annulerPost(id)
 				.execute();
 	}
 }

@@ -6,6 +6,7 @@ import com.example.smartcity.model.PageResultPostulation;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -18,6 +19,9 @@ public interface AnnonceService {
 	@POST("/Annonce/page/{ligne}")
 	Call<PageResultAnnonce> getResultatSerch(@Path("ligne")int ligne, @Body CritereRecherche critereRecherche);
 
-	@POST("/Postulation/{ligne}")
-	Call<Void> acceptAnnonce(@Path("ligne")int ligne);
+	@POST("/Postulation/{id}")
+	Call<Void> acceptAnnonce(@Path("id")int id);
+
+	@DELETE("/Postulation/{id}")
+	Call<Void> annulerPost(@Path("id")int id);
 }

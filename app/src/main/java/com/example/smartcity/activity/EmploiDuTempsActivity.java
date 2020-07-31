@@ -101,8 +101,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 			LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.annonce_element, parent, false);
 			EmploiDuTempsActivity.AnnonceViewHolder vh = new EmploiDuTempsActivity.AnnonceViewHolder(v, position -> {
 				//TODO fix destination
-				Intent intent = new Intent(EmploiDuTempsActivity.this, DetailAnnonceActivity.class);
-				intent.putExtra(getString(R.string.annonce), postulations.get(position).toString());
+				Intent intent = new Intent(EmploiDuTempsActivity.this, PostulationActivity.class);
+				intent.putExtra(getString(R.string.postulation), postulations.get(position));
 				startActivity(intent);
 			});
 			return vh;

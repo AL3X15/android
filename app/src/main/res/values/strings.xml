@@ -65,5 +65,7 @@
     <string name="PasswordPrevious">Previous password :</string>
     <string name="next">Next</string>
     <string name="prec" translatable="false">Precedent</string>
-    <string name="title_activity_postulation">PostulationActivity</string>
+    <string name="title_activity_postulation" translatable="false">PostulationActivity</string>
+    <string name="cancelPost">Cancel Postulation</string>
+    <string name="postulation" translatable="false">postulation</string>
 </resources>

@@ -72,46 +72,10 @@ public class ConnexionActivity extends AppCompatActivity {
 		});
 	}
 
-	/*
-		public void errorMessage(String error) {
-			Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-		}
-	*/
+
 	private class Connection extends AsyncTask<InfoConnection, Void, AccessToken> {
 		@Override
 		protected AccessToken doInBackground(InfoConnection... infoConnections) {
-			/*UserDataAccess dataAccess = new UserDao();
-			try {
-				InfoEtudiant infoEtudiant = dataAccess.getMe(strings[0], strings[1]);
-
-				((MyApplication) ConnexionActivity.this.getApplication()).setInfoEtudiant(infoEtudiant);
-
-				return infoEtudiant.getUserEtudiant();
-			} catch (LoginException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.Login_error));
-					}
-				});
-			} catch (ApiAccessException e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.accessApiError));
-					}
-				});
-
-			} catch (Exception e) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						errorMessage(getString(R.string.connection_error));
-					}
-				});
-			}
-			return null;*/
-
 			try {
 
 				Response<AccessToken> response = new JwtDao().getAccessToken(infoConnections[0]);
