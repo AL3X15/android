@@ -145,14 +145,8 @@ public class ResultatActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {Toast.makeText(ResultatActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(ResultatActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(ResultatActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -164,7 +158,7 @@ public class ResultatActivity extends AppCompatActivity {
 				page = annonces.getPageIndex();
 				prec.setEnabled(annonces.getPageIndex() > 1);
 				next.setEnabled((annonces.getPageIndex()-1)*annonces.getPageSize()+annonces.getAnnonces().size() < annonces.getTotalCount());
-				adapter.setMyAnnonces(annonces.getAnnonces());//TODO commentaire pour test
+				adapter.setMyAnnonces(annonces.getAnnonces());
 		}
 	}
 }

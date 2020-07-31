@@ -16,7 +16,8 @@
         <activity android:name=".activity.ResultatActivity" />
         <activity android:name=".activity.EditProfilActivity" />
         <activity android:name=".activity.FaqActivity" />
-        <activity android:name=".activity.RechercheAnnonceActivity"
+        <activity
+            android:name=".activity.RechercheAnnonceActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.EmploiDuTempsActivity" />
         <activity android:name=".activity.DetailAnnonceActivity" />

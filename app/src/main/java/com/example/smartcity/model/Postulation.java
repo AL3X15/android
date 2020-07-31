@@ -33,4 +33,5 @@ public class Postulation implements Serializable {
 	public void setAnnonce(Annonce annonce) {
 		this.annonce = annonce;
 	}
+
 }

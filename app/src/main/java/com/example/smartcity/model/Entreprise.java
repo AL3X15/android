@@ -16,6 +16,7 @@ public class Entreprise implements Serializable {
 	public void setUser(UserEntreprise user) {
 		this.user = user;
 	}
+
 	public String getNomResponsable() {
 		return nomResponsable;
 	}
@@ -23,7 +24,6 @@ public class Entreprise implements Serializable {
 	public void setNomResponsable(String nomResponsable) {
 		this.nomResponsable = nomResponsable;
 	}
-
 
 
 }

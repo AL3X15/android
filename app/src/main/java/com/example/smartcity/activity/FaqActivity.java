@@ -2,7 +2,6 @@ package com.example.smartcity.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity.DataAccess.dao.FaqDao;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.PageResultFaq;
 
@@ -39,7 +39,6 @@ public class FaqActivity extends AppCompatActivity {
 	public Button prec;
 	int page;
 
-	//TODO pagination
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -146,14 +145,8 @@ public class FaqActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {Toast.makeText(FaqActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(FaqActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(FaqActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();

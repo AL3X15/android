@@ -81,15 +81,8 @@ public class ConnexionActivity extends AppCompatActivity {
 				Response<AccessToken> response = new JwtDao().getAccessToken(infoConnections[0]);
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
-				}//TODO vérifier si ca marche
-				runOnUiThread(() -> {
-					Toast.makeText(ConnexionActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(ConnexionActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+				}
+				runOnUiThread(() -> Toast.makeText(ConnexionActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 				return null;
 
 			} catch (IOException e) {

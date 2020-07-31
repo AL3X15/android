@@ -21,6 +21,7 @@ import com.example.smartcity.DataAccess.dao.TagDao;
 import com.example.smartcity.DataAccess.dao.UserDao;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Adresse;
 import com.example.smartcity.model.Tag;
 import com.example.smartcity.model.TagClasse;
@@ -188,14 +189,8 @@ public class EditProfilActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(EditProfilActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -221,15 +216,8 @@ public class EditProfilActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {
-					Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(EditProfilActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -253,15 +241,8 @@ public class EditProfilActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return null;
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {
-					Toast.makeText(EditProfilActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(EditProfilActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(EditProfilActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();

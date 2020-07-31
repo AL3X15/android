@@ -2,10 +2,10 @@ package com.example.smartcity.DataAccess;
 
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.Annonce;
-import com.example.smartcity.model.UserEntreprise;
-import com.example.smartcity.model.UserEtudiant;
 import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.Tag;
+import com.example.smartcity.model.UserEntreprise;
+import com.example.smartcity.model.UserEtudiant;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,9 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
+/*
 public class Utils {
-	public static String etudiantToJson(UserEtudiant userEtudiant) {
+
+public static String etudiantToJson(UserEtudiant userEtudiant) {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		return gson.toJson(userEtudiant);
 	}
@@ -103,3 +104,4 @@ public class Utils {
 		return accessToken;
 	}
 }
+*/

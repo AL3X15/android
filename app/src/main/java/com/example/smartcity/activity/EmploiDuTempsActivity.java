@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.PageResultPostulation;
 import com.example.smartcity.model.Postulation;
 
@@ -100,7 +101,6 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		public EmploiDuTempsActivity.AnnonceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 			LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.annonce_element, parent, false);
 			EmploiDuTempsActivity.AnnonceViewHolder vh = new EmploiDuTempsActivity.AnnonceViewHolder(v, position -> {
-				//TODO fix destination
 				Intent intent = new Intent(EmploiDuTempsActivity.this, PostulationActivity.class);
 				intent.putExtra(getString(R.string.postulation), postulations.get(position));
 				startActivity(intent);
@@ -135,15 +135,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {
-					Toast.makeText(EmploiDuTempsActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(EmploiDuTempsActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(EmploiDuTempsActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();

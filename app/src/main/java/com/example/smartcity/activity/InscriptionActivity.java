@@ -69,7 +69,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_inscription);
 		ButterKnife.bind(this);
 		homme.setChecked(true);
-		//TODO check forù AddEventActi
+		//TODO check form AddEventActi
 		validateInscription.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -135,14 +135,8 @@ public class InscriptionActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 201) {
 					return null;
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {Toast.makeText(InscriptionActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(InscriptionActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+
+				runOnUiThread(() -> Toast.makeText(InscriptionActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();

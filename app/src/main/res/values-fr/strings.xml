@@ -19,7 +19,7 @@
     <string name="number">Numéro :</string>
     <string name="zip">Code postal :</string>
     <string name="locality">Localité :</string>
-    <string name="phone">Numéro de téléphone :</string>
+    <string name="phone">"Numéro de téléphone : "</string>
     <string name="birthdate">Date de naissance :</string>
     <string name="id_number">Numéro de registre national :</string>
     <string name="cancel">ANNULER</string>
@@ -28,8 +28,8 @@
     <string name="edit_profile">Éditer mon profil</string>
     <string name="disconnect">Se déconnecter</string>
     <string name="accept_offer">Accepter l\'offre</string>
-    <string name="date_start">date de début</string>
-    <string name="date_end">date de fin</string>
+    <string name="date_start">"date de début : "</string>
+    <string name="date_end">"date de fin : "</string>
     <string name="mail_error">email invalide</string>
     <string name="password_error">mot de passe invalide</string>
     <string name="Login_error">erreur lors de la connexion</string>
@@ -46,4 +46,27 @@
     <string name="PasswordPrevious">mot de passe précédent :</string>
     <string name="next">Suivant</string>
     <string name="cancelPost">Annuler la Postulation</string>
+    <string name="notFound">pas trouvé</string>
+    <string name="serverError">erreur serveur</string>
+    <string name="errorAuthorization">erreur d\'authorisation</string>
+    <string name="forbiden">acces interdit</string>
+    <string name="internetError">erreur internet</string>
+    <string name="mailAlredyUsed">L\'adresse mail est déja utilisée</string>
+    <string name="positiveLineNumber">Le nombre de ligne doit être positif</string>
+    <string name="sexError">"Le sexe n'existe pas "</string>
+    <string name="tagLess">L\'étudiant n\'a pas de tag</string>
+    <string name="postulationExist">Il y a déja une postulation pour cette annonce</string>
+    <string name="premuim">Seule une entreprise premuim peut poster des annonces urgentes</string>
+    <string name="localityError">La localité n\'existe pas</string>
+    <string name="mailPasswordError">Mauvaise adresse mail ou mot de passe</string>
+    <string name="dateError">La date de début doit être avant la date de fin</string>
+    <string name="ageError">Vous devez être majeur</string>
+    <string name="AnnoncePast">l\'annonce ne peut pas se situer dans le passé</string>
+    <string name="IsAccepted">"Est accepté : "</string>
+    <string name="no">Non</string>
+    <string name="nomEntreprise">"Nom de l'entreprise : "</string>
+    <string name="nomResponsable">"Nom du responsable : "</string>
+    <string name="paie">"Paie : "</string>
+    <string name="poste">"Poste : "</string>
+    <string name="yes">Oui</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Postulation;
 
 import java.io.IOException;
@@ -37,8 +38,38 @@ public class PostulationActivity extends AppCompatActivity {
 
 		postulation = (Postulation) getIntent().getSerializableExtra(getString(R.string.postulation));
 
-		details.setText(postulation.toString());
-		entrepriseNom.setText(postulation.getAnnonce().getEntreprise().getUser().getNom());
+		//TODO fix affichage date
+		entrepriseNom.setText(postulation.getAnnonce().getPoste());
+		details.setText(new StringBuilder()
+				.append(getString(R.string.IsAccepted))
+				.append(postulation.getEstAccepte() ? getString(R.string.yes) : getString(R.string.no))
+				.append("\n")
+				.append(getString(R.string.poste))
+				.append(postulation.getAnnonce().getPoste())
+				.append("\n")
+				.append(getString(R.string.paie))
+				.append(postulation.getAnnonce().getPaie())
+				.append("\n")
+				.append(getString(R.string.date_start))
+				.append(postulation.getAnnonce().getDateDebut())
+				.append("\n")
+				.append(getString(R.string.date_end))
+				.append(postulation.getAnnonce().getDateFin())
+				.append("\n")
+				.append(getString(R.string.nomEntreprise))
+				.append(postulation.getAnnonce().getEntreprise().getUser().getNom())
+				.append("\n")
+				.append(getString(R.string.nomResponsable))
+				.append(postulation.getAnnonce().getEntreprise().getNomResponsable())
+				.append("\n")
+				.append(getString(R.string.email))
+				.append(postulation.getAnnonce().getEntreprise().getUser().getEmail())
+				.append("\n")
+				.append(getString(R.string.phone))
+				.append(postulation.getAnnonce().getEntreprise().getUser().getPhoneNumber())
+				.append("\n")
+				.toString());
+
 
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -58,15 +89,7 @@ public class PostulationActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 204) {
 					return null;
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {
-					Toast.makeText(PostulationActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(PostulationActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+				runOnUiThread(() -> Toast.makeText(PostulationActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();

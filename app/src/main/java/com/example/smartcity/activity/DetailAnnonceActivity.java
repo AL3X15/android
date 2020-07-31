@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartcity.DataAccess.dao.AnnonceDao;
 import com.example.smartcity.R;
+import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Annonce;
 
 import java.io.IOException;
@@ -39,8 +40,34 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 
 		annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
-		details.setText(annonce.toString());
-		entrepriseNom.setText(annonce.getEntreprise().getUser().getNom());
+		//TODO fix affichage date
+		entrepriseNom.setText(annonce.getPoste());
+		details.setText(new StringBuilder()
+				.append(getString(R.string.poste))
+				.append(annonce.getPoste())
+				.append("\n")
+				.append(getString(R.string.paie))
+				.append(annonce.getPaie())
+				.append("\n")
+				.append(getString(R.string.date_start))
+				.append(annonce.getDateDebut())
+				.append("\n")
+				.append(getString(R.string.date_end))
+				.append(annonce.getDateFin())
+				.append("\n")
+				.append(getString(R.string.nomEntreprise))
+				.append(annonce.getEntreprise().getUser().getNom())
+				.append("\n")
+				.append(getString(R.string.nomResponsable))
+				.append(annonce.getEntreprise().getNomResponsable())
+				.append("\n")
+				.append(getString(R.string.email))
+				.append(annonce.getEntreprise().getUser().getEmail())
+				.append("\n")
+				.append(getString(R.string.phone))
+				.append(annonce.getEntreprise().getUser().getPhoneNumber())
+				.append("\n")
+				.toString());
 
 
 		button.setOnClickListener(new View.OnClickListener() {
@@ -61,14 +88,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 				if (response.isSuccessful() && response.code() == 201) {
 					return null;
 				}
-				//TODO vérifier si ca marche
-				runOnUiThread(() -> {Toast.makeText(DetailAnnonceActivity.this, "Erreur : " + response.code(), Toast.LENGTH_LONG).show();
-					try {
-						Toast.makeText(DetailAnnonceActivity.this, "Échec : " + response.errorBody().string(), Toast.LENGTH_LONG).show();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
+				runOnUiThread(() -> Toast.makeText(DetailAnnonceActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
 
 			} catch (IOException e) {
 				e.printStackTrace();
