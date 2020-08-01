@@ -4,20 +4,32 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Etudiant {
-	private int id;
+	private String id;
 	private String prenom;
-	private Character sexe;
+	private String sexe;
 	private Date dateNaissance;
 	private String registreNational;
-	private Date expirationBadge;
 	private Adresse adresse;
 	private ArrayList<Tag> tags;
+	private UserEtudiant user;
+	private String rowVersion;
 
-	public int getId() {
+	public String getRowVersion() {
+		return rowVersion;
+	}
+
+	public void setRowVersion(String rowVersion) {
+		this.rowVersion = rowVersion;
+	}
+
+	public Etudiant() {
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -29,11 +41,11 @@ public class Etudiant {
 		this.prenom = prenom;
 	}
 
-	public Character getSexe() {
+	public String getSexe() {
 		return sexe;
 	}
 
-	public void setSexe(Character sexe) {
+	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
 
@@ -53,14 +65,6 @@ public class Etudiant {
 		this.registreNational = registreNational;
 	}
 
-	public Date getExpirationBadge() {
-		return expirationBadge;
-	}
-
-	public void setExpirationBadge(Date expirationBadge) {
-		this.expirationBadge = expirationBadge;
-	}
-
 	public Adresse getAdresse() {
 		return adresse;
 	}
@@ -75,5 +79,13 @@ public class Etudiant {
 
 	public void setTags(ArrayList<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public UserEtudiant getUser() {
+		return user;
+	}
+
+	public void setUser(UserEtudiant user) {
+		this.user = user;
 	}
 }

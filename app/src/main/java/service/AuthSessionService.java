@@ -12,12 +12,10 @@ public class AuthSessionService {
 	private AuthSessionService() {
 	}
 
-	//TODO Question
 	public static AuthSessionService getInstance() {
 		return instance;
 	}
 
-	//TODO Question
 	public static void setToken(Context context, String authToken) {
 		context
 				.getSharedPreferences(AUTH_SESSION, Context.MODE_PRIVATE)
@@ -45,7 +43,6 @@ public class AuthSessionService {
 				.apply();
 	}
 
-	//TODO Question userPicture?
 	public static void disconnectUser(Context context) {
 		context.getSharedPreferences(AUTH_SESSION, Context.MODE_PRIVATE)
 				.edit()

@@ -2,6 +2,7 @@ package com.example.smartcity.DataAccess.dao;
 
 import com.example.smartcity.DataAccess.ApiClient;
 import com.example.smartcity.DataAccess.service.UserService;
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.UserEtudiant;
 
 import java.io.IOException;
@@ -20,18 +21,18 @@ public class UserDao implements UserDataAccess {
 	}
 
 	@Override
-	public Response<Void> inscription(UserEtudiant userEtudiant) throws IOException{
+	public Response<Void> inscription(Etudiant etudiant) throws IOException{
 		return ApiClient.getInstance().getRetrofit()
 				.create(UserService.class)
-				.inscription(userEtudiant)
+				.inscription(etudiant)
 				.execute();
 	}
 
 	@Override
-	public Response<Void> editMe(UserEtudiant userEtudiant) throws IOException{
+	public Response<Void> editMe(Etudiant etudiant) throws IOException{
 		return ApiClient.getInstance().getRetrofit()
 				.create(UserService.class)
-				.editMe(userEtudiant)
+				.editMe(etudiant)
 				.execute();
 	}
 }

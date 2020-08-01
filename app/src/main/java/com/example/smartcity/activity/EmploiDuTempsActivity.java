@@ -46,6 +46,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_emploi_du_temps);
 		ButterKnife.bind(this);
+		prec.setEnabled(false);
+		next.setEnabled(false);
 
 		adapter = new AnnonceAdapter();
 
@@ -148,7 +150,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 			page = postulation.getPageIndex();
 			prec.setEnabled(postulation.getPageIndex() > 1);
 			next.setEnabled((postulation.getPageIndex()-1)*postulation.getPageSize()+postulation.getItems().size() < postulation.getTotalCount());
-			adapter.setMyPostulation(postulation.getItems());//TODO commentaire pour test
+			adapter.setMyPostulation(postulation.getItems());
 		}
 	}
 }

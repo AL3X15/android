@@ -1,5 +1,6 @@
 package com.example.smartcity.DataAccess.service;
 
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.UserEtudiant;
 
 import retrofit2.Call;
@@ -14,9 +15,9 @@ public interface UserService {
 	Call<UserEtudiant> getMe();
 
 	@POST("/Etudiant/")
-	Call<Void> inscription(@Body UserEtudiant userEtudiant);
+	Call<Void> inscription(@Body Etudiant etudiant);
 
 	@PUT()
-	Call<Void> editMe(@Body UserEtudiant userEtudiant);
+	Call<Void> editMe(@Body Etudiant etudiant);
 
 }

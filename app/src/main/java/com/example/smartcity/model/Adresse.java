@@ -1,19 +1,12 @@
 package com.example.smartcity.model;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
 
 public class Adresse implements Serializable {
+	private int id;
 	private String rue;
 	private String numero;
 	private Localite localite;
-
-	public Adresse(String rue, String numero, String codePostal, String localite) {
-		this.rue = rue;
-		this.numero = numero;
-		this.localite = new Localite(codePostal, localite);
-	}
 
 	public Adresse() {
 	}
@@ -42,9 +35,11 @@ public class Adresse implements Serializable {
 		this.localite = localite;
 	}
 
-	@NonNull
-	@Override
-	public String toString() {
-		return getNumero() + " " + getRue() + ", " + getLocalite();
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

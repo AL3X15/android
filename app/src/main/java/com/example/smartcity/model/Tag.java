@@ -56,4 +56,12 @@ public class Tag implements Serializable, Parcelable {
 	private Tag(Parcel in) {
 		nom = in.readString();
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

@@ -41,6 +41,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 		annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
 		//TODO fix affichage date
+		//TODO afficher adresse
 		entrepriseNom.setText(annonce.getPoste());
 		details.setText(new StringBuilder()
 				.append(getString(R.string.poste))
@@ -68,6 +69,7 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 				.append(annonce.getEntreprise().getUser().getPhoneNumber())
 				.append("\n")
 				.toString());
+
 
 
 		button.setOnClickListener(new View.OnClickListener() {

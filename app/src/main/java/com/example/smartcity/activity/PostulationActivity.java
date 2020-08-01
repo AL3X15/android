@@ -39,6 +39,7 @@ public class PostulationActivity extends AppCompatActivity {
 		postulation = (Postulation) getIntent().getSerializableExtra(getString(R.string.postulation));
 
 		//TODO fix affichage date
+		//TODO afficher adresse
 		entrepriseNom.setText(postulation.getAnnonce().getPoste());
 		details.setText(new StringBuilder()
 				.append(getString(R.string.IsAccepted))

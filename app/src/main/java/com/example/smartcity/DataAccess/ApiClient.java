@@ -18,7 +18,6 @@ import service.AuthSessionService;
 
 public class ApiClient {
 	private static ApiClient instance;
-	//TODO Question
 	private static Retrofit retrofit;
 
 	private static final String API_URL = "https://smartcityjober.azurewebsites.net/";
@@ -30,7 +29,6 @@ public class ApiClient {
 		return ApiClient.instance;
 	}
 
-	//TODO Question
 	private ApiClient() {
 		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 

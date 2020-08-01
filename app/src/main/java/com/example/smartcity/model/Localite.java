@@ -1,8 +1,7 @@
 package com.example.smartcity.model;
 
-import androidx.annotation.NonNull;
-
 public class Localite {
+	private int id;
 	private String codePostal;
 	private String nom;
 
@@ -22,17 +21,15 @@ public class Localite {
 		this.nom = nom;
 	}
 
-	public Localite(String codePostal, String nom) {
-		this.codePostal = codePostal;
-		this.nom = nom;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Localite() {
 	}
 
-	@NonNull
-	@Override
-	public String toString() {
-		return getNom();
-	}
 }

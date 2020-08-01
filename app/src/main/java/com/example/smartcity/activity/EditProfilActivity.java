@@ -1,6 +1,5 @@
 package com.example.smartcity.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +21,7 @@ import com.example.smartcity.DataAccess.dao.UserDao;
 import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
-import com.example.smartcity.model.Adresse;
+import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Tag;
 import com.example.smartcity.model.TagClasse;
 import com.example.smartcity.model.UserEtudiant;
@@ -80,7 +79,7 @@ public class EditProfilActivity extends AppCompatActivity {
 		tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 		tagRecyclerView.setAdapter(adapter);
 
-
+/*
 		roadEdit.setText(userEtudiant.getEtudiant().getAdresse().getRue());
 		numberEdit.setText(userEtudiant.getEtudiant().getAdresse().getNumero());
 		zipEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getCodePostal().toString());
@@ -119,11 +118,7 @@ public class EditProfilActivity extends AppCompatActivity {
 
 			}
 		});
-
-	}
-
-	public void errorMessage(String error) {
-		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+*/
 	}
 
 	public void updateTag(Tag tag) {
@@ -232,11 +227,11 @@ public class EditProfilActivity extends AppCompatActivity {
 
 	}
 
-	private class EditProfile extends AsyncTask<UserEtudiant, Void, Void> {
+	private class EditProfile extends AsyncTask<Etudiant, Void, Void> {
 		@Override
-		protected Void doInBackground(UserEtudiant... userEtudiants) {
+		protected Void doInBackground(Etudiant... etudiant) {
 			try {
-				Response<Void> response = new UserDao().editMe(userEtudiants[0]);
+				Response<Void> response = new UserDao().editMe(etudiant[0]);
 
 				if (response.isSuccessful() && response.code() == 200) {
 					return null;

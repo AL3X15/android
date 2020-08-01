@@ -69,4 +69,14 @@
     <string name="paie">"Paie : "</string>
     <string name="poste">"Poste : "</string>
     <string name="yes">Oui</string>
+    <string name="confirmPassword">Confirmer le mot de pass</string>
+    <string name="error_empty">Ne peut pas être vide</string>
+    <string name="error_matche_birthdate">Format de date : DD/MM/YYYY</string>
+    <string name="error_matche_email">Ce n\'est pas une adresse mail</string>
+    <string name="error_matche_postalcode">Ce n\'est pas un code postal</string>
+    <string name="error_phone_matche">Un numero de telephone doit commencer par un 0</string>
+    <string name="register_confirm_pass_matche">Vous devez mettre le même mot de passe</string>
+    <string name="SignUp">S\'inscrire</string>
+    <string name="futurBirth">Vous devez être né</string>
+    <string name="error_matche_id">Ce n\'est pas un Numero valide (ex : 11.11.11-111.11)</string>
 </resources>

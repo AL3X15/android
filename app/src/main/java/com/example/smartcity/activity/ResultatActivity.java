@@ -51,6 +51,8 @@ public class ResultatActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		adapter = new AnnonceAdapter();
 		page = 1;
+		prec.setEnabled(false);
+		next.setEnabled(false);
 
 		critereRecherche = new CritereRecherche();
 		critereRecherche.setDateDebut(new Date());
@@ -155,10 +157,12 @@ public class ResultatActivity extends AppCompatActivity {
 		}
 
 		protected void onPostExecute(PageResultAnnonce annonces) {
+			if(annonces != null){
 				page = annonces.getPageIndex();
 				prec.setEnabled(annonces.getPageIndex() > 1);
 				next.setEnabled((annonces.getPageIndex()-1)*annonces.getPageSize()+annonces.getAnnonces().size() < annonces.getTotalCount());
 				adapter.setMyAnnonces(annonces.getAnnonces());
+			}
 		}
 	}
 }

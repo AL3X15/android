@@ -3,21 +3,25 @@ package com.example.smartcity.model;
 import java.io.Serializable;
 
 public class UserEtudiant implements Serializable {
-
 	private String id;
-	private Etudiant etudiant;
-	private String username;
 	private String nom;
-	private String previousPassword;
+	private String email;
 	private String password;
 	private String confirmationPassword;
 	private String phoneNumber;
-	private String email;
-	private int nbSignalement;
+	private String rowVersion;
+
 
 	public UserEtudiant() {
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getNom() {
 		return nom;
@@ -25,15 +29,6 @@ public class UserEtudiant implements Serializable {
 
 	public void setNom(String nom) {
 		this.nom = nom;
-	}
-
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
 	}
 
 	public String getEmail() {
@@ -52,14 +47,6 @@ public class UserEtudiant implements Serializable {
 		this.password = password;
 	}
 
-	public Etudiant getEtudiant() {
-		return etudiant;
-	}
-
-	public void setEtudiant(Etudiant etudiant) {
-		this.etudiant = etudiant;
-	}
-
 	public String getConfirmationPassword() {
 		return confirmationPassword;
 	}
@@ -68,35 +55,19 @@ public class UserEtudiant implements Serializable {
 		this.confirmationPassword = confirmationPassword;
 	}
 
-	public int getNbSignalement() {
-		return nbSignalement;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setNbSignalement(int nbSignalement) {
-		this.nbSignalement = nbSignalement;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getRowVersion() {
+		return rowVersion;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPreviousPassword() {
-		return previousPassword;
-	}
-
-	public void setPreviousPassword(String previousPassword) {
-		this.previousPassword = previousPassword;
+	public void setRowVersion(String rowVersion) {
+		this.rowVersion = rowVersion;
 	}
 }
