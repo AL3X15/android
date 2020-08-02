@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Etudiant {
-	private String id;
 	private String prenom;
 	private String sexe;
 	private Date dateNaissance;
@@ -23,14 +22,6 @@ public class Etudiant {
 	}
 
 	public Etudiant() {
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getPrenom() {

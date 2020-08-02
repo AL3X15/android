@@ -14,11 +14,11 @@
     <string name="man">Homme</string>
     <string name="woman">Femme</string>
     <string name="other">Autre</string>
-    <string name="adress">Adresse :</string>
-    <string name="road">Rue :</string>
-    <string name="number">Numéro :</string>
-    <string name="zip">Code postal :</string>
-    <string name="locality">Localité :</string>
+    <string name="adress">"Adresse : "</string>
+    <string name="road">"Rue : "</string>
+    <string name="number">"Numéro : "</string>
+    <string name="zip">"Code postal : "</string>
+    <string name="locality">"Localité : "</string>
     <string name="phone">"Numéro de téléphone : "</string>
     <string name="birthdate">Date de naissance :</string>
     <string name="id_number">Numéro de registre national :</string>
@@ -79,4 +79,8 @@
     <string name="SignUp">S\'inscrire</string>
     <string name="futurBirth">Vous devez être né</string>
     <string name="error_matche_id">Ce n\'est pas un Numero valide (ex : 11.11.11-111.11)</string>
+    <string name="chooseLanguage">Choisisez vos langues</string>
+    <string name="chooseSector">Choisisez votre secteur d\'activité</string>
+    <string name="changePassword">Changer de mot de passe</string>
+    <string name="deleteAccount">Supprimer son Compte</string>
 </resources>

@@ -1,15 +1,8 @@
 package com.example.smartcity.Utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.example.smartcity.R;
-import com.example.smartcity.model.AccessToken;
-import com.example.smartcity.model.Preference;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -23,7 +16,7 @@ public class Utils {
     private static int DEFAULT_DAY = 1;
     private static int DEFAULT_HOURS = 0;
     private static int DEFAULT_MIN = 0;
-
+/*
     public static void editSharedPreference(Activity activity, Preference preference){
         SharedPreferences sharedPreferences = activity.getSharedPreferences(activity.getString(R.string.file_user), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor= sharedPreferences.edit();
@@ -62,7 +55,7 @@ public class Utils {
         );
         return new Preference(emailUser,accessToken);
     }
-
+*/
     public static Date stringToDate(String date){
         if(!date.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) return null;
         int jour;
@@ -75,7 +68,7 @@ public class Utils {
         if(jour >31 || jour < 1)return null;
         if(jour == 31 && (mois == 4 || mois == 6 || mois == 9 ||mois ==11)) return null;
         if(mois == 2 && année % 4 !=0 && jour > 28 )return null;
-        return new GregorianCalendar(année, mois, jour).getTime();
+        return new GregorianCalendar(année, mois-1, jour).getTime();
     }
 
     public static  int msgErreur(Response response){

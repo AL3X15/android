@@ -13,11 +13,11 @@
     <string name="man">Man</string>
     <string name="woman">"Woman "</string>
     <string name="other">"Other "</string>
-    <string name="adress">Adress :</string>
-    <string name="road">Road :</string>
-    <string name="number">Number :</string>
-    <string name="zip">Zip :</string>
-    <string name="locality">Locality :</string>
+    <string name="adress">"Adress : "</string>
+    <string name="road">"Road : "</string>
+    <string name="number">"Number : "</string>
+    <string name="zip">"Zip : "</string>
+    <string name="locality">"Locality : "</string>
     <string name="phone">"Phone number : "</string>
     <string name="birthdate">Birthday :</string>
     <string name="id_number">ID-Number :</string>
@@ -101,4 +101,8 @@
     <string name="SignUp">Sign Up</string>
     <string name="futurBirth">You need to be born</string>
     <string name="error_matche_id">This is not an id (ex : 11.11.11-111.11)</string>
+    <string name="chooseLanguage">Choose your languages</string>
+    <string name="chooseSector">Choose your sector of activity</string>
+    <string name="changePassword">Change Password</string>
+    <string name="deleteAccount">Delete Account</string>
 </resources>

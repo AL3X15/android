@@ -48,7 +48,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 		if (dateDebut.getText().toString().isEmpty()) {
 			dateDebut.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!dateDebut.getText().toString().matches("\\d{2}\\/\\d{2}\\/\\d{4}")) {
+		} else if (Utils.stringToDate(dateDebut.getText().toString()) == null) {
 
 			dateDebut.setError(getResources().getString(R.string.error_matche_birthdate));
 			success = false;
@@ -57,11 +57,10 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 		if (dateFin.getText().toString().isEmpty()) {
 			dateFin.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!dateFin.getText().toString().matches("\\d{2}\\/\\d{2}\\/\\d{4}")) {
-
+		} else if (Utils.stringToDate(dateFin.getText().toString()) == null) {
 			dateFin.setError(getResources().getString(R.string.error_matche_birthdate));
 			success = false;
-		} else if (Utils.stringToDate(dateDebut.getText().toString()).after(Utils.stringToDate(dateFin.getText().toString()))) {
+		} else if (Utils.stringToDate(dateDebut.getText().toString()) == null && Utils.stringToDate(dateDebut.getText().toString()).after(Utils.stringToDate(dateFin.getText().toString()))) {
 			dateFin.setError(getResources().getString(R.string.dateError));
 			success = false;
 		}

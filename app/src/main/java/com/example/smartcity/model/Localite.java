@@ -1,6 +1,8 @@
 package com.example.smartcity.model;
 
-public class Localite {
+import java.io.Serializable;
+
+public class Localite implements Serializable {
 	private int id;
 	private String codePostal;
 	private String nom;

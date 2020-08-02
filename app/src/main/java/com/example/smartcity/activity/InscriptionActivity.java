@@ -1,11 +1,15 @@
 package com.example.smartcity.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,34 +47,44 @@ public class InscriptionActivity extends AppCompatActivity {
 	public RadioButton homme;
 	@BindView(R.id.femmeInscription)
 	public RadioButton femme;
+	@BindView(R.id.autreInscription)
+	public RadioButton autre;
 
 	@BindView(R.id.roadInscription)
-	public EditText roadInscription;
+	public EditText road;
 	@BindView(R.id.numberInscription)
-	public EditText numberInscription;
+	public EditText number;
 	@BindView(R.id.zipInscription)
-	public EditText zipInscription;
+	public EditText zip;
 	@BindView(R.id.localityInscription)
-	public EditText localityInscription;
+	public EditText locality;
 
 	@BindView(R.id.phoneInscription)
-	public EditText phoneInscription;
+	public EditText phone;
 	@BindView(R.id.mailInscription)
-	public EditText mailInscription;
+	public EditText mail;
 
 	@BindView(R.id.birthdayInscription)
-	public EditText birthdayInscription;
+	public EditText birthday;
 	@BindView(R.id.IdNumberInscription)
-	public EditText idNumberInscription;
+	public EditText idNumber;
 
 	@BindView(R.id.passwordInscription)
 	public EditText password;
 	@BindView(R.id.passwordConfirmation)
 	public EditText passwordConfirmation;
 
+	@BindView(R.id.tagsLayout)
+	public LinearLayout tagsLayout;
+	@BindView(R.id.tagError)
+	public TextView tagError;
+	public TextView titreTagClasse;
+	public CheckBox tagCheckBox;
+
 	@BindView(R.id.validateInscription)
 	public Button validateInscription;
 
+	public ArrayList<Tag> selectedTags;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +93,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		homme.setChecked(true);
 
+		selectedTags = new ArrayList<>();
 		new LoadAllTags().execute();
 
 
@@ -91,21 +106,21 @@ public class InscriptionActivity extends AppCompatActivity {
 					e.setPrenom(firstName.getText().toString());
 					e.getUser().setNom(lastName.getText().toString());
 					e.setAdresse(new Adresse());
-					e.getAdresse().setRue(roadInscription.getText().toString());
-					e.getAdresse().setNumero(numberInscription.getText().toString());
+					e.getAdresse().setRue(road.getText().toString());
+					e.getAdresse().setNumero(number.getText().toString());
 					e.getAdresse().setLocalite(new Localite());
-					e.getAdresse().getLocalite().setCodePostal(zipInscription.getText().toString());
-					e.getAdresse().getLocalite().setNom(localityInscription.getText().toString());
+					e.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
+					e.getAdresse().getLocalite().setNom(locality.getText().toString());
 					e.setSexe(getSexe());
-					e.getUser().setPhoneNumber(phoneInscription.getText().toString());
-					e.setDateNaissance(Utils.stringToDate(birthdayInscription.getText().toString()));
-					e.getUser().setEmail(mailInscription.getText().toString());
-					e.setRegistreNational(idNumberInscription.getText().toString());
+					e.getUser().setPhoneNumber(phone.getText().toString());
+					e.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
+					e.getUser().setEmail(mail.getText().toString());
+					e.setRegistreNational(idNumber.getText().toString());
 					e.getUser().setPassword(password.getText().toString());
 					e.getUser().setConfirmationPassword(passwordConfirmation.getText().toString());
-					e.setTags(new ArrayList<Tag>());
-					//TODO tags
-
+					e.setTags(new ArrayList());
+					for (Tag tag: selectedTags)
+						e.getTags().add(tag);
 
 					new Inscription().execute(e);
 				}
@@ -126,67 +141,66 @@ public class InscriptionActivity extends AppCompatActivity {
 			success = false;
 		}
 
-		if (roadInscription.getText().toString().isEmpty()) {
-			roadInscription.setError(getResources().getString(R.string.error_empty));
+		if (road.getText().toString().isEmpty()) {
+			road.setError(getResources().getString(R.string.error_empty));
 			success = false;
 		}
 
-		if (numberInscription.getText().toString().isEmpty()) {
-			numberInscription.setError(getResources().getString(R.string.error_empty));
+		if (number.getText().toString().isEmpty()) {
+			number.setError(getResources().getString(R.string.error_empty));
 			success = false;
 		}
 
-		if (zipInscription.getText().toString().isEmpty()) {
-			zipInscription.setError(getResources().getString(R.string.error_empty));
+		if (zip.getText().toString().isEmpty()) {
+			zip.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!zipInscription.getText().toString().matches("^\\d{4}$")) {
-			zipInscription.setError(getResources().getString(R.string.error_matche_postalcode));
-			success = false;
-		}
-
-		if (localityInscription.getText().toString().isEmpty()) {
-			localityInscription.setError(getResources().getString(R.string.error_empty));
+		} else if (!zip.getText().toString().matches("^\\d{4}$")) {
+			zip.setError(getResources().getString(R.string.error_matche_postalcode));
 			success = false;
 		}
 
-		if (phoneInscription.getText().toString().isEmpty()) {
-			phoneInscription.setError(getResources().getString(R.string.error_empty));
-			success = false;
-		} else if (!phoneInscription.getText().toString().matches("0\\d+")) {
-			phoneInscription.setError(getResources().getString(R.string.error_phone_matche));
+		if (locality.getText().toString().isEmpty()) {
+			locality.setError(getResources().getString(R.string.error_empty));
 			success = false;
 		}
 
-
-		if (mailInscription.getText().toString().isEmpty()) {
-			mailInscription.setError(getResources().getString(R.string.error_empty));
+		if (phone.getText().toString().isEmpty()) {
+			phone.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!mailInscription.getText().toString().matches(".+@.+\\..+")) {
-			mailInscription.setError(getResources().getString(R.string.error_matche_email));
+		} else if (!phone.getText().toString().matches("0\\d+")) {
+			phone.setError(getResources().getString(R.string.error_phone_matche));
 			success = false;
 		}
 
 
-		if (birthdayInscription.getText().toString().isEmpty()) {
-			birthdayInscription.setError(getResources().getString(R.string.error_empty));
+		if (mail.getText().toString().isEmpty()) {
+			mail.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!birthdayInscription.getText().toString().matches("\\d{2}\\/\\d{2}\\/\\d{4}")) {
-
-			birthdayInscription.setError(getResources().getString(R.string.error_matche_birthdate));
-			success = false;
-		} else if (Utils.stringToDate(birthdayInscription.getText().toString()).after(new Date())) {
-			birthdayInscription.setError(getResources().getString(R.string.futurBirth));
-			success = false;
-		} else if (Period.between(Utils.stringToDate(birthdayInscription.getText().toString()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears() < 18) {
-			birthdayInscription.setError(getResources().getString(R.string.ageError));
+		} else if (!mail.getText().toString().matches(".+@.+\\..+")) {
+			mail.setError(getResources().getString(R.string.error_matche_email));
 			success = false;
 		}
 
-		if (idNumberInscription.getText().toString().isEmpty()) {
-			idNumberInscription.setError(getResources().getString(R.string.error_empty));
+
+		if (birthday.getText().toString().isEmpty()) {
+			birthday.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!idNumberInscription.getText().toString().matches("(\\d{2}\\.){2}\\d{2}-\\d{3}\\.\\d{2}")) {
-			idNumberInscription.setError(getResources().getString(R.string.error_matche_id));
+		} else if (Utils.stringToDate(birthday.getText().toString()) == null) {
+			birthday.setError(getResources().getString(R.string.error_matche_birthdate));
+			success = false;
+		} else if (Utils.stringToDate(birthday.getText().toString()).after(new Date())) {
+			birthday.setError(getResources().getString(R.string.futurBirth));
+			success = false;
+		} else if (Period.between(Utils.stringToDate(birthday.getText().toString()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears() < 18) {
+			birthday.setError(getResources().getString(R.string.ageError));
+			success = false;
+		}
+
+		if (idNumber.getText().toString().isEmpty()) {
+			idNumber.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (!idNumber.getText().toString().matches("(\\d{2}\\.){2}\\d{2}-\\d{3}\\.\\d{2}")) {
+			idNumber.setError(getResources().getString(R.string.error_matche_id));
 			success = false;
 		}
 
@@ -203,6 +217,11 @@ public class InscriptionActivity extends AppCompatActivity {
 			success = false;
 		}
 
+		if (selectedTags.isEmpty()) {
+			tagError.setError(getString(R.string.tagLess));
+			success = false;
+		}
+
 		return success;
 	}
 
@@ -214,6 +233,17 @@ public class InscriptionActivity extends AppCompatActivity {
 		return "a";
 	}
 
+	View.OnClickListener getTagListener(final CheckBox checkBox) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!selectedTags.removeIf(x -> x.getId() == checkBox.getId()))
+					selectedTags.add(new Tag(checkBox.getId(), checkBox.getText().toString()));
+			}
+		};
+	}
+
+
 	private class Inscription extends AsyncTask<Etudiant, Void, Void> {
 		@Override
 		protected Void doInBackground(Etudiant... etudiants) {
@@ -221,6 +251,7 @@ public class InscriptionActivity extends AppCompatActivity {
 				Response<Void> response = new UserDao().inscription(etudiants[0]);
 
 				if (response.isSuccessful() && response.code() == 201) {
+					startActivity(new Intent(InscriptionActivity.this,ConnexionActivity.class));
 					return null;
 				}
 
@@ -232,6 +263,7 @@ public class InscriptionActivity extends AppCompatActivity {
 			return null;
 		}
 	}
+
 
 	private class LoadAllTags extends AsyncTask<Void, Void, ArrayList<TagClasse>> {
 		@Override
@@ -251,8 +283,21 @@ public class InscriptionActivity extends AppCompatActivity {
 			return null;
 		}
 
-		protected void onPostExecute(ArrayList<TagClasse> tags) {
-			//TODO afficher les tags
+		protected void onPostExecute(ArrayList<TagClasse> tagClasses) {
+			for (TagClasse tagClasse : tagClasses) {
+				titreTagClasse = new TextView(InscriptionActivity.this);
+				titreTagClasse.setText(tagClasse.getNom());
+				tagsLayout.addView(titreTagClasse);
+
+				for (Tag tag : tagClasse.getTags()) {
+					tagCheckBox = new CheckBox(InscriptionActivity.this);
+					tagCheckBox.setId(tag.getId());
+					tagCheckBox.setText(tag.getNom());
+					tagCheckBox.setOnClickListener(getTagListener(tagCheckBox));
+					tagsLayout.addView(tagCheckBox);
+				}
+
+			}
 			validateInscription.setEnabled(true);
 		}
 

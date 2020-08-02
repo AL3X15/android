@@ -18,7 +18,6 @@ import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.AccessToken;
 import com.example.smartcity.model.InfoConnection;
-import com.example.smartcity.model.Preference;
 import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
@@ -46,10 +45,7 @@ public class ConnexionActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_connexion);
 		ButterKnife.bind(this);
 		activity = this;
-		Preference user = Utils.getSharedPreference(this);
-		if (!user.isDefaultMail()) {
-			mail.setText(user.getEmail());
-		}
+
 		logInBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (mail.getText().toString().matches(".+@.+\\..+")) {
@@ -97,7 +93,6 @@ public class ConnexionActivity extends AppCompatActivity {
 			if (accessToken != null) {
 				Context context = activity.getBaseContext();
 				AuthSessionService.setToken(context, accessToken.getAccessToken());
-				//Utils.editSharedPreference();
 				startActivity(new Intent(ConnexionActivity.this, AcceuilActivity.class));
 			}
 		}

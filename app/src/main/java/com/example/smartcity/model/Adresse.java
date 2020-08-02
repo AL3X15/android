@@ -3,10 +3,19 @@ package com.example.smartcity.model;
 import java.io.Serializable;
 
 public class Adresse implements Serializable {
-	private int id;
 	private String rue;
 	private String numero;
 	private Localite localite;
+
+	public String getRowVersion() {
+		return rowVersion;
+	}
+
+	public void setRowVersion(String rowVersion) {
+		this.rowVersion = rowVersion;
+	}
+
+	private String rowVersion;
 
 	public Adresse() {
 	}
@@ -35,11 +44,4 @@ public class Adresse implements Serializable {
 		this.localite = localite;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 }

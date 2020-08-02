@@ -3,7 +3,6 @@ package com.example.smartcity.model;
 import java.io.Serializable;
 
 public class UserEtudiant implements Serializable {
-	private String id;
 	private String nom;
 	private String email;
 	private String password;
@@ -13,14 +12,6 @@ public class UserEtudiant implements Serializable {
 
 
 	public UserEtudiant() {
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getNom() {

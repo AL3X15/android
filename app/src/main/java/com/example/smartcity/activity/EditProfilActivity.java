@@ -1,33 +1,36 @@
 package com.example.smartcity.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity.DataAccess.dao.TagDao;
 import com.example.smartcity.DataAccess.dao.UserDao;
-import com.example.smartcity.MyApplication;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.model.Localite;
 import com.example.smartcity.model.Tag;
 import com.example.smartcity.model.TagClasse;
-import com.example.smartcity.model.UserEtudiant;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,151 +38,222 @@ import retrofit2.Response;
 
 public class EditProfilActivity extends AppCompatActivity {
 
-	@BindView(R.id.TagsEdit)
-	RecyclerView tagRecyclerView;
-	private TagAdapter adapter;
-	private ArrayList<Tag> tagsEtudiant;
-	private UserEtudiant userEtudiant;
+	@BindView(R.id.firstEdit)
+	public EditText firstName;
+	@BindView(R.id.nameEdit)
+	public EditText lastName;
+
+	@BindView(R.id.hommeEdit)
+	public RadioButton homme;
+	@BindView(R.id.femmeEdit)
+	public RadioButton femme;
+	@BindView(R.id.autreEdit)
+	public RadioButton autre;
 
 	@BindView(R.id.roadEdit)
-	public EditText roadEdit;
+	public EditText road;
 	@BindView(R.id.numberEdit)
-	public EditText numberEdit;
+	public EditText number;
 	@BindView(R.id.zipEdit)
-	public EditText zipEdit;
+	public EditText zip;
 	@BindView(R.id.localityEdit)
-	public EditText localityEdit;
+	public EditText locality;
+
 	@BindView(R.id.phoneEdit)
-	public EditText phoneEdit;
+	public EditText phone;
 	@BindView(R.id.mailEdit)
-	public EditText mailEdit;
-	@BindView(R.id.passwordPreviousEdit)
-	public EditText previousPassword;
-	@BindView(R.id.passwordEdit)
-	public EditText passwordEdit;
+	public EditText mail;
+
+	@BindView(R.id.birthdayEdit)
+	public EditText birthday;
+	@BindView(R.id.IdNumberEdit)
+	public EditText idNumber;
+
+	@BindView(R.id.tagsLayoutEdit)
+	public LinearLayout tagsLayout;
+	@BindView(R.id.tagErrorEdit)
+	public TextView tagError;
+	public TextView titreTagClasse;
+	public CheckBox tagCheckBox;
+
 	@BindView(R.id.validateEdit)
 	public Button validateEdit;
+
+	public ArrayList<Tag> selectedTags;
+	public Etudiant me;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_profil);
 		ButterKnife.bind(this);
+
 		validateEdit.setEnabled(false);
 
-		userEtudiant = ((MyApplication) this.getApplication()).getInfoConnection().getUserEtudiant();
-
-		adapter = new TagAdapter();
-		tagsEtudiant = new ArrayList<>();
-
-
-		//LoadTagEtudiant loadTagEtudiant = new LoadTagEtudiant();
-		//loadTagEtudiant.execute(userEtudiant);
-
-		tagRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-		tagRecyclerView.setAdapter(adapter);
-
-/*
-		roadEdit.setText(userEtudiant.getEtudiant().getAdresse().getRue());
-		numberEdit.setText(userEtudiant.getEtudiant().getAdresse().getNumero());
-		zipEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getCodePostal().toString());
-		localityEdit.setText(userEtudiant.getEtudiant().getAdresse().getLocalite().getNom());
-		phoneEdit.setText(userEtudiant.getPhoneNumber().toString());
-		mailEdit.setText(userEtudiant.getEmail());
+		selectedTags = new ArrayList<>();
+		new LoadAllTags().execute();
+		new GetUser().execute();
 
 		validateEdit.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				boolean mailValide = mailEdit.getText().toString().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
-				boolean passwordValide = (passwordEdit.getText().toString().isEmpty() && previousPassword.getText().toString().isEmpty()) || (!previousPassword.getText().toString().isEmpty() && passwordEdit.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$"));
-				boolean previousPasswordValide = previousPassword.getText().toString().isEmpty() || previousPassword.getText().toString().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$");
-				boolean formulaireValide = passwordValide && mailValide && previousPasswordValide;
-				if (formulaireValide) {
-					userEtudiant.setEmail(mailEdit.getText().toString());
-					if (!passwordEdit.getText().toString().isEmpty()) {
-						userEtudiant.setPassword(passwordEdit.getText().toString());
-						userEtudiant.setConfirmationPassword(passwordEdit.getText().toString());
-					}
-					if (!previousPassword.getText().toString().isEmpty())
-						userEtudiant.setPreviousPassword(previousPassword.getText().toString());
-					userEtudiant.setPhoneNumber(phoneEdit.getText().toString());
-					userEtudiant.getEtudiant().setAdresse(new Adresse(
-							roadEdit.getText().toString(),
-							numberEdit.getText().toString(),
-							zipEdit.getText().toString(),
-							localityEdit.getText().toString()
-					));
-					userEtudiant.getEtudiant().setTags(tagsEtudiant);
-					new EditProfile().execute(userEtudiant);
-					((MyApplication) getApplication()).getInfoConnection().setUserEtudiant(userEtudiant);
-					startActivity(new Intent(EditProfilActivity.this, AcceuilActivity.class));
+				if (checkForm()) {
+					me.setPrenom(firstName.getText().toString());
+					me.getUser().setNom(lastName.getText().toString());
+					me.getAdresse().setRue(road.getText().toString());
+					me.getAdresse().setNumero(number.getText().toString());
+					me.getAdresse().setLocalite(new Localite());
+					me.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
+					me.getAdresse().getLocalite().setNom(locality.getText().toString());
+					me.setSexe(getSexe());
+					me.getUser().setPhoneNumber(phone.getText().toString());
+					me.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
+					me.getUser().setEmail(mail.getText().toString());
+					me.setRegistreNational(idNumber.getText().toString());
+					me.setTags(new ArrayList());
+					for (Tag tag : selectedTags)
+						me.getTags().add(tag);
+
+					new EditProfile().execute(me);
 				}
-
-
 			}
 		});
-*/
 	}
 
-	public void updateTag(Tag tag) {
-		if (tagsEtudiant.contains(tag)) tagsEtudiant.remove(tag);
-		else tagsEtudiant.add(tag);
+	private Boolean checkForm() {
+		Boolean success = true;
+
+		if (firstName.getText().toString().isEmpty()) {
+			firstName.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+
+		if (lastName.getText().toString().isEmpty()) {
+			lastName.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+
+		if (road.getText().toString().isEmpty()) {
+			road.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+
+		if (number.getText().toString().isEmpty()) {
+			number.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+
+		if (zip.getText().toString().isEmpty()) {
+			zip.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (!zip.getText().toString().matches("^\\d{4}$")) {
+			zip.setError(getResources().getString(R.string.error_matche_postalcode));
+			success = false;
+		}
+
+		if (locality.getText().toString().isEmpty()) {
+			locality.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+
+		if (phone.getText().toString().isEmpty()) {
+			phone.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (!phone.getText().toString().matches("0\\d+")) {
+			phone.setError(getResources().getString(R.string.error_phone_matche));
+			success = false;
+		}
+
+
+		if (mail.getText().toString().isEmpty()) {
+			mail.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (!mail.getText().toString().matches(".+@.+\\..+")) {
+			mail.setError(getResources().getString(R.string.error_matche_email));
+			success = false;
+		}
+
+		if (birthday.getText().toString().isEmpty()) {
+			birthday.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (Utils.stringToDate(birthday.getText().toString()) == null){
+			birthday.setError(getResources().getString(R.string.error_matche_birthdate));
+			success = false;
+		} else if (Utils.stringToDate(birthday.getText().toString()).after(new Date())) {
+			birthday.setError(getResources().getString(R.string.futurBirth));
+			success = false;
+		} else if (Period.between(Utils.stringToDate(birthday.getText().toString()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears() < 18) {
+			birthday.setError(getResources().getString(R.string.ageError));
+			success = false;
+		}
+
+		if (idNumber.getText().toString().isEmpty()) {
+			idNumber.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (!idNumber.getText().toString().matches("(\\d{2}\\.){2}\\d{2}-\\d{3}\\.\\d{2}")) {
+			idNumber.setError(getResources().getString(R.string.error_matche_id));
+			success = false;
+		}
+
+		if (selectedTags.isEmpty()) {
+			tagError.setError(getString(R.string.tagLess));
+			success = false;
+		}
+
+		return success;
+	}
+
+	private String getSexe() {
+		if (homme.isChecked())
+			return "m";
+		if (femme.isChecked())
+			return "f";
+		return "a";
+	}
+
+	private void fillForm(Etudiant etudiant) {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		firstName.setText(etudiant.getPrenom());
+		lastName.setText(etudiant.getUser().getNom());
+		road.setText(etudiant.getAdresse().getRue());
+		number.setText(etudiant.getAdresse().getNumero());
+		zip.setText(etudiant.getAdresse().getLocalite().getCodePostal());
+		locality.setText(etudiant.getAdresse().getLocalite().getNom());
+		phone.setText(etudiant.getUser().getPhoneNumber());
+		mail.setText(etudiant.getUser().getEmail());
+		birthday.setText(dateFormat.format(etudiant.getDateNaissance()));
+		idNumber.setText(etudiant.getRegistreNational());
+		if (etudiant.getSexe().equals("m"))
+			homme.setChecked(true);
+		else if (etudiant.getSexe().equals("f"))
+			femme.setChecked(true);
+		else
+			autre.setChecked(true);
+		for (Tag tag : etudiant.getTags()) {
+			((CheckBox) findViewById(tag.getId())).setChecked(true);
+			selectedTags.add(new Tag(tag.getId(), tag.getNom()));
+		}
 	}
 
 
-	private class TagViewHolder extends RecyclerView.ViewHolder {
-		public Switch tag;
-
-		public TagViewHolder(@NonNull View itemView, OnItemSelectedListener listener) {
-			super(itemView);
-			tag = itemView.findViewById(R.id.switch1);
-			tag.setOnClickListener(e -> {
-				int currentPosition = getAdapterPosition();
-				listener.onItemSelected(currentPosition);
-			});
-		}
-
-	}
-
-	private class TagAdapter extends RecyclerView.Adapter<TagViewHolder> {
-		private ArrayList<Tag> myTags;
-
-		@NonNull
-		@Override
-		public TagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-			LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_recherche_element, parent, false);
-			TagViewHolder vh = new TagViewHolder(v, position -> {
-				Tag tagSelect = myTags.get(position);
-				updateTag(tagSelect);
-			});
-			return vh;
-		}
-
-		@Override
-		public void onBindViewHolder(@NonNull TagViewHolder holder, int position) {
-			Tag tag = myTags.get(position);
-			holder.tag.setText(tag.getNom());
-			if (tagsEtudiant.contains(tag)) holder.tag.setChecked(true);
-		}
-
-		@Override
-		public int getItemCount() {
-			return myTags == null ? 0 : myTags.size();
-		}
-
-		public void setTags(ArrayList<Tag> myTags) {
-			this.myTags = myTags;
-			notifyDataSetChanged();
-		}
+	View.OnClickListener getTagListener(final CheckBox checkBox) {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!selectedTags.removeIf(x -> x.getId() == checkBox.getId()))
+					selectedTags.add(new Tag(checkBox.getId(), checkBox.getText().toString()));
+			}
+		};
 	}
 
 
-	private class GetUser extends AsyncTask<Void, Void, UserEtudiant> {
+	private class GetUser extends AsyncTask<Void, Void, Etudiant> {
 
 		@Override
-		protected UserEtudiant doInBackground(Void... voids) {
+		protected Etudiant doInBackground(Void... voids) {
 			try {
-				Response<UserEtudiant> response = new UserDao().getMe();
+				Response<Etudiant> response = new UserDao().getMe();
 
 				if (response.isSuccessful() && response.code() == 200) {
 					return response.body();
@@ -193,11 +267,10 @@ public class EditProfilActivity extends AppCompatActivity {
 			return null;
 		}
 
-		protected void onPostExecute(UserEtudiant userEtudiant) {
-			if(userEtudiant != null) {
-				//Context context = activity.getBaseContext();
-				//Preference preference = new Preference(userEtudiant.getEmail(), AuthSessionService.getToken(context));
-				//Utils.editSharedPreference(ConnexionActivity.this, preference);
+		protected void onPostExecute(Etudiant etudiant) {
+			if (etudiant != null) {
+				me = etudiant;
+				fillForm(me);
 			}
 		}
 	}
@@ -220,8 +293,21 @@ public class EditProfilActivity extends AppCompatActivity {
 			return null;
 		}
 
-		protected void onPostExecute(ArrayList<TagClasse> tags) {
-			//adapter.setTags(tags);//TODO commentaire pour test
+		protected void onPostExecute(ArrayList<TagClasse> tagClasses) {
+			for (TagClasse tagClasse : tagClasses) {
+				titreTagClasse = new TextView(EditProfilActivity.this);
+				titreTagClasse.setText(tagClasse.getNom());
+				tagsLayout.addView(titreTagClasse);
+
+				for (Tag tag : tagClasse.getTags()) {
+					tagCheckBox = new CheckBox(EditProfilActivity.this);
+					tagCheckBox.setId(tag.getId());
+					tagCheckBox.setText(tag.getNom());
+					tagCheckBox.setOnClickListener(getTagListener(tagCheckBox));
+					tagsLayout.addView(tagCheckBox);
+				}
+
+			}
 			validateEdit.setEnabled(true);
 		}
 
@@ -234,6 +320,7 @@ public class EditProfilActivity extends AppCompatActivity {
 				Response<Void> response = new UserDao().editMe(etudiant[0]);
 
 				if (response.isSuccessful() && response.code() == 200) {
+					startActivity(new Intent(EditProfilActivity.this, AcceuilActivity.class));
 					return null;
 				}
 

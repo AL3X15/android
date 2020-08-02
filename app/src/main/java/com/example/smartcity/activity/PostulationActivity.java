@@ -15,6 +15,8 @@ import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Postulation;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,10 +38,10 @@ public class PostulationActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_postulation);
 		ButterKnife.bind(this);
 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 		postulation = (Postulation) getIntent().getSerializableExtra(getString(R.string.postulation));
 
-		//TODO fix affichage date
-		//TODO afficher adresse
 		entrepriseNom.setText(postulation.getAnnonce().getPoste());
 		details.setText(new StringBuilder()
 				.append(getString(R.string.IsAccepted))
@@ -52,10 +54,10 @@ public class PostulationActivity extends AppCompatActivity {
 				.append(postulation.getAnnonce().getPaie())
 				.append("\n")
 				.append(getString(R.string.date_start))
-				.append(postulation.getAnnonce().getDateDebut())
+				.append(dateFormat.format(postulation.getAnnonce().getDateDebut()))
 				.append("\n")
 				.append(getString(R.string.date_end))
-				.append(postulation.getAnnonce().getDateFin())
+				.append(dateFormat.format(postulation.getAnnonce().getDateFin()))
 				.append("\n")
 				.append(getString(R.string.nomEntreprise))
 				.append(postulation.getAnnonce().getEntreprise().getUser().getNom())
@@ -68,6 +70,20 @@ public class PostulationActivity extends AppCompatActivity {
 				.append("\n")
 				.append(getString(R.string.phone))
 				.append(postulation.getAnnonce().getEntreprise().getUser().getPhoneNumber())
+				.append("\n")
+				.append(getString(R.string.adress))
+				.append("\n")
+				.append(getString(R.string.zip))
+				.append(postulation.getAnnonce().getAdresse().getLocalite().getCodePostal())
+				.append("\n")
+				.append(getString(R.string.locality))
+				.append(postulation.getAnnonce().getAdresse().getLocalite().getNom())
+				.append("\n")
+				.append(getString(R.string.road))
+				.append(postulation.getAnnonce().getAdresse().getRue())
+				.append("\n")
+				.append(getString(R.string.number))
+				.append(postulation.getAnnonce().getAdresse().getNumero())
 				.append("\n")
 				.toString());
 

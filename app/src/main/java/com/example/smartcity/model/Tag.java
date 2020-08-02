@@ -11,6 +11,11 @@ public class Tag implements Serializable, Parcelable {
 	private Integer id;
 	private String nom;
 
+	public Tag(Integer id, String nom) {
+		this.id = id;
+		this.nom = nom;
+	}
+
 	public Tag() {
 	}
 
@@ -22,6 +27,11 @@ public class Tag implements Serializable, Parcelable {
 		this.nom = nom;
 	}
 
+	@Override
+	public String toString() {
+		return nom;
+
+	}
 
 	@Override
 	public boolean equals(@Nullable Object obj) {

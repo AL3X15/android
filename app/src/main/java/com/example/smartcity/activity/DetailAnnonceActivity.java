@@ -15,6 +15,8 @@ import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Annonce;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,10 +40,11 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_detail_annonce);
 		ButterKnife.bind(this);
 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 		annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
 
-		//TODO fix affichage date
-		//TODO afficher adresse
+
 		entrepriseNom.setText(annonce.getPoste());
 		details.setText(new StringBuilder()
 				.append(getString(R.string.poste))
@@ -51,10 +54,10 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 				.append(annonce.getPaie())
 				.append("\n")
 				.append(getString(R.string.date_start))
-				.append(annonce.getDateDebut())
+				.append(dateFormat.format(annonce.getDateDebut()))
 				.append("\n")
 				.append(getString(R.string.date_end))
-				.append(annonce.getDateFin())
+				.append(dateFormat.format(annonce.getDateFin()))
 				.append("\n")
 				.append(getString(R.string.nomEntreprise))
 				.append(annonce.getEntreprise().getUser().getNom())
@@ -67,6 +70,20 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 				.append("\n")
 				.append(getString(R.string.phone))
 				.append(annonce.getEntreprise().getUser().getPhoneNumber())
+				.append("\n")
+				.append(getString(R.string.adress))
+				.append("\n")
+				.append(getString(R.string.zip))
+				.append(annonce.getAdresse().getLocalite().getCodePostal())
+				.append("\n")
+				.append(getString(R.string.locality))
+				.append(annonce.getAdresse().getLocalite().getNom())
+				.append("\n")
+				.append(getString(R.string.road))
+				.append(annonce.getAdresse().getRue())
+				.append("\n")
+				.append(getString(R.string.number))
+				.append(annonce.getAdresse().getNumero())
 				.append("\n")
 				.toString());
 
