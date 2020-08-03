@@ -1,12 +1,10 @@
 package com.example.smartcity.model;
 
 public class InfoConnection {
-		private String username;
-		private String password;
+	private String username;
+	private String password;
 
-	public InfoConnection(String mail, String password) {
-		setUsername(mail);
-		setPassword(password);
+	public InfoConnection() {
 	}
 
 	public String getUsername() {

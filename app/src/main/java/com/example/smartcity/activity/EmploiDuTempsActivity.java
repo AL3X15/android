@@ -21,6 +21,7 @@ import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.PageResultPostulation;
 import com.example.smartcity.model.Postulation;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,31 +51,43 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		next.setEnabled(false);
 
 		adapter = new AnnonceAdapter();
-
 		page = 1;
-		new LoadAnnonce().execute();
 
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		recyclerView.setAdapter(adapter);
+		if (CheckIntenetConnection.checkConnection(EmploiDuTempsActivity.this))
+			new LoadAnnonce().execute();
+		else {
+			Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+
+			recyclerView.setLayoutManager(new LinearLayoutManager(this));
+			recyclerView.setAdapter(adapter);
+		}
 
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				page++;
-				new LoadAnnonce().execute();
+				if (CheckIntenetConnection.checkConnection(EmploiDuTempsActivity.this)) {
+					page++;
+					new LoadAnnonce().execute();
 
-				recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
-				recyclerView.setAdapter(adapter);
+					recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
+					recyclerView.setAdapter(adapter);
+				} else {
+					Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 		prec.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				page--;
-				new LoadAnnonce().execute();
+				if (CheckIntenetConnection.checkConnection(EmploiDuTempsActivity.this)) {
+					page--;
+					new LoadAnnonce().execute();
 
-				recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
-				recyclerView.setAdapter(adapter);
+					recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
+					recyclerView.setAdapter(adapter);
+				} else {
+					Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 
@@ -149,7 +162,7 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		protected void onPostExecute(PageResultPostulation postulation) {
 			page = postulation.getPageIndex();
 			prec.setEnabled(postulation.getPageIndex() > 1);
-			next.setEnabled((postulation.getPageIndex()-1)*postulation.getPageSize()+postulation.getItems().size() < postulation.getTotalCount());
+			next.setEnabled((postulation.getPageIndex() - 1) * postulation.getPageSize() + postulation.getItems().size() < postulation.getTotalCount());
 			adapter.setMyPostulation(postulation.getItems());
 		}
 	}

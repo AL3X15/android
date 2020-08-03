@@ -3,7 +3,6 @@ package com.example.smartcity.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -36,7 +35,6 @@ public class ConnexionActivity extends AppCompatActivity {
 	public TextView mail;
 	@BindView(R.id.passwordLogIn)
 	public TextView password;
-	private AccessToken accessToken;
 	private Activity activity;
 
 	@Override
@@ -48,24 +46,43 @@ public class ConnexionActivity extends AppCompatActivity {
 
 		logInBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (mail.getText().toString().matches(".+@.+\\..+")) {
-					if (CheckIntenetConnection.checkConnection(ConnexionActivity.this)) {
-						new Connection().execute(new InfoConnection(mail.getText().toString(), password.getText().toString()));
-					} else {
+				if (checkForm()) {
+					InfoConnection infoConnection = new InfoConnection();
+					infoConnection.setUsername(mail.getText().toString());
+					infoConnection.setPassword(password.getText().toString());
+
+					if (CheckIntenetConnection.checkConnection(ConnexionActivity.this))
+						new Connection().execute(infoConnection);
+					else
 						Toast.makeText(ConnexionActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-					}
-				} else {
-					Toast.makeText(ConnexionActivity.this, getString(R.string.mail_error), Toast.LENGTH_SHORT).show();
-					mail.setBackgroundColor(Color.parseColor("#FF0000"));
 				}
 			}
 		});
+
 		signInBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(ConnexionActivity.this, InscriptionActivity.class);
-				startActivity(intent);
+				startActivity(new Intent(ConnexionActivity.this, InscriptionActivity.class));
 			}
 		});
+	}
+
+	private Boolean checkForm(){
+		Boolean success = true;
+
+		if (mail.getText().toString().isEmpty()) {
+			mail.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		} else if (!mail.getText().toString().matches(".+@.+\\..+")) {
+			mail.setError(getResources().getString(R.string.error_matche_email));
+			success = false;
+		}
+
+		if (password.getText().toString().isEmpty()) {
+			password.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+
+		return success;
 	}
 
 
@@ -79,15 +96,12 @@ public class ConnexionActivity extends AppCompatActivity {
 					return response.body();
 				}
 				runOnUiThread(() -> Toast.makeText(ConnexionActivity.this, getString(Utils.msgErreur(response)), Toast.LENGTH_LONG).show());
-				return null;
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				return null;
 			}
-
+			return null;
 		}
-
 
 		protected void onPostExecute(AccessToken accessToken) {
 			if (accessToken != null) {

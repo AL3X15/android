@@ -20,6 +20,7 @@ import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Faq;
 import com.example.smartcity.model.PageResultFaq;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,39 +47,44 @@ public class FaqActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		adapter = new FaqAdapter();
 		page = 1;
-		new LoadFaq().execute(page);
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		recyclerView.setAdapter(adapter);
 
+		if (CheckIntenetConnection.checkConnection(FaqActivity.this))
+			new LoadFaq().execute(page);
+		else {
+			Toast.makeText(FaqActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
+			recyclerView.setLayoutManager(new LinearLayoutManager(this));
+			recyclerView.setAdapter(adapter);
+		}
 
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				page++;
-				new LoadFaq().execute(page);
+				if (CheckIntenetConnection.checkConnection(FaqActivity.this)) {
+					page++;
+					new LoadFaq().execute(page);
 
-				recyclerView.setLayoutManager(new LinearLayoutManager(FaqActivity.this));
-				recyclerView.setAdapter(adapter);
+					recyclerView.setAdapter(adapter);
+					recyclerView.setLayoutManager(new LinearLayoutManager(FaqActivity.this));
+				} else
+					Toast.makeText(FaqActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
 		});
 		prec.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				page--;
-				new LoadFaq().execute(page);
+				if (CheckIntenetConnection.checkConnection(FaqActivity.this)) {
+					page--;
+					new LoadFaq().execute(page);
 
-				recyclerView.setLayoutManager(new LinearLayoutManager(FaqActivity.this));
-				recyclerView.setAdapter(adapter);
+					recyclerView.setAdapter(adapter);
+					recyclerView.setLayoutManager(new LinearLayoutManager(FaqActivity.this));
+				} else
+					Toast.makeText(FaqActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
 		});
-
-
 	}
 
-	public void errorMessage(String error) {
-		Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-	}
 
 	private class FaqViewHolder extends RecyclerView.ViewHolder {
 		public TextView question;
@@ -152,13 +158,13 @@ public class FaqActivity extends AppCompatActivity {
 				e.printStackTrace();
 			}
 			return null;
-
 		}
+
 		@Override
 		protected void onPostExecute(PageResultFaq pageResultFaq) {
 			page = pageResultFaq.getPageindex();
 			prec.setEnabled(pageResultFaq.getPageindex() > 1);
-			next.setEnabled(pageResultFaq.getFaqs().size()+pageResultFaq.getPageindex()*pageResultFaq.getPageSize() < pageResultFaq.getTotalCount());
+			next.setEnabled(pageResultFaq.getFaqs().size() + pageResultFaq.getPageindex() * pageResultFaq.getPageSize() < pageResultFaq.getTotalCount());
 			adapter.setFaq(pageResultFaq.getFaqs());
 		}
 	}

@@ -15,6 +15,7 @@ import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.ChangePassword;
 import com.example.smartcity.model.Etudiant;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 
@@ -42,22 +43,27 @@ public class PasswordActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_password);
 		ButterKnife.bind(this);
 
-		new GetUser().execute();
+		if (CheckIntenetConnection.checkConnection(PasswordActivity.this))
+			new GetUser().execute();
+		else {
+			Toast.makeText(PasswordActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
-		buttonEditPassword.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (checkForm()) {
-					changePassword = new ChangePassword();
-					changePassword.setAncienPassword(oldPassword.getText().toString());
-					changePassword.setPassword(newPassword.getText().toString());
-					changePassword.setConfirmationPassword(newPasswordConfirmation.getText().toString());
-					changePassword.setRowVersion(me.getUser().getRowVersion());
+			buttonEditPassword.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (checkForm()) {
+						changePassword = new ChangePassword();
+						changePassword.setAncienPassword(oldPassword.getText().toString());
+						changePassword.setPassword(newPassword.getText().toString());
+						changePassword.setConfirmationPassword(newPasswordConfirmation.getText().toString());
+						changePassword.setRowVersion(me.getUser().getRowVersion());
 
-					new EditPassword().execute(changePassword);
+						new EditPassword().execute(changePassword);
+					}
 				}
-			}
-		});
+			});
+		}
+
 	}
 
 	private Boolean checkForm() {

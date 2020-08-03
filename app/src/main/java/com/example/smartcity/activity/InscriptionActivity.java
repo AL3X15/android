@@ -24,6 +24,7 @@ import com.example.smartcity.model.Localite;
 import com.example.smartcity.model.Tag;
 import com.example.smartcity.model.TagClasse;
 import com.example.smartcity.model.UserEtudiant;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -94,38 +95,44 @@ public class InscriptionActivity extends AppCompatActivity {
 		homme.setChecked(true);
 
 		selectedTags = new ArrayList<>();
-		new LoadAllTags().execute();
+		if (CheckIntenetConnection.checkConnection(InscriptionActivity.this))
+			new LoadAllTags().execute();
+		else {
+			Toast.makeText(InscriptionActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
+			validateInscription.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (checkForm()) {
+						Etudiant e = new Etudiant();
+						e.setUser(new UserEtudiant());
+						e.setPrenom(firstName.getText().toString());
+						e.getUser().setNom(lastName.getText().toString());
+						e.setAdresse(new Adresse());
+						e.getAdresse().setRue(road.getText().toString());
+						e.getAdresse().setNumero(number.getText().toString());
+						e.getAdresse().setLocalite(new Localite());
+						e.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
+						e.getAdresse().getLocalite().setNom(locality.getText().toString());
+						e.setSexe(getSexe());
+						e.getUser().setPhoneNumber(phone.getText().toString());
+						e.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
+						e.getUser().setEmail(mail.getText().toString());
+						e.setRegistreNational(idNumber.getText().toString());
+						e.getUser().setPassword(password.getText().toString());
+						e.getUser().setConfirmationPassword(passwordConfirmation.getText().toString());
+						e.setTags(new ArrayList());
+						for (Tag tag : selectedTags)
+							e.getTags().add(tag);
 
-		validateInscription.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (checkForm()) {
-					Etudiant e = new Etudiant();
-					e.setUser(new UserEtudiant());
-					e.setPrenom(firstName.getText().toString());
-					e.getUser().setNom(lastName.getText().toString());
-					e.setAdresse(new Adresse());
-					e.getAdresse().setRue(road.getText().toString());
-					e.getAdresse().setNumero(number.getText().toString());
-					e.getAdresse().setLocalite(new Localite());
-					e.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
-					e.getAdresse().getLocalite().setNom(locality.getText().toString());
-					e.setSexe(getSexe());
-					e.getUser().setPhoneNumber(phone.getText().toString());
-					e.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
-					e.getUser().setEmail(mail.getText().toString());
-					e.setRegistreNational(idNumber.getText().toString());
-					e.getUser().setPassword(password.getText().toString());
-					e.getUser().setConfirmationPassword(passwordConfirmation.getText().toString());
-					e.setTags(new ArrayList());
-					for (Tag tag: selectedTags)
-						e.getTags().add(tag);
-
-					new Inscription().execute(e);
+						if (CheckIntenetConnection.checkConnection(InscriptionActivity.this))
+							new Inscription().execute(e);
+						else
+							Toast.makeText(InscriptionActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	private Boolean checkForm() {
@@ -251,7 +258,7 @@ public class InscriptionActivity extends AppCompatActivity {
 				Response<Void> response = new UserDao().inscription(etudiants[0]);
 
 				if (response.isSuccessful() && response.code() == 201) {
-					startActivity(new Intent(InscriptionActivity.this,ConnexionActivity.class));
+					startActivity(new Intent(InscriptionActivity.this, ConnexionActivity.class));
 					return null;
 				}
 

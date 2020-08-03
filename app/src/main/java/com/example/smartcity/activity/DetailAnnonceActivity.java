@@ -13,6 +13,7 @@ import com.example.smartcity.DataAccess.dao.AnnonceDao;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Annonce;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -43,7 +44,6 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		annonce = (Annonce) getIntent().getSerializableExtra(getString(R.string.annonce));
-
 
 		entrepriseNom.setText(annonce.getPoste());
 		details.setText(new StringBuilder()
@@ -87,13 +87,14 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 				.append("\n")
 				.toString());
 
-
-
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				button.setEnabled(false);
-				new AccepterOffre().execute(annonce.getId());
+				if (CheckIntenetConnection.checkConnection(DetailAnnonceActivity.this)) {
+					button.setEnabled(false);
+					new AccepterOffre().execute(annonce.getId());
+				} else
+					Toast.makeText(DetailAnnonceActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -114,7 +115,5 @@ public class DetailAnnonceActivity extends AppCompatActivity {
 			}
 			return null;
 		}
-
 	}
-
 }

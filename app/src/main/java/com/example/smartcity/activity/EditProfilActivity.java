@@ -22,6 +22,7 @@ import com.example.smartcity.model.Etudiant;
 import com.example.smartcity.model.Localite;
 import com.example.smartcity.model.Tag;
 import com.example.smartcity.model.TagClasse;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -82,6 +83,7 @@ public class EditProfilActivity extends AppCompatActivity {
 	public ArrayList<Tag> selectedTags;
 	public Etudiant me;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,33 +93,40 @@ public class EditProfilActivity extends AppCompatActivity {
 		validateEdit.setEnabled(false);
 
 		selectedTags = new ArrayList<>();
-		new LoadAllTags().execute();
-		new GetUser().execute();
+		if (CheckIntenetConnection.checkConnection(EditProfilActivity.this)) {
+			new LoadAllTags().execute();
+			new GetUser().execute();
+		} else {
+			Toast.makeText(EditProfilActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
-		validateEdit.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (checkForm()) {
-					me.setPrenom(firstName.getText().toString());
-					me.getUser().setNom(lastName.getText().toString());
-					me.getAdresse().setRue(road.getText().toString());
-					me.getAdresse().setNumero(number.getText().toString());
-					me.getAdresse().setLocalite(new Localite());
-					me.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
-					me.getAdresse().getLocalite().setNom(locality.getText().toString());
-					me.setSexe(getSexe());
-					me.getUser().setPhoneNumber(phone.getText().toString());
-					me.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
-					me.getUser().setEmail(mail.getText().toString());
-					me.setRegistreNational(idNumber.getText().toString());
-					me.setTags(new ArrayList());
-					for (Tag tag : selectedTags)
-						me.getTags().add(tag);
+			validateEdit.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (checkForm()) {
+						me.setPrenom(firstName.getText().toString());
+						me.getUser().setNom(lastName.getText().toString());
+						me.getAdresse().setRue(road.getText().toString());
+						me.getAdresse().setNumero(number.getText().toString());
+						me.getAdresse().setLocalite(new Localite());
+						me.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
+						me.getAdresse().getLocalite().setNom(locality.getText().toString());
+						me.setSexe(getSexe());
+						me.getUser().setPhoneNumber(phone.getText().toString());
+						me.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
+						me.getUser().setEmail(mail.getText().toString());
+						me.setRegistreNational(idNumber.getText().toString());
+						me.setTags(new ArrayList());
+						for (Tag tag : selectedTags)
+							me.getTags().add(tag);
 
-					new EditProfile().execute(me);
+						if (CheckIntenetConnection.checkConnection(EditProfilActivity.this))
+							new EditProfile().execute(me);
+						else
+							Toast.makeText(EditProfilActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	private Boolean checkForm() {
@@ -176,7 +185,7 @@ public class EditProfilActivity extends AppCompatActivity {
 		if (birthday.getText().toString().isEmpty()) {
 			birthday.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (Utils.stringToDate(birthday.getText().toString()) == null){
+		} else if (Utils.stringToDate(birthday.getText().toString()) == null) {
 			birthday.setError(getResources().getString(R.string.error_matche_birthdate));
 			success = false;
 		} else if (Utils.stringToDate(birthday.getText().toString()).after(new Date())) {
@@ -235,7 +244,6 @@ public class EditProfilActivity extends AppCompatActivity {
 			selectedTags.add(new Tag(tag.getId(), tag.getNom()));
 		}
 	}
-
 
 	View.OnClickListener getTagListener(final CheckBox checkBox) {
 		return new View.OnClickListener() {

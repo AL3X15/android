@@ -11,13 +11,6 @@ public class PageResultAnnonce {
 	public PageResultAnnonce() {
 	}
 
-	public PageResultAnnonce(int totalCount, int pageSize, int pageIndex, ArrayList<Annonce> annonces) {
-		this.totalCount = totalCount;
-		this.pageSize = pageSize;
-		this.pageIndex = pageIndex;
-		this.items = annonces;
-	}
-
 	public int getTotalCount() {
 		return totalCount;
 	}

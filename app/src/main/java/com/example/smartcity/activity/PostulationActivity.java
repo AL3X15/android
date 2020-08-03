@@ -13,6 +13,7 @@ import com.example.smartcity.DataAccess.dao.AnnonceDao;
 import com.example.smartcity.R;
 import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Postulation;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -91,8 +92,11 @@ public class PostulationActivity extends AppCompatActivity {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				button.setEnabled(false);
-				new AnnulerPost().execute(postulation.getId());
+				if (CheckIntenetConnection.checkConnection(PostulationActivity.this)) {
+					button.setEnabled(false);
+					new AnnulerPost().execute(postulation.getId());
+				} else
+					Toast.makeText(PostulationActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
 		});
 	}

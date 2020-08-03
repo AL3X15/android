@@ -45,10 +45,10 @@ public class UserDao implements UserDataAccess {
 	}
 
 	@Override
-	public Response<Void> deleteMe( String password) throws IOException{
+	public Response<Void> deleteMe() throws IOException{
 		return ApiClient.getInstance().getRetrofit()
 				.create(UserService.class)
-				.deleteMe(password)
+				.deleteMe()
 				.execute();
 	}
 

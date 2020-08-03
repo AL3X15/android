@@ -4,11 +4,6 @@ public class Faq {
 	private String question;
 	private String reponse;
 
-	public Faq(String question, String reponse) {
-		this.question = question;
-		this.reponse = reponse;
-	}
-
 	public Faq() {
 	}
 

@@ -12,13 +12,6 @@ public class PageResultFaq {
 	public PageResultFaq() {
 	}
 
-	public PageResultFaq(int totalCount, int pageSize, int pageIndex, ArrayList<Faq> faqs) {
-		this.totalCount = totalCount;
-		this.pageSize = pageSize;
-		this.pageIndex = pageIndex;
-		this.items = faqs;
-	}
-
 	public int getTotalCount() {
 		return totalCount;
 	}

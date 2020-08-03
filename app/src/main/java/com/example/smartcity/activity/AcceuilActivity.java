@@ -30,7 +30,6 @@ public class AcceuilActivity extends AppCompatActivity {
 	@BindView(R.id.buttonDelete)
 	public Button deleteAccount;
 
-	//TODO edit xml paysage
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +83,7 @@ public class AcceuilActivity extends AppCompatActivity {
 		deleteAccount.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO Activity validate with password
+				startActivity(new Intent(AcceuilActivity.this, DeleteActivity.class));
 			}
 		});
 

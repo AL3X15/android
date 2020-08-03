@@ -25,6 +25,6 @@ public interface UserService {
 	Call<Void> editPassword(@Body ChangePassword changePassword);
 
 	@DELETE("/Etudiant/")
-	Call<Void> deleteMe(@Body String password);
+	Call<Void> deleteMe();
 
 }

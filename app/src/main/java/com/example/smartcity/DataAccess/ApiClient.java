@@ -57,20 +57,6 @@ public class ApiClient {
 			public Response intercept(Chain chain) throws IOException {
 				Request request = chain.request();
 				Response response = chain.proceed(request);
-				MyApplication application = MyApplication.getInstance();
-
-				// Display a Toast when server got an internal error
-				if (response.code() == 500) {
-					// Toast.makeText(application.getBaseContext(), "Erreur interne du serveur", Toast.LENGTH_LONG).show();
-				}
-
-				// Disconnect the user if jwt auth token is expired
-				else if (response.code() == 401) {
-//                     Toast.makeText(application.getBaseContext(), "Le jeton d'accès a expiré. Veuillez vous reconnecter.", Toast.LENGTH_LONG).show();
-//                     AuthSessionService.disconnectUser();
-//                     Intent intent = new Intent(application.getApplicationContext(), MainActivity.class);
-//                     application.startActivity(intent);
-				}
 				return response;
 			}
 		});

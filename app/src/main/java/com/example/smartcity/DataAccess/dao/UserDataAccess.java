@@ -13,5 +13,5 @@ public interface UserDataAccess {
 	Response<Void> inscription(Etudiant etudiant) throws IOException;
 	Response<Void> editMe(Etudiant etudiant) throws IOException;
 	Response<Void> editPassword(ChangePassword changePassword) throws IOException;
-	Response<Void> deleteMe( String password) throws IOException;
+	Response<Void> deleteMe() throws IOException;
 }

@@ -22,6 +22,7 @@ import com.example.smartcity.Utils.Utils;
 import com.example.smartcity.model.Annonce;
 import com.example.smartcity.model.CritereRecherche;
 import com.example.smartcity.model.PageResultAnnonce;
+import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,30 +60,41 @@ public class ResultatActivity extends AppCompatActivity {
 		critereRecherche.setDateDebut(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_start))));
 		critereRecherche.setDateFin(new Date());
 		critereRecherche.setDateFin(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_end))));
-		new LoadAnnonce().execute(critereRecherche);
 
-		recyclerView.setLayoutManager(new LinearLayoutManager(this));
-		recyclerView.setAdapter(adapter);
+		if (CheckIntenetConnection.checkConnection(ResultatActivity.this))
+			new LoadAnnonce().execute(critereRecherche);
+		else {
+			Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+
+			recyclerView.setLayoutManager(new LinearLayoutManager(this));
+			recyclerView.setAdapter(adapter);
+		}
 
 
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				page++;
-				new LoadAnnonce().execute(critereRecherche);
+				if (CheckIntenetConnection.checkConnection(ResultatActivity.this)) {
+					page++;
+					new LoadAnnonce().execute(critereRecherche);
 
-				recyclerView.setLayoutManager(new LinearLayoutManager(ResultatActivity.this));
-				recyclerView.setAdapter(adapter);
+					recyclerView.setLayoutManager(new LinearLayoutManager(ResultatActivity.this));
+					recyclerView.setAdapter(adapter);
+				} else
+					Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
 		});
 		prec.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				page--;
-				new LoadAnnonce().execute(critereRecherche);
+				if (CheckIntenetConnection.checkConnection(ResultatActivity.this)) {
+					page--;
+					new LoadAnnonce().execute(critereRecherche);
 
-				recyclerView.setLayoutManager(new LinearLayoutManager(ResultatActivity.this));
-				recyclerView.setAdapter(adapter);
+					recyclerView.setLayoutManager(new LinearLayoutManager(ResultatActivity.this));
+					recyclerView.setAdapter(adapter);
+				} else
+					Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			}
 		});
 
@@ -157,10 +169,10 @@ public class ResultatActivity extends AppCompatActivity {
 		}
 
 		protected void onPostExecute(PageResultAnnonce annonces) {
-			if(annonces != null){
+			if (annonces != null) {
 				page = annonces.getPageIndex();
 				prec.setEnabled(annonces.getPageIndex() > 1);
-				next.setEnabled((annonces.getPageIndex()-1)*annonces.getPageSize()+annonces.getAnnonces().size() < annonces.getTotalCount());
+				next.setEnabled((annonces.getPageIndex() - 1) * annonces.getPageSize() + annonces.getAnnonces().size() < annonces.getTotalCount());
 				adapter.setMyAnnonces(annonces.getAnnonces());
 			}
 		}
