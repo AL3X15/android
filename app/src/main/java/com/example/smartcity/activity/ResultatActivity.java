@@ -26,7 +26,6 @@ import com.example.smartcity.service.CheckIntenetConnection;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,19 +55,15 @@ public class ResultatActivity extends AppCompatActivity {
 		next.setEnabled(false);
 
 		critereRecherche = new CritereRecherche();
-		critereRecherche.setDateDebut(new Date());
 		critereRecherche.setDateDebut(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_start))));
-		critereRecherche.setDateFin(new Date());
 		critereRecherche.setDateFin(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_end))));
 
-		if (CheckIntenetConnection.checkConnection(ResultatActivity.this))
+		if (CheckIntenetConnection.checkConnection(ResultatActivity.this)) {
 			new LoadAnnonce().execute(critereRecherche);
-		else {
-			Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-
 			recyclerView.setLayoutManager(new LinearLayoutManager(this));
 			recyclerView.setAdapter(adapter);
-		}
+		} else
+			Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
 
 		next.setOnClickListener(new View.OnClickListener() {

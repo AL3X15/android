@@ -48,14 +48,12 @@ public class FaqActivity extends AppCompatActivity {
 		adapter = new FaqAdapter();
 		page = 1;
 
-		if (CheckIntenetConnection.checkConnection(FaqActivity.this))
+		if (CheckIntenetConnection.checkConnection(FaqActivity.this)) {
 			new LoadFaq().execute(page);
-		else {
-			Toast.makeText(FaqActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-
 			recyclerView.setLayoutManager(new LinearLayoutManager(this));
 			recyclerView.setAdapter(adapter);
-		}
+		} else
+			Toast.makeText(FaqActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override

@@ -328,7 +328,7 @@ public class EditProfilActivity extends AppCompatActivity {
 				Response<Void> response = new UserDao().editMe(etudiant[0]);
 
 				if (response.isSuccessful() && response.code() == 200) {
-					startActivity(new Intent(EditProfilActivity.this, AcceuilActivity.class));
+					startActivity(new Intent(EditProfilActivity.this, AccueilActivity.class));
 					return null;
 				}
 

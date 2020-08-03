@@ -107,7 +107,7 @@ public class ConnexionActivity extends AppCompatActivity {
 			if (accessToken != null) {
 				Context context = activity.getBaseContext();
 				AuthSessionService.setToken(context, accessToken.getAccessToken());
-				startActivity(new Intent(ConnexionActivity.this, AcceuilActivity.class));
+				startActivity(new Intent(ConnexionActivity.this, AccueilActivity.class));
 			}
 		}
 	}

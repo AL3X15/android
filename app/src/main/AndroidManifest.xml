@@ -23,7 +23,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.EmploiDuTempsActivity" />
         <activity android:name=".activity.DetailAnnonceActivity" />
-        <activity android:name=".activity.AcceuilActivity" />
+        <activity android:name=".activity.AccueilActivity" />
         <activity android:name=".activity.InscriptionActivity" />
         <activity android:name=".activity.ConnexionActivity">
             <intent-filter>

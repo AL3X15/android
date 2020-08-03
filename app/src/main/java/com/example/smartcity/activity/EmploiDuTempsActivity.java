@@ -53,14 +53,13 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 		adapter = new AnnonceAdapter();
 		page = 1;
 
-		if (CheckIntenetConnection.checkConnection(EmploiDuTempsActivity.this))
+		if (CheckIntenetConnection.checkConnection(EmploiDuTempsActivity.this)) {
 			new LoadAnnonce().execute();
-		else {
-			Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-
 			recyclerView.setLayoutManager(new LinearLayoutManager(this));
 			recyclerView.setAdapter(adapter);
-		}
+		} else
+			Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+
 
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -71,9 +70,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 
 					recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
 					recyclerView.setAdapter(adapter);
-				} else {
+				} else
 					Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-				}
 			}
 		});
 		prec.setOnClickListener(new View.OnClickListener() {
@@ -85,9 +83,8 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 
 					recyclerView.setLayoutManager(new LinearLayoutManager(EmploiDuTempsActivity.this));
 					recyclerView.setAdapter(adapter);
-				} else {
+				} else
 					Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-				}
 			}
 		});
 

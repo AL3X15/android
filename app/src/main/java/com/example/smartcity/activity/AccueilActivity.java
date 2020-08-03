@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import service.AuthSessionService;
 
-public class AcceuilActivity extends AppCompatActivity {
+public class AccueilActivity extends AppCompatActivity {
 
 	@BindView(R.id.buttonEditProfile)
 	public Button editProfile;
@@ -40,50 +40,50 @@ public class AcceuilActivity extends AppCompatActivity {
 		editProfile.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(AcceuilActivity.this, EditProfilActivity.class));
+				startActivity(new Intent(AccueilActivity.this, EditProfilActivity.class));
 			}
 		});
 
 		schedule.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(AcceuilActivity.this, EmploiDuTempsActivity.class));
+				startActivity(new Intent(AccueilActivity.this, EmploiDuTempsActivity.class));
 			}
 		});
 
 		search.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(AcceuilActivity.this, RechercheAnnonceActivity.class));
+				startActivity(new Intent(AccueilActivity.this, RechercheAnnonceActivity.class));
 			}
 		});
 
 		faq.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(AcceuilActivity.this, FaqActivity.class));
+				startActivity(new Intent(AccueilActivity.this, FaqActivity.class));
 			}
 		});
 
 		disconnect.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AuthSessionService.disconnectUser(AcceuilActivity.this);
-				startActivity(new Intent(AcceuilActivity.this, ConnexionActivity.class));
+				AuthSessionService.disconnectUser(AccueilActivity.this);
+				startActivity(new Intent(AccueilActivity.this, ConnexionActivity.class));
 			}
 		});
 
 		changePassword.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(AcceuilActivity.this, PasswordActivity.class));
+				startActivity(new Intent(AccueilActivity.this, PasswordActivity.class));
 			}
 		});
 
 		deleteAccount.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(AcceuilActivity.this, DeleteActivity.class));
+				startActivity(new Intent(AccueilActivity.this, DeleteActivity.class));
 			}
 		});
 
