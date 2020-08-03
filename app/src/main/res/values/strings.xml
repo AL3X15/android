@@ -97,7 +97,7 @@
     <string name="error_matche_email">This is not an email adress</string>
     <string name="register_confirm_pass_matche">You need to put the same password</string>
     <string name="error_matche_birthdate">Date format : DD/MM/YYYY</string>
-    <string name="confirmPassword">Confirm password</string>
+    <string name="confirmPassword">"Confirm password : "</string>
     <string name="SignUp">Sign Up</string>
     <string name="futurBirth">You need to be born</string>
     <string name="error_matche_id">This is not an id (ex : 11.11.11-111.11)</string>
@@ -105,4 +105,5 @@
     <string name="chooseSector">Choose your sector of activity</string>
     <string name="changePassword">Change Password</string>
     <string name="deleteAccount">Delete Account</string>
+    <string name="newPasswordError">New password must be different of the old one</string>
 </resources>

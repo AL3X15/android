@@ -10,7 +10,7 @@
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="75dp"
         android:text="@string/welcome"
         android:textAlignment="center"

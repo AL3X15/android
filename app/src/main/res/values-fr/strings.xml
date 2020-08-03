@@ -69,7 +69,7 @@
     <string name="paie">"Paie : "</string>
     <string name="poste">"Poste : "</string>
     <string name="yes">Oui</string>
-    <string name="confirmPassword">Confirmer le mot de pass</string>
+    <string name="confirmPassword">"Confirmer le mot de passe : "</string>
     <string name="error_empty">Ne peut pas être vide</string>
     <string name="error_matche_birthdate">Format de date : DD/MM/YYYY</string>
     <string name="error_matche_email">Ce n\'est pas une adresse mail</string>
@@ -83,4 +83,5 @@
     <string name="chooseSector">Choisisez votre secteur d\'activité</string>
     <string name="changePassword">Changer de mot de passe</string>
     <string name="deleteAccount">Supprimer son Compte</string>
+    <string name="newPasswordError">Le nouveau mot de passe doit être différent de l\'ancien</string>
 </resources>

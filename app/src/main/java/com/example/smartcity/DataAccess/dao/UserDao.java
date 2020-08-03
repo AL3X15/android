@@ -2,6 +2,7 @@ package com.example.smartcity.DataAccess.dao;
 
 import com.example.smartcity.DataAccess.ApiClient;
 import com.example.smartcity.DataAccess.service.UserService;
+import com.example.smartcity.model.ChangePassword;
 import com.example.smartcity.model.Etudiant;
 
 import java.io.IOException;
@@ -34,4 +35,21 @@ public class UserDao implements UserDataAccess {
 				.editMe(etudiant)
 				.execute();
 	}
+
+	@Override
+	public Response<Void> editPassword(ChangePassword changePassword) throws IOException{
+		return ApiClient.getInstance().getRetrofit()
+				.create(UserService.class)
+				.editPassword(changePassword)
+				.execute();
+	}
+
+	@Override
+	public Response<Void> deleteMe( String password) throws IOException{
+		return ApiClient.getInstance().getRetrofit()
+				.create(UserService.class)
+				.deleteMe(password)
+				.execute();
+	}
+
 }

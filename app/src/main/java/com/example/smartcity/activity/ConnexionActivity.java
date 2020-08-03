@@ -98,4 +98,9 @@ public class ConnexionActivity extends AppCompatActivity {
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+
+	}
+
 }
