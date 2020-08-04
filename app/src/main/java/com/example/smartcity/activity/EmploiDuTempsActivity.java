@@ -90,6 +90,17 @@ public class EmploiDuTempsActivity extends AppCompatActivity {
 
 	}
 
+	@Override
+	protected void onStart (){
+		super.onStart();
+		if (CheckIntenetConnection.checkConnection(EmploiDuTempsActivity.this)) {
+			new LoadAnnonce().execute();
+			recyclerView.setLayoutManager(new LinearLayoutManager(this));
+			recyclerView.setAdapter(adapter);
+		} else
+			Toast.makeText(EmploiDuTempsActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+	}
+
 	private class AnnonceViewHolder extends RecyclerView.ViewHolder {
 		public TextView poste;
 		public Button moreInfo;

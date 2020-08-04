@@ -77,8 +77,7 @@ public class InscriptionActivity extends AppCompatActivity {
 
 	@BindView(R.id.tagsLayout)
 	public LinearLayout tagsLayout;
-	@BindView(R.id.tagError)
-	public TextView tagError;
+
 	public TextView titreTagClasse;
 	public CheckBox tagCheckBox;
 
@@ -86,6 +85,9 @@ public class InscriptionActivity extends AppCompatActivity {
 	public Button validateInscription;
 
 	public ArrayList<Tag> selectedTags;
+
+
+	//TODO regex nom/prenom avec accent et espace + erreur 500
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,42 +99,41 @@ public class InscriptionActivity extends AppCompatActivity {
 		selectedTags = new ArrayList<>();
 		if (CheckIntenetConnection.checkConnection(InscriptionActivity.this))
 			new LoadAllTags().execute();
-		else {
+		else
 			Toast.makeText(InscriptionActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
-			validateInscription.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (checkForm()) {
-						Etudiant e = new Etudiant();
-						e.setUser(new UserEtudiant());
-						e.setPrenom(firstName.getText().toString());
-						e.getUser().setNom(lastName.getText().toString());
-						e.setAdresse(new Adresse());
-						e.getAdresse().setRue(road.getText().toString());
-						e.getAdresse().setNumero(number.getText().toString());
-						e.getAdresse().setLocalite(new Localite());
-						e.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
-						e.getAdresse().getLocalite().setNom(locality.getText().toString());
-						e.setSexe(getSexe());
-						e.getUser().setPhoneNumber(phone.getText().toString());
-						e.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
-						e.getUser().setEmail(mail.getText().toString());
-						e.setRegistreNational(idNumber.getText().toString());
-						e.getUser().setPassword(password.getText().toString());
-						e.getUser().setConfirmationPassword(passwordConfirmation.getText().toString());
-						e.setTags(new ArrayList());
-						for (Tag tag : selectedTags)
-							e.getTags().add(tag);
+		validateInscription.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (checkForm()) {
+					Etudiant e = new Etudiant();
+					e.setUser(new UserEtudiant());
+					e.setPrenom(firstName.getText().toString());
+					e.getUser().setNom(lastName.getText().toString());
+					e.setAdresse(new Adresse());
+					e.getAdresse().setRue(road.getText().toString());
+					e.getAdresse().setNumero(number.getText().toString());
+					e.getAdresse().setLocalite(new Localite());
+					e.getAdresse().getLocalite().setCodePostal(zip.getText().toString());
+					e.getAdresse().getLocalite().setNom(locality.getText().toString());
+					e.setSexe(getSexe());
+					e.getUser().setPhoneNumber(phone.getText().toString());
+					e.setDateNaissance(Utils.stringToDate(birthday.getText().toString()));
+					e.getUser().setEmail(mail.getText().toString());
+					e.setRegistreNational(idNumber.getText().toString());
+					e.getUser().setPassword(password.getText().toString());
+					e.getUser().setConfirmationPassword(passwordConfirmation.getText().toString());
+					e.setTags(new ArrayList());
+					for (Tag tag : selectedTags)
+						e.getTags().add(tag);
 
-						if (CheckIntenetConnection.checkConnection(InscriptionActivity.this))
-							new Inscription().execute(e);
-						else
-							Toast.makeText(InscriptionActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-					}
+					if (CheckIntenetConnection.checkConnection(InscriptionActivity.this))
+						new Inscription().execute(e);
+					else
+						Toast.makeText(InscriptionActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 				}
-			});
-		}
+			}
+		});
 	}
 
 	private Boolean checkForm() {
@@ -141,10 +142,18 @@ public class InscriptionActivity extends AppCompatActivity {
 		if (firstName.getText().toString().isEmpty()) {
 			firstName.setError(getResources().getString(R.string.error_empty));
 			success = false;
+		}else if(!firstName.getText().toString().matches("^[A-Za-z]+$")){
+			firstName.setError(getResources().getString(R.string.invalidName));
+			success = false;
 		}
+
 
 		if (lastName.getText().toString().isEmpty()) {
 			lastName.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}
+		else if(!lastName.getText().toString().matches("^[A-Za-z]+$")){
+			lastName.setError(getResources().getString(R.string.invalidName));
 			success = false;
 		}
 
@@ -155,6 +164,9 @@ public class InscriptionActivity extends AppCompatActivity {
 
 		if (number.getText().toString().isEmpty()) {
 			number.setError(getResources().getString(R.string.error_empty));
+			success = false;
+		}else if (number.getText().toString().matches("0.*") || !number.getText().toString().matches("\\d+.*")){
+			number.setError(getString(R.string.invalidNumber));
 			success = false;
 		}
 
@@ -174,7 +186,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		if (phone.getText().toString().isEmpty()) {
 			phone.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!phone.getText().toString().matches("0\\d+")) {
+		} else if (!phone.getText().toString().matches("^((\\+|00)32\\s?|0)(\\d\\s?\\d{3}|\\d{2}\\s?\\d{2})(\\s?\\d{2}){2}$") && !phone.getText().toString().matches("^((\\+|00)32\\s?|0)4(60|[789]\\d)(\\s?\\d{2}){3}$")) {
 			phone.setError(getResources().getString(R.string.error_phone_matche));
 			success = false;
 		}
@@ -183,7 +195,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		if (mail.getText().toString().isEmpty()) {
 			mail.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!mail.getText().toString().matches(".+@.+\\..+")) {
+		} else if (!mail.getText().toString().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")) {
 			mail.setError(getResources().getString(R.string.error_matche_email));
 			success = false;
 		}
@@ -206,7 +218,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		if (idNumber.getText().toString().isEmpty()) {
 			idNumber.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!idNumber.getText().toString().matches("(\\d{2}\\.){2}\\d{2}-\\d{3}\\.\\d{2}")) {
+		} else if (!idNumber.getText().toString().matches("^(\\d{2}\\.){2}\\d{2}-\\d{3}\\.\\d{2}$")) {
 			idNumber.setError(getResources().getString(R.string.error_matche_id));
 			success = false;
 		}
@@ -225,7 +237,7 @@ public class InscriptionActivity extends AppCompatActivity {
 		}
 
 		if (selectedTags.isEmpty()) {
-			tagError.setError(getString(R.string.tagLess));
+			Toast.makeText(InscriptionActivity.this, getString(R.string.tagLess), Toast.LENGTH_LONG).show();
 			success = false;
 		}
 
@@ -291,21 +303,25 @@ public class InscriptionActivity extends AppCompatActivity {
 		}
 
 		protected void onPostExecute(ArrayList<TagClasse> tagClasses) {
-			for (TagClasse tagClasse : tagClasses) {
-				titreTagClasse = new TextView(InscriptionActivity.this);
-				titreTagClasse.setText(tagClasse.getNom());
-				tagsLayout.addView(titreTagClasse);
+			if (tagClasses != null) {
+				for (TagClasse tagClasse : tagClasses) {
+					titreTagClasse = new TextView(InscriptionActivity.this);
+					titreTagClasse.setText(tagClasse.getNom());
+					tagsLayout.addView(titreTagClasse);
 
-				for (Tag tag : tagClasse.getTags()) {
-					tagCheckBox = new CheckBox(InscriptionActivity.this);
-					tagCheckBox.setId(tag.getId());
-					tagCheckBox.setText(tag.getNom());
-					tagCheckBox.setOnClickListener(getTagListener(tagCheckBox));
-					tagsLayout.addView(tagCheckBox);
+					for (Tag tag : tagClasse.getTags()) {
+						tagCheckBox = new CheckBox(InscriptionActivity.this);
+						tagCheckBox.setId(tag.getId());
+						tagCheckBox.setText(tag.getNom());
+						tagCheckBox.setOnClickListener(getTagListener(tagCheckBox));
+						tagsLayout.addView(tagCheckBox);
+					}
+
 				}
+				validateInscription.setEnabled(true);
 
-			}
-			validateInscription.setEnabled(true);
+			}else
+				startActivity(new Intent(InscriptionActivity.this, ConnexionActivity.class));
 		}
 
 	}

@@ -77,7 +77,7 @@
     <string name="positiveLineNumber">Line number must be positive</string>
     <string name="localityError">Locality does not exist</string>
     <string name="mailPasswordError">Wrong mail adress or password</string>
-    <string name="postulationExist">There is already a postulation for this annonce</string>
+    <string name="postulationExist">You have already apply for this annonce</string>
     <string name="tagLess">Student without tag</string>
     <string name="sexError">Sex does not exist</string>
     <string name="ageError">You must be major</string>
@@ -93,7 +93,7 @@
     <string name="nomResponsable">"Contact Name : "</string>
     <string name="error_empty">Can\'t be empty</string>
     <string name="error_matche_postalcode">This is not a zip code</string>
-    <string name="error_phone_matche">Phone number must start witth 0</string>
+    <string name="error_phone_matche">Invalid phone number</string>
     <string name="error_matche_email">This is not an email adress</string>
     <string name="register_confirm_pass_matche">You need to put the same password</string>
     <string name="error_matche_birthdate">Date format : DD/MM/YYYY</string>
@@ -107,4 +107,6 @@
     <string name="deleteAccount">Delete Account</string>
     <string name="newPasswordError">New password must be different of the old one</string>
     <string name="areYouSure">Are tou sure you want to delete your account ? This action cannot be reverse</string>
+    <string name="invalidName">Invalid Name</string>
+    <string name="invalidNumber">Invalid number</string>
 </resources>

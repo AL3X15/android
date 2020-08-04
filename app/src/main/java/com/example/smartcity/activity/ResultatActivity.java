@@ -58,13 +58,6 @@ public class ResultatActivity extends AppCompatActivity {
 		critereRecherche.setDateDebut(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_start))));
 		critereRecherche.setDateFin(Utils.stringToDate(getIntent().getStringExtra(getString(R.string.date_end))));
 
-		if (CheckIntenetConnection.checkConnection(ResultatActivity.this)) {
-			new LoadAnnonce().execute(critereRecherche);
-			recyclerView.setLayoutManager(new LinearLayoutManager(this));
-			recyclerView.setAdapter(adapter);
-		} else
-			Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
-
 
 		next.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -93,6 +86,18 @@ public class ResultatActivity extends AppCompatActivity {
 			}
 		});
 
+	}
+
+
+	@Override
+	protected void onStart (){
+		super.onStart();
+		if (CheckIntenetConnection.checkConnection(ResultatActivity.this)) {
+			new LoadAnnonce().execute(critereRecherche);
+			recyclerView.setLayoutManager(new LinearLayoutManager(this));
+			recyclerView.setAdapter(adapter);
+		} else
+			Toast.makeText(ResultatActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 	}
 
 

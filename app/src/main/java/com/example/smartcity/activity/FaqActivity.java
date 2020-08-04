@@ -47,6 +47,8 @@ public class FaqActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		adapter = new FaqAdapter();
 		page = 1;
+		prec.setEnabled(false);
+		next.setEnabled(false);
 
 		if (CheckIntenetConnection.checkConnection(FaqActivity.this)) {
 			new LoadFaq().execute(page);

@@ -55,7 +55,7 @@
     <string name="positiveLineNumber">Le nombre de ligne doit être positif</string>
     <string name="sexError">"Le sexe n'existe pas "</string>
     <string name="tagLess">L\'étudiant n\'a pas de tag</string>
-    <string name="postulationExist">Il y a déja une postulation pour cette annonce</string>
+    <string name="postulationExist">Vosu avez déja postulé pour cette annonce</string>
     <string name="premuim">Seule une entreprise premuim peut poster des annonces urgentes</string>
     <string name="localityError">La localité n\'existe pas</string>
     <string name="mailPasswordError">Mauvaise adresse mail ou mot de passe</string>
@@ -74,7 +74,7 @@
     <string name="error_matche_birthdate">Format de date : DD/MM/YYYY</string>
     <string name="error_matche_email">Ce n\'est pas une adresse mail</string>
     <string name="error_matche_postalcode">Ce n\'est pas un code postal</string>
-    <string name="error_phone_matche">Un numero de telephone doit commencer par un 0</string>
+    <string name="error_phone_matche">Numero de telephone invalide</string>
     <string name="register_confirm_pass_matche">Vous devez mettre le même mot de passe</string>
     <string name="SignUp">S\'inscrire</string>
     <string name="futurBirth">Vous devez être né</string>
@@ -85,4 +85,6 @@
     <string name="deleteAccount">Supprimer mon Compte</string>
     <string name="newPasswordError">Le nouveau mot de passe doit être différent de l\'ancien</string>
     <string name="areYouSure">Etes vous sur de vouloir supprimer votre compte ? Cette action ne peut pas être annulée</string>
+    <string name="invalidName">Nom invalide</string>
+    <string name="invalidNumber">Numero invalide</string>
 </resources>

@@ -44,6 +44,9 @@ public class ConnexionActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		activity = this;
 
+		if(!AuthSessionService.getToken(this).equals(""))
+			startActivity(new Intent(ConnexionActivity.this, AccueilActivity.class));
+
 		logInBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (checkForm()) {
@@ -72,7 +75,7 @@ public class ConnexionActivity extends AppCompatActivity {
 		if (mail.getText().toString().isEmpty()) {
 			mail.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		} else if (!mail.getText().toString().matches(".+@.+\\..+")) {
+		} else if (!mail.getText().toString().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")) {
 			mail.setError(getResources().getString(R.string.error_matche_email));
 			success = false;
 		}

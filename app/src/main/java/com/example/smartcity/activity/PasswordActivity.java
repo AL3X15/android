@@ -45,25 +45,23 @@ public class PasswordActivity extends AppCompatActivity {
 
 		if (CheckIntenetConnection.checkConnection(PasswordActivity.this))
 			new GetUser().execute();
-		else {
+		else
 			Toast.makeText(PasswordActivity.this, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 
-			buttonEditPassword.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (checkForm()) {
-						changePassword = new ChangePassword();
-						changePassword.setAncienPassword(oldPassword.getText().toString());
-						changePassword.setPassword(newPassword.getText().toString());
-						changePassword.setConfirmationPassword(newPasswordConfirmation.getText().toString());
-						changePassword.setRowVersion(me.getUser().getRowVersion());
+		buttonEditPassword.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (checkForm()) {
+					changePassword = new ChangePassword();
+					changePassword.setAncienPassword(oldPassword.getText().toString());
+					changePassword.setPassword(newPassword.getText().toString());
+					changePassword.setConfirmationPassword(newPasswordConfirmation.getText().toString());
+					changePassword.setRowVersion(me.getUser().getRowVersion());
 
-						new EditPassword().execute(changePassword);
-					}
+					new EditPassword().execute(changePassword);
 				}
-			});
-		}
-
+			}
+		});
 	}
 
 	private Boolean checkForm() {

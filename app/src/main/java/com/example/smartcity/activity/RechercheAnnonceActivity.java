@@ -60,7 +60,7 @@ public class RechercheAnnonceActivity extends AppCompatActivity {
 		} else if (Utils.stringToDate(dateFin.getText().toString()) == null) {
 			dateFin.setError(getResources().getString(R.string.error_matche_birthdate));
 			success = false;
-		} else if (Utils.stringToDate(dateDebut.getText().toString()) == null && Utils.stringToDate(dateDebut.getText().toString()).after(Utils.stringToDate(dateFin.getText().toString()))) {
+		} else if (Utils.stringToDate(dateDebut.getText().toString()) != null && Utils.stringToDate(dateDebut.getText().toString()).after(Utils.stringToDate(dateFin.getText().toString()))) {
 			dateFin.setError(getResources().getString(R.string.dateError));
 			success = false;
 		}
