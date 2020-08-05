@@ -173,6 +173,7 @@ public class ResultatActivity extends AppCompatActivity {
 				page = annonces.getPageIndex();
 				prec.setEnabled(annonces.getPageIndex() > 1);
 				next.setEnabled((annonces.getPageIndex() - 1) * annonces.getPageSize() + annonces.getAnnonces().size() < annonces.getTotalCount());
+				annonces.getAnnonces().sort((x, y) -> x.compareTo(y));
 				adapter.setMyAnnonces(annonces.getAnnonces());
 			}
 		}

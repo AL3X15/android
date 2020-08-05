@@ -3,7 +3,7 @@ package com.example.smartcity.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Annonce implements Serializable {
+public class Annonce implements Serializable, Comparable<Annonce> {
 	private int id;
 	private String poste;
 	private Date dateDebut;
@@ -11,6 +11,20 @@ public class Annonce implements Serializable {
 	private int paie;
 	private Entreprise entreprise;
 	private Adresse adresse;
+	private Boolean estUrgent;
+
+	@Override
+	public int compareTo(Annonce annonce){
+		return (this.getEstUrgent() ? (annonce.getEstUrgent()? 0 : -1 ) : (annonce.getEstUrgent() ? 1 : 0));
+	}
+
+	public Boolean getEstUrgent() {
+		return estUrgent;
+	}
+
+	public void setEstUrgent(Boolean estUrgent) {
+		this.estUrgent = estUrgent;
+	}
 
 	public Adresse getAdresse() {
 		return adresse;

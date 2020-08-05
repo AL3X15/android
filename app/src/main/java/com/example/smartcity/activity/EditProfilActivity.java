@@ -136,7 +136,7 @@ public class EditProfilActivity extends AppCompatActivity {
 		if (firstName.getText().toString().isEmpty()) {
 			firstName.setError(getResources().getString(R.string.error_empty));
 			success = false;
-		}else if(!firstName.getText().toString().matches("^[A-Za-z]+$")){
+		}else if(!firstName.getText().toString().matches("^[A-Za-z À-ÿ]+$")){
 			firstName.setError(getResources().getString(R.string.invalidName));
 			success = false;
 		}
@@ -146,7 +146,7 @@ public class EditProfilActivity extends AppCompatActivity {
 			lastName.setError(getResources().getString(R.string.error_empty));
 			success = false;
 		}
-		else if(!lastName.getText().toString().matches("^[A-Za-z]+$")){
+		else if(!lastName.getText().toString().matches("^[A-Za-z À-ÿ]+$")){
 			lastName.setError(getResources().getString(R.string.invalidName));
 			success = false;
 		}
